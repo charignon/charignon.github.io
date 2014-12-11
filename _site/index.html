@@ -11,7 +11,7 @@
 
   <title>
     
-      Lanyon &middot; A Jekyll theme
+      Laurent Charignon &middot; Blog
     
   </title>
 
@@ -39,7 +39,7 @@
 <!-- Toggleable sidebar -->
 <div class="sidebar" id="sidebar">
   <div class="sidebar-item">
-    <p>A reserved <a href="http://jekyllrb.com" target="_blank">Jekyll</a> theme that places the utmost gravity on content with a hidden drawer. Made by <a href="https://twitter.com/mdo" target="_blank">@mdo</a>.</p>
+    <p>Technical blog by Laurent Charignon</p>
   </div>
 
   <nav class="sidebar-nav">
@@ -58,16 +58,8 @@
       
     
       
-        
-          <a class="sidebar-nav-item" href="/about/">About</a>
-        
-      
-    
-      
     
 
-    <a class="sidebar-nav-item" href="/archive/v1.0.0.zip">Download</a>
-    <a class="sidebar-nav-item" href="">GitHub project</a>
     <span class="sidebar-nav-item">Currently v1.0.0</span>
   </nav>
 
@@ -85,8 +77,8 @@
       <div class="masthead">
         <div class="container">
           <h3 class="masthead-title">
-            <a href="/" title="Home">Lanyon</a>
-            <small>A Jekyll theme</small>
+            <a href="/" title="Home">Laurent Charignon</a>
+            <small>Blog</small>
           </h3>
         </div>
       </div>
@@ -96,205 +88,178 @@
   
   <div class="post">
     <h1 class="post-title">
-      <a href="/2014/01/02/introducing-lanyon/">
-        Introducing Lanyon
+      <a href="/2014/12/10/new-blog/">
+        Practical one time padding with Node JS
       </a>
     </h1>
 
-    <span class="post-date">02 Jan 2014</span>
-
-    <p>Lanyon is an unassuming <a href="http://jekyllrb.com">Jekyll</a> theme that places content first by tucking away navigation in a hidden drawer. It&#39;s based on <a href="http://getpoole.com">Poole</a>, the Jekyll butler.</p>
-
-<h3>Built on Poole</h3>
-
-<p>Poole is the Jekyll Butler, serving as an upstanding and effective foundation for Jekyll themes by <a href="https://twitter.com/mdo">@mdo</a>. Poole, and every theme built on it (like Lanyon here) includes the following:</p>
-
-<ul>
-<li>Complete Jekyll setup included (layouts, config, <a href="/404">404</a>, <a href="/atom.xml">RSS feed</a>, posts, and <a href="/about">example page</a>)</li>
-<li>Mobile friendly design and development</li>
-<li>Easily scalable text and component sizing with <code>rem</code> units in the CSS</li>
-<li>Support for a wide gamut of HTML elements</li>
-<li>Related posts (time-based, because Jekyll) below each post</li>
-<li>Syntax highlighting, courtesy Pygments (the Python-based code snippet highlighter)</li>
-</ul>
-
-<h3>Lanyon features</h3>
-
-<p>In addition to the features of Poole, Lanyon adds the following:</p>
-
-<ul>
-<li>Toggleable sliding sidebar (built with only CSS) via <strong>☰</strong> link in top corner</li>
-<li>Sidebar includes support for textual modules and a dynamically generated navigation with active link support</li>
-<li>Two orientations for content and sidebar, default (left sidebar) and <a href="https://github.com/poole/lanyon#reverse-layout">reverse</a> (right sidebar), available via <code>&lt;body&gt;</code> classes</li>
-<li><a href="https://github.com/poole/lanyon#themes">Eight optional color schemes</a>, available via <code>&lt;body&gt;</code> classes</li>
-</ul>
-
-<p><a href="https://github.com/poole/lanyon#readme">Head to the readme</a> to learn more.</p>
-
-<h3>Browser support</h3>
-
-<p>Lanyon is by preference a forward-thinking project. In addition to the latest versions of Chrome, Safari (mobile and desktop), and Firefox, it is only compatible with Internet Explorer 9 and above.</p>
-
-<h3>Download</h3>
-
-<p>Lanyon is developed on and hosted with GitHub. Head to the <a href="https://github.com/poole/lanyon">GitHub repository</a> for downloads, bug reports, and features requests.</p>
-
-<p>Thanks!</p>
-
-  </div>
-  
-  <div class="post">
-    <h1 class="post-title">
-      <a href="/2014/01/01/example-content/">
-        Example content
-      </a>
-    </h1>
-
-    <span class="post-date">01 Jan 2014</span>
+    <span class="post-date">10 Dec 2014</span>
 
     <div class="message">
-  Howdy! This is an example blog post that shows several types of HTML content supported in this theme.
+  Too long don't read: How I used Node JS & CoffeeScript to implement one time padding of TCP traffic. Example use with: SSH, SCP and HTTP Proxying.
 </div>
 
-<p>Cum sociis natoque penatibus et magnis <a href="#">dis parturient montes</a>, nascetur ridiculus mus. <em>Aenean eu leo quam.</em> Pellentesque ornare sem lacinia quam venenatis vestibulum. Sed posuere consectetur est at lobortis. Cras mattis consectetur purus sit amet fermentum.</p>
+<h2>One time padding</h2>
 
-<blockquote>
-<p>Curabitur blandit tempus porttitor. Nullam quis risus eget urna mollis ornare vel eu leo. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-</blockquote>
+<p><cite>
+In cryptography, a one-time pad (OTP) is an encryption technique that cannot be cracked if used correctly. In this technique, a plaintext is paired with random, secret key (or pad). Then, each bit or character of the plaintext is encrypted by combining it with the corresponding bit or character from the pad using modular addition.</cite><a href="http://en.wikipedia.org/wiki/One-time_pad">Wikipedia: One time pad</a>.</p>
 
-<p>Etiam porta <strong>sem malesuada magna</strong> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
+<p>In other words, one-time padding is a cryptography technique using a key (that both sides know) as long as the message.
+Since the key is as long as the message, the message appear as random as the key and is uncrackable if the key cannot be guessed.</p>
 
-<h2>Inline HTML elements</h2>
+<p>Technically, it is implemented with a simple XOR between the message and the key. It has been deem quite unpractical for most encryption needs because the key has to be as long as the data. But when you can afford to use it, it is the only uncrackable encryption technique. Don&#39;t take my word for it, the red telephone apparently used it according to the same wikipedia article.</p>
 
-<p>HTML defines a long list of available inline tags, a complete list of which can be found on the <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element">Mozilla Developer Network</a>.</p>
+<h2>Key generation and distribution</h2>
+
+<p>We can easily create a key using the <code>/dev/random</code> file. For instance to generate a key file named <code>key</code> of <code>100Mb</code> you could run:</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">dd <span class="k">if</span><span class="o">=</span>/dev/random <span class="nv">of</span><span class="o">=</span>./key <span class="nv">bs</span><span class="o">=</span><span class="m">1048576</span> <span class="nv">count</span><span class="o">=</span>100</code></pre></div>
+
+<p>In the next part I assume that you have this key on two different hosts.</p>
+
+<h2>Don&#39;t reuse the key</h2>
+
+<p>Contrary to most encryption method, the one-time-pad keys are used only once. In our case, it means that our 100Mb key can encrypt only 100Mb, not one more bit!</p>
+
+<p>To use the keys several times (for example several ssh sessions) without having to dump it after each one, you must keep track of what your encrypted before. In other words you need to know your offset in the key file.</p>
+
+<h2>Client and server code</h2>
+
+<p>To simplify, the key file is hardcoded and loaded fully in memory.</p>
+
+<p>As an improvement the key could be specific on the command line and precached by chunk at runtime.</p>
+
+<h3>Server code</h3>
+
+<p>The server connects to a service like SSH, HttpProxy, VoIP server etc.
+It allows the client to operate with the service by:
+- Encrypting the traffic from the service and forwarding it to the client
+- Decrypting the traffic coming from the client and forwarding it to the service</p>
+
+<div class="highlight"><pre><code class="language-coffee" data-lang="coffee"><span class="nv">net = </span><span class="nx">require</span><span class="p">(</span><span class="s">&quot;net&quot;</span><span class="p">)</span>
+<span class="nv">otp = </span><span class="nx">require</span><span class="p">(</span><span class="s">&quot;./otp&quot;</span><span class="p">)</span>
+<span class="nv">argv = </span><span class="nx">require</span><span class="p">(</span><span class="s">&#39;minimist&#39;</span><span class="p">)(</span><span class="nx">process</span><span class="p">.</span><span class="nx">argv</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+
+<span class="nv">expectedArgs = </span><span class="p">[</span><span class="s">&quot;localPort&quot;</span><span class="p">,</span> <span class="s">&quot;servicePort&quot;</span><span class="p">,</span> <span class="s">&quot;serverOffset&quot;</span><span class="p">,</span> <span class="s">&quot;clientOffset&quot;</span><span class="p">]</span>
+<span class="nx">otp</span><span class="p">.</span><span class="nx">validateArgs</span><span class="p">(</span><span class="nx">argv</span><span class="p">,</span> <span class="nx">expectedArgs</span><span class="p">)</span>
+
+<span class="nv">servicePort = </span><span class="nb">Number</span><span class="p">(</span><span class="nx">argv</span><span class="p">.</span><span class="nx">servicePort</span><span class="p">)</span>
+<span class="nv">localPort = </span><span class="nb">Number</span><span class="p">(</span><span class="nx">argv</span><span class="p">.</span><span class="nx">localPort</span><span class="p">)</span>
+<span class="nv">serverOffset = </span><span class="nb">Number</span><span class="p">(</span><span class="nx">argv</span><span class="p">.</span><span class="nx">serverOffset</span><span class="p">)</span>
+<span class="nv">clientOffset = </span><span class="nb">Number</span><span class="p">(</span><span class="nx">argv</span><span class="p">.</span><span class="nx">clientOffset</span><span class="p">)</span>
+
+<span class="nx">net</span><span class="p">.</span><span class="nx">createServer</span><span class="p">(</span><span class="nf">(outBoundSocket) -&gt;</span>
+  <span class="nv">inBoundSocket = </span> <span class="nx">net</span><span class="p">.</span><span class="nx">createConnection</span><span class="p">(</span><span class="nx">servicePort</span><span class="p">,</span> <span class="s">&quot;localhost&quot;</span><span class="p">)</span>
+  <span class="nx">outBoundSocket</span><span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">otp</span><span class="p">.</span><span class="nx">encryptor</span><span class="p">(</span><span class="s">&quot;client&quot;</span><span class="p">,</span> <span class="nx">clientOffset</span><span class="p">)).</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">inBoundSocket</span><span class="p">)</span>
+  <span class="nx">inBoundSocket</span><span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">otp</span><span class="p">.</span><span class="nx">encryptor</span><span class="p">(</span><span class="s">&quot;server&quot;</span><span class="p">,</span><span class="nx">serverOffset</span><span class="p">)).</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">outBoundSocket</span><span class="p">)</span>
+<span class="p">).</span><span class="nx">listen</span> <span class="nb">Number</span><span class="p">(</span><span class="nx">localPort</span><span class="p">)</span></code></pre></div>
+
+<p>The first part of the code is straightforward, we just parse the arguments and
+validate them.</p>
+
+<p>Then we create a tcp server bound to <code>localPort</code> and when a client connects to
+this server we:</p>
 
 <ul>
-<li><strong>To bold text</strong>, use <code>&lt;strong&gt;</code>.</li>
-<li><em>To italicize text</em>, use <code>&lt;em&gt;</code>.</li>
-<li>Abbreviations, like <abbr title="HyperText Markup Langage">HTML</abbr> should use <code>&lt;abbr&gt;</code>, with an optional <code>title</code> attribute for the full phrase.</li>
-<li>Citations, like <cite>&mdash; Mark otto</cite>, should use <code>&lt;cite&gt;</code>.</li>
-<li><del>Deleted</del> text should use <code>&lt;del&gt;</code> and <ins>inserted</ins> text should use <code>&lt;ins&gt;</code>.</li>
-<li>Superscript <sup>text</sup> uses <code>&lt;sup&gt;</code> and subscript <sub>text</sub> uses <code>&lt;sub&gt;</code>.</li>
+<li>Create a connection to the service</li>
+<li>Wire the connection between service and client with an offset for each encryptor: the offset is in byte from start of the key file</li>
 </ul>
 
-<p>Most of these elements are styled by browsers with few modifications on our part.</p>
+<h3>Client code</h3>
 
-<h2>Heading</h2>
+<p>Very similar to the server code:</p>
 
-<p>Vivamus sagittis lacus vel augue rutrum faucibus dolor auctor. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
+<div class="highlight"><pre><code class="language-coffee" data-lang="coffee"><span class="nv">net = </span><span class="nx">require</span><span class="p">(</span><span class="s">&quot;net&quot;</span><span class="p">)</span>
+<span class="nv">otp = </span><span class="nx">require</span><span class="p">(</span><span class="s">&quot;./otp&quot;</span><span class="p">)</span>
+<span class="nv">argv = </span><span class="nx">require</span><span class="p">(</span><span class="s">&#39;minimist&#39;</span><span class="p">)(</span><span class="nx">process</span><span class="p">.</span><span class="nx">argv</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
 
-<h3>Code</h3>
+<span class="nv">expectedArgs = </span><span class="p">[</span><span class="s">&quot;localPort&quot;</span><span class="p">,</span> <span class="s">&quot;serverPort&quot;</span><span class="p">,</span> <span class="s">&quot;clientOffset&quot;</span><span class="p">,</span> <span class="s">&quot;serverOffset&quot;</span><span class="p">,</span> <span class="s">&quot;host&quot;</span><span class="p">]</span>
+<span class="nx">otp</span><span class="p">.</span><span class="nx">validateArgs</span><span class="p">(</span><span class="nx">argv</span><span class="p">,</span> <span class="nx">expectedArgs</span><span class="p">)</span>
 
-<p>Cum sociis natoque penatibus et magnis dis <code>code element</code> montes, nascetur ridiculus mus.</p>
+<span class="nv">serverPort = </span><span class="nb">Number</span><span class="p">(</span><span class="nx">argv</span><span class="p">.</span><span class="nx">serverPort</span><span class="p">)</span>
+<span class="nv">localPort = </span><span class="nb">Number</span><span class="p">(</span><span class="nx">argv</span><span class="p">.</span><span class="nx">localPort</span><span class="p">)</span>
+<span class="nv">host = </span><span class="nx">argv</span><span class="p">.</span><span class="nx">host</span>
+<span class="nv">serverOffset = </span><span class="nb">Number</span><span class="p">(</span><span class="nx">argv</span><span class="p">.</span><span class="nx">serverOffset</span><span class="p">)</span>
+<span class="nv">clientOffset = </span><span class="nb">Number</span><span class="p">(</span><span class="nx">argv</span><span class="p">.</span><span class="nx">clientOffset</span><span class="p">)</span>
 
-<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="c1">// Example can be run directly in your JavaScript console</span>
+<span class="nv">outBoundSocket = </span><span class="nx">net</span><span class="p">.</span><span class="nx">createConnection</span><span class="p">(</span><span class="nx">serverPort</span><span class="p">,</span> <span class="nx">host</span><span class="p">)</span>
+  <span class="nx">net</span><span class="p">.</span><span class="nx">createServer</span><span class="p">(</span><span class="nf">(inBoundSocket) -&gt;</span>
+  <span class="nx">outBoundSocket</span><span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">otp</span><span class="p">.</span><span class="nx">encryptor</span><span class="p">(</span><span class="s">&quot;server&quot;</span><span class="p">,</span><span class="nx">serverOffset</span><span class="p">)).</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">inBoundSocket</span><span class="p">)</span>
+  <span class="nx">inBoundSocket</span><span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">otp</span><span class="p">.</span><span class="nx">encryptor</span><span class="p">(</span><span class="s">&quot;client&quot;</span><span class="p">,</span><span class="nx">clientOffset</span><span class="p">)).</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">outBoundSocket</span><span class="p">)</span>
+<span class="p">).</span><span class="nx">listen</span><span class="p">(</span><span class="nx">localPort</span><span class="p">)</span></code></pre></div>
 
-<span class="c1">// Create a function that takes two arguments and returns the sum of those arguments</span>
-<span class="kd">var</span> <span class="nx">adder</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Function</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;return a + b&quot;</span><span class="p">);</span>
+<h3>Library code</h3>
 
-<span class="c1">// Call the function</span>
-<span class="nx">adder</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">);</span>
-<span class="c1">// &gt; 8</span></code></pre></div>
+<p>This is where the encryption is done, again, pretty straightforward:</p>
 
-<p>Aenean lacinia bibendum nulla sed consectetur. Etiam porta sem malesuada magna mollis euismod. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa.</p>
+<div class="highlight"><pre><code class="language-coffee" data-lang="coffee"><span class="nv">through = </span><span class="nx">require</span><span class="p">(</span><span class="s">&#39;through&#39;</span><span class="p">)</span>
+<span class="nv">_ = </span><span class="nx">require</span><span class="p">(</span><span class="s">&quot;underscore&quot;</span><span class="p">)</span>
+<span class="nv">fs = </span><span class="nx">require</span><span class="p">(</span><span class="s">&quot;fs&quot;</span><span class="p">)</span>
 
-<h3>Lists</h3>
+<span class="c1"># Keeping track of usage of key per entity</span>
+<span class="nv">root = </span><span class="nx">exports</span> <span class="o">?</span> <span class="k">this</span>
+<span class="nv">root.offsets = </span><span class="p">{}</span>
 
-<p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean lacinia bibendum nulla sed consectetur. Etiam porta sem malesuada magna mollis euismod. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+<span class="c1"># Load the key in memory</span>
+<span class="nv">key = </span><span class="nx">fs</span><span class="p">.</span><span class="nx">readFileSync</span><span class="p">(</span><span class="s">&quot;key&quot;</span><span class="p">)</span>
 
-<ul>
-<li>Praesent commodo cursus magna, vel scelerisque nisl consectetur et.</li>
-<li>Donec id elit non mi porta gravida at eget metus.</li>
-<li>Nulla vitae elit libero, a pharetra augue.</li>
-</ul>
+<span class="c1"># Show usage notice</span>
+<span class="nv">usage = </span><span class="nf">(expected) -&gt;</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="s">&quot;Missing argument expecting </span><span class="si">#{</span><span class="nx">expected</span><span class="si">}</span><span class="s">&quot;</span>
+  <span class="nx">process</span><span class="p">.</span><span class="nx">exit</span> <span class="mi">1</span>
 
-<p>Donec ullamcorper nulla non metus auctor fringilla. Nulla vitae elit libero, a pharetra augue.</p>
+<span class="c1"># Compute XOR of two buffers</span>
+<span class="nv">xor = </span><span class="nf">(v1,v2) -&gt;</span>
+  <span class="k">new</span> <span class="nx">Buffer</span><span class="p">(</span><span class="nx">_</span><span class="p">(</span><span class="nx">v1</span><span class="p">).</span><span class="nx">map</span><span class="p">(</span><span class="nf">(e,i) -&gt;</span>
+  <span class="nx">v2</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">^</span> <span class="nx">e</span>
+<span class="p">))</span>
 
-<ol>
-<li>Vestibulum id ligula porta felis euismod semper.</li>
-<li>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</li>
-<li>Maecenas sed diam eget risus varius blandit sit amet non magna.</li>
-</ol>
+<span class="c1"># Encryptor Through Stream, identifier is for accounting purposes of the offset</span>
+<span class="nv">exports.encryptor = </span><span class="nf">(identifier,offset) -&gt;</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="s">&quot;Init encryptor with offset </span><span class="si">#{</span><span class="nx">offset</span><span class="si">}</span><span class="s">&quot;</span>
+  <span class="nv">_offset = </span><span class="nx">offset</span>
+  <span class="nx">through</span><span class="p">(</span><span class="nf">(data) -&gt;</span>
+    <span class="nv">end_offset = </span><span class="nx">_offset</span> <span class="o">+</span> <span class="nx">data</span><span class="p">.</span><span class="nx">length</span>
+    <span class="nx">@queue</span><span class="p">(</span><span class="nx">xor</span><span class="p">(</span><span class="nx">data</span><span class="p">,</span><span class="nx">key</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="nx">_offset</span><span class="p">,</span><span class="nx">end_offset</span><span class="p">)))</span>
+    <span class="nx">_offset</span> <span class="o">+=</span> <span class="nx">data</span><span class="p">.</span><span class="nx">length</span>
+    <span class="nx">root</span><span class="p">.</span><span class="nx">offsets</span><span class="p">[</span><span class="nx">identifier</span><span class="p">]</span> <span class="o">=</span> <span class="nx">_offset</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="nx">root</span><span class="p">.</span><span class="nx">offsets</span>
+<span class="p">)</span>
 
-<p>Cras mattis consectetur purus sit amet fermentum. Sed posuere consectetur est at lobortis.</p>
+<span class="c1"># Validate arguments, actual = object from minimist, expected = array</span>
+<span class="nv">exports.validateArgs = </span><span class="nf">(actual,expected) -&gt;</span>
+  <span class="nv">actualKeys = </span><span class="nx">_</span><span class="p">.</span><span class="nx">keys</span><span class="p">(</span><span class="nx">actual</span><span class="p">)</span>
+  <span class="nx">_</span><span class="p">.</span><span class="nx">each</span> <span class="nx">expected</span><span class="p">,</span> <span class="nf">(k) -&gt;</span>
+    <span class="nx">do</span> <span class="nx">usage</span><span class="p">(</span><span class="nx">expected</span><span class="p">)</span> <span class="k">if</span> <span class="nx">actualKeys</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="nx">k</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span>
 
-<dl>
-  <dt>HyperText Markup Language (HTML)</dt>
-  <dd>The language used to describe and define the content of a Web page</dd>
+<span class="c1"># Show offset on CTRL-C to keep track of where we stopped</span>
+<span class="nx">process</span><span class="p">.</span><span class="nx">on</span> <span class="s">&#39;SIGINT&#39;</span><span class="p">,</span> <span class="nf">() -&gt;</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="s">&quot;Logging offsets&quot;</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="nx">root</span><span class="p">.</span><span class="nx">offsets</span>
+  <span class="nx">process</span><span class="p">.</span><span class="nx">exit</span> <span class="mi">0</span></code></pre></div>
 
-  <dt>Cascading Style Sheets (CSS)</dt>
-  <dd>Used to describe the appearance of Web content</dd>
+<h2>Encrypt ssh traffic</h2>
 
-  <dt>JavaScript (JS)</dt>
-  <dd>The programming language used to build advanced Web sites and applications</dd>
-</dl>
+<p>We have two computers called HostA and HostB, let&#39;s say that the ssh server is
+on HostB. Let&#39;s say that out of the 100Mb key, we want to use the last 50Mb for
+the server and the first 50Mb for the client.</p>
 
-<p>Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Nullam quis risus eget urna mollis ornare vel eu leo.</p>
+<p>On HostB we start the encryption server:</p>
 
-<h3>Tables</h3>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">coffee receiver.coffee --localPort<span class="o">=</span><span class="m">8000</span> --servicePort<span class="o">=</span><span class="m">22</span> --serverOffset<span class="o">=</span><span class="m">52428800</span> --clientOffset<span class="o">=</span>0</code></pre></div>
 
-<p>Aenean lacinia bibendum nulla sed consectetur. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+<p>localPort,serverPort,clientOffset,serverOffset,host</p>
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Upvotes</th>
-      <th>Downvotes</th>
-    </tr>
-  </thead>
-  <tfoot>
-    <tr>
-      <td>Totals</td>
-      <td>21</td>
-      <td>23</td>
-    </tr>
-  </tfoot>
-  <tbody>
-    <tr>
-      <td>Alice</td>
-      <td>10</td>
-      <td>11</td>
-    </tr>
-    <tr>
-      <td>Bob</td>
-      <td>4</td>
-      <td>3</td>
-    </tr>
-    <tr>
-      <td>Charlie</td>
-      <td>7</td>
-      <td>9</td>
-    </tr>
-  </tbody>
-</table>
+<p>On HostA we start the encryption client:</p>
 
-<p>Nullam id dolor id nibh ultricies vehicula ut id elit. Sed posuere consectetur est at lobortis. Nullam quis risus eget urna mollis ornare vel eu leo.</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">coffee sender.coffee --localPort<span class="o">=</span><span class="m">9000</span> --serverPort<span class="o">=</span><span class="m">8000</span> --host<span class="o">=</span>HostB --serverOffset<span class="o">=</span><span class="m">52428800</span> --clientOffset<span class="o">=</span>0</code></pre></div>
 
-<hr>
+<p>Then we can connect to HostB through the encryption tunnel with this command on HostA:</p>
 
-<p>Want to see something else added? <a href="https://github.com/poole/poole/issues/new">Open an issue.</a></p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">ssh localhost -p 9000</code></pre></div>
 
-  </div>
-  
-  <div class="post">
-    <h1 class="post-title">
-      <a href="/2013/12/31/whats-jekyll/">
-        What's Jekyll?
-      </a>
-    </h1>
-
-    <span class="post-date">31 Dec 2013</span>
-
-    <p><a href="http://jekyllrb.com">Jekyll</a> is a static site generator, an open-source tool for creating simple yet powerful websites of all shapes and sizes. From <a href="https://github.com/mojombo/jekyll/blob/master/README.markdown">the project&#39;s readme</a>:</p>
-
-<blockquote>
-<p>Jekyll is a simple, blog aware, static site generator. It takes a template directory [...] and spits out a complete, static website suitable for serving with Apache or your favorite web server. This is also the engine behind GitHub Pages, which you can use to host your project’s page or blog right here from GitHub.</p>
-</blockquote>
-
-<p>It&#39;s an immensely useful tool and one we encourage you to use here with Hyde.</p>
-
-<p>Find out more by <a href="https://github.com/mojombo/jekyll">visiting the project on GitHub</a>.</p>
+<p>I also tried it with SCP and even an HTTP proxy and it worked fine!
+Let me know what you think of it!</p>
 
   </div>
   
