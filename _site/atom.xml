@@ -4,7 +4,7 @@
  <title>Laurent Charignon</title>
  <link href="http://charignon.github.io/atom.xml" rel="self"/>
  <link href="http://charignon.github.io/"/>
- <updated>2014-12-11T00:41:40-08:00</updated>
+ <updated>2014-12-14T14:06:16-08:00</updated>
  <id>http://charignon.github.io</id>
  <author>
    <name>Laurent Charignon</name>
@@ -14,9 +14,9 @@
  
  <entry>
    <title>Practical one time padding with Node JS</title>
-   <link href="http://charignon.github.io/2014/12/10/new-blog/"/>
+   <link href="http://charignon.github.io/2014/12/10/one-time-pad-node-js/"/>
    <updated>2014-12-10T00:00:00-08:00</updated>
-   <id>http://charignon.github.io/2014/12/10/new-blog</id>
+   <id>http://charignon.github.io/2014/12/10/one-time-pad-node-js</id>
    <content type="html">&lt;p&gt;Source code: &lt;a href=&quot;https://github.com/charignon/otpCSnode&quot;&gt;https://github.com/charignon/otpCSnode&lt;/a&gt;&lt;/p&gt;
 
 &lt;div class=&quot;message&quot;&gt;
