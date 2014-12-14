@@ -2,77 +2,86 @@
 <html lang="en-us">
 
   <head>
-  <link href="http://gmpg.org/xfn/11" rel="profile">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <link href="http://gmpg.org/xfn/11" rel="profile">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
 
-  <!-- Enable responsiveness on mobile devices-->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <!-- Enable responsiveness on mobile devices-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-  <title>
-    
+      ga('create', 'UA-57650622-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+    <title>
+
       Laurent Charignon &middot; Blog
-    
-  </title>
 
-  <!-- CSS -->
-  <link rel="stylesheet" href="/public/css/poole.css">
-  <link rel="stylesheet" href="/public/css/syntax.css">
-  <link rel="stylesheet" href="/public/css/lanyon.css">
-  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700%7CPT+Sans:400">
+    </title>
 
-  <!-- Icons -->
-  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-precomposed.png">
-  <link rel="shortcut icon" href="/public/favicon.ico">
+    <!-- CSS -->
+    <link rel="stylesheet" href="/public/css/poole.css">
+    <link rel="stylesheet" href="/public/css/syntax.css">
+    <link rel="stylesheet" href="/public/css/lanyon.css">
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700%7CPT+Sans:400">
 
-  <!-- RSS -->
-  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
-</head>
+    <!-- Icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-precomposed.png">
+    <link rel="shortcut icon" href="/public/favicon.ico">
+
+    <!-- RSS -->
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+  </head>
 
 
   <body>
 
     <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
-     styles, `#sidebar-checkbox` for behavior. -->
-<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
+    styles, `#sidebar-checkbox` for behavior. -->
+    <input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
 
-<!-- Toggleable sidebar -->
-<div class="sidebar" id="sidebar">
-  <div class="sidebar-item">
-    <p>Technical blog by Laurent Charignon</p>
-  </div>
+    <!-- Toggleable sidebar -->
+    <div class="sidebar" id="sidebar">
+      <div class="sidebar-item">
+        <p>Technical blog by Laurent Charignon</p>
+      </div>
 
-  <nav class="sidebar-nav">
-    <a class="sidebar-nav-item active" href="/">Home</a>
+      <nav class="sidebar-nav">
+      <a class="sidebar-nav-item active" href="/">Home</a>
 
-    
 
-    
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-    
 
-    <span class="sidebar-nav-item">Currently v1.0.0</span>
-  </nav>
 
-  <div class="sidebar-item">
-    <p>
-      &copy; 2014. All rights reserved.
-    </p>
-  </div>
-</div>
+
+
+
+
+
+
+
+
+
+
+
+
+      <span class="sidebar-nav-item">Currently v1.0.0</span>
+      </nav>
+
+      <div class="sidebar-item">
+        <p>
+        &copy; 2014. All rights reserved.
+        </p>
+      </div>
+    </div>
 
 
     <!-- Wrap is the content to shift when toggling the sidebar. We wrap the
-         content to avoid any CSS collisions with our real content. -->
+    content to avoid any CSS collisions with our real content. -->
     <div class="wrap">
       <div class="masthead">
         <div class="container">
@@ -85,60 +94,60 @@
 
       <div class="container content">
         <div class="posts">
-  
-  <div class="post">
-    <h1 class="post-title">
-      <a href="/2014/12/10/new-blog/">
-        Practical one time padding with Node JS
-      </a>
-    </h1>
 
-    <span class="post-date">10 Dec 2014</span>
+          <div class="post">
+            <h1 class="post-title">
+              <a href="/2014/12/10/new-blog/">
+                Practical one time padding with Node JS
+              </a>
+            </h1>
 
-    <p>Source code: <a href="https://github.com/charignon/otpCSnode">https://github.com/charignon/otpCSnode</a></p>
+            <span class="post-date">10 Dec 2014</span>
 
-<div class="message">
-  Too long don't read: How I used Node JS & CoffeeScript to implement one time padding of TCP traffic. Example use with: SSH, SCP and HTTP Proxying.
-</div>
+            <p>Source code: <a href="https://github.com/charignon/otpCSnode">https://github.com/charignon/otpCSnode</a></p>
 
-<h2>One time padding</h2>
+            <div class="message">
+              Too long don't read: How I used Node JS & CoffeeScript to implement one time padding of TCP traffic. Example use with: SSH, SCP and HTTP Proxying.
+            </div>
 
-<p><cite>
-In cryptography, a one-time pad (OTP) is an encryption technique that cannot be cracked if used correctly. In this technique, a plaintext is paired with random, secret key (or pad). Then, each bit or character of the plaintext is encrypted by combining it with the corresponding bit or character from the pad using modular addition.</cite><a href="http://en.wikipedia.org/wiki/One-time_pad">Wikipedia: One time pad</a>.</p>
+            <h2>One time padding</h2>
 
-<p>In other words, one-time padding is a cryptography technique using a key (that both sides know) as long as the message.
-Since the key is as long as the message, the message appear as random as the key and is uncrackable if the key cannot be guessed.</p>
+            <p><cite>
+              In cryptography, a one-time pad (OTP) is an encryption technique that cannot be cracked if used correctly. In this technique, a plaintext is paired with random, secret key (or pad). Then, each bit or character of the plaintext is encrypted by combining it with the corresponding bit or character from the pad using modular addition.</cite><a href="http://en.wikipedia.org/wiki/One-time_pad">Wikipedia: One time pad</a>.</p>
 
-<p>Technically, it is implemented with a simple XOR between the message and the key. It has been deem quite unpractical for most encryption needs because the key has to be as long as the data. But when you can afford to use it, it is the only uncrackable encryption technique. Don&#39;t take my word for it, the red telephone apparently used it according to the same wikipedia article.</p>
+            <p>In other words, one-time padding is a cryptography technique using a key (that both sides know) as long as the message.
+            Since the key is as long as the message, the message appear as random as the key and is uncrackable if the key cannot be guessed.</p>
 
-<h2>Key generation and distribution</h2>
+            <p>Technically, it is implemented with a simple XOR between the message and the key. It has been deem quite unpractical for most encryption needs because the key has to be as long as the data. But when you can afford to use it, it is the only uncrackable encryption technique. Don&#39;t take my word for it, the red telephone apparently used it according to the same wikipedia article.</p>
 
-<p>We can easily create a key using the <code>/dev/random</code> file. For instance to generate a key file named <code>key</code> of <code>100Mb</code> you could run:</p>
+            <h2>Key generation and distribution</h2>
+
+            <p>We can easily create a key using the <code>/dev/random</code> file. For instance to generate a key file named <code>key</code> of <code>100Mb</code> you could run:</p>
 
 <div class="highlight"><pre><code class="language-bash" data-lang="bash">dd <span class="k">if</span><span class="o">=</span>/dev/random <span class="nv">of</span><span class="o">=</span>./key <span class="nv">bs</span><span class="o">=</span><span class="m">1048576</span> <span class="nv">count</span><span class="o">=</span>100</code></pre></div>
 
-<p>In the next part I assume that you have this key on two different hosts.</p>
+            <p>In the next part I assume that you have this key on two different hosts.</p>
 
-<h2>Don&#39;t reuse the key</h2>
+            <h2>Don&#39;t reuse the key</h2>
 
-<p>Contrary to most encryption method, the one-time-pad keys are used only once. In our case, it means that our 100Mb key can encrypt only 100Mb, not one more bit!</p>
+            <p>Contrary to most encryption method, the one-time-pad keys are used only once. In our case, it means that our 100Mb key can encrypt only 100Mb, not one more bit!</p>
 
-<p>To use the keys several times (for example several ssh sessions) without having to dump it after each one, you must keep track of what your encrypted before. In other words you need to know your offset in the key file.</p>
+            <p>To use the keys several times (for example several ssh sessions) without having to dump it after each one, you must keep track of what your encrypted before. In other words you need to know your offset in the key file.</p>
 
-<h2>Client and server code</h2>
+            <h2>Client and server code</h2>
 
-<p>To simplify, the key file is hardcoded and loaded fully in memory.</p>
+            <p>To simplify, the key file is hardcoded and loaded fully in memory.</p>
 
-<p>As an improvement the key could be specific on the command line and precached by chunk at runtime.</p>
+            <p>As an improvement the key could be specific on the command line and precached by chunk at runtime.</p>
 
-<h3>Server code</h3>
+            <h3>Server code</h3>
 
-<p>The server connects to a service like SSH, HttpProxy, VoIP server etc.
-It allows the client to operate with the service by:
-- Encrypting the traffic from the service and forwarding it to the client
-- Decrypting the traffic coming from the client and forwarding it to the service</p>
+            <p>The server connects to a service like SSH, HttpProxy, VoIP server etc.
+            It allows the client to operate with the service by:
+            - Encrypting the traffic from the service and forwarding it to the client
+            - Decrypting the traffic coming from the client and forwarding it to the service</p>
 
-<div class="highlight"><pre><code class="language-coffee" data-lang="coffee"><span class="nv">net = </span><span class="nx">require</span><span class="p">(</span><span class="s">&quot;net&quot;</span><span class="p">)</span>
+            <div class="highlight"><pre><code class="language-coffee" data-lang="coffee"><span class="nv">net = </span><span class="nx">require</span><span class="p">(</span><span class="s">&quot;net&quot;</span><span class="p">)</span>
 <span class="nv">otp = </span><span class="nx">require</span><span class="p">(</span><span class="s">&quot;./otp&quot;</span><span class="p">)</span>
 <span class="nv">argv = </span><span class="nx">require</span><span class="p">(</span><span class="s">&#39;minimist&#39;</span><span class="p">)(</span><span class="nx">process</span><span class="p">.</span><span class="nx">argv</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
 
@@ -156,22 +165,22 @@ It allows the client to operate with the service by:
   <span class="nx">inBoundSocket</span><span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">otp</span><span class="p">.</span><span class="nx">encryptor</span><span class="p">(</span><span class="s">&quot;server&quot;</span><span class="p">,</span><span class="nx">serverOffset</span><span class="p">)).</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">outBoundSocket</span><span class="p">)</span>
 <span class="p">).</span><span class="nx">listen</span> <span class="nb">Number</span><span class="p">(</span><span class="nx">localPort</span><span class="p">)</span></code></pre></div>
 
-<p>The first part of the code is straightforward, we just parse the arguments and
-validate them.</p>
+            <p>The first part of the code is straightforward, we just parse the arguments and
+            validate them.</p>
 
-<p>Then we create a tcp server bound to <code>localPort</code> and when a client connects to
-this server we:</p>
+            <p>Then we create a tcp server bound to <code>localPort</code> and when a client connects to
+            this server we:</p>
 
-<ul>
-<li>Create a connection to the service</li>
-<li>Wire the connection between service and client with an offset for each encryptor: the offset is in byte from start of the key file</li>
-</ul>
+            <ul>
+              <li>Create a connection to the service</li>
+              <li>Wire the connection between service and client with an offset for each encryptor: the offset is in byte from start of the key file</li>
+            </ul>
 
-<h3>Client code</h3>
+            <h3>Client code</h3>
 
-<p>Very similar to the server code:</p>
+            <p>Very similar to the server code:</p>
 
-<div class="highlight"><pre><code class="language-coffee" data-lang="coffee"><span class="nv">net = </span><span class="nx">require</span><span class="p">(</span><span class="s">&quot;net&quot;</span><span class="p">)</span>
+            <div class="highlight"><pre><code class="language-coffee" data-lang="coffee"><span class="nv">net = </span><span class="nx">require</span><span class="p">(</span><span class="s">&quot;net&quot;</span><span class="p">)</span>
 <span class="nv">otp = </span><span class="nx">require</span><span class="p">(</span><span class="s">&quot;./otp&quot;</span><span class="p">)</span>
 <span class="nv">argv = </span><span class="nx">require</span><span class="p">(</span><span class="s">&#39;minimist&#39;</span><span class="p">)(</span><span class="nx">process</span><span class="p">.</span><span class="nx">argv</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
 
@@ -190,11 +199,11 @@ this server we:</p>
   <span class="nx">inBoundSocket</span><span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">otp</span><span class="p">.</span><span class="nx">encryptor</span><span class="p">(</span><span class="s">&quot;client&quot;</span><span class="p">,</span><span class="nx">clientOffset</span><span class="p">)).</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">outBoundSocket</span><span class="p">)</span>
 <span class="p">).</span><span class="nx">listen</span><span class="p">(</span><span class="nx">localPort</span><span class="p">)</span></code></pre></div>
 
-<h3>Library code</h3>
+            <h3>Library code</h3>
 
-<p>This is where the encryption is done, again, pretty straightforward:</p>
+            <p>This is where the encryption is done, again, pretty straightforward:</p>
 
-<div class="highlight"><pre><code class="language-coffee" data-lang="coffee"><span class="nv">through = </span><span class="nx">require</span><span class="p">(</span><span class="s">&#39;through&#39;</span><span class="p">)</span>
+            <div class="highlight"><pre><code class="language-coffee" data-lang="coffee"><span class="nv">through = </span><span class="nx">require</span><span class="p">(</span><span class="s">&#39;through&#39;</span><span class="p">)</span>
 <span class="nv">_ = </span><span class="nx">require</span><span class="p">(</span><span class="s">&quot;underscore&quot;</span><span class="p">)</span>
 <span class="nv">fs = </span><span class="nx">require</span><span class="p">(</span><span class="s">&quot;fs&quot;</span><span class="p">)</span>
 
@@ -240,41 +249,41 @@ this server we:</p>
   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="nx">root</span><span class="p">.</span><span class="nx">offsets</span>
   <span class="nx">process</span><span class="p">.</span><span class="nx">exit</span> <span class="mi">0</span></code></pre></div>
 
-<h2>Encrypt ssh traffic</h2>
+            <h2>Encrypt ssh traffic</h2>
 
-<p>We have two computers called HostA and HostB, let&#39;s say that the ssh server is
-on HostB. Let&#39;s say that out of the 100Mb key, we want to use the last 50Mb for
-the server and the first 50Mb for the client.</p>
+            <p>We have two computers called HostA and HostB, let&#39;s say that the ssh server is
+            on HostB. Let&#39;s say that out of the 100Mb key, we want to use the last 50Mb for
+            the server and the first 50Mb for the client.</p>
 
-<p>On HostB we start the encryption server:</p>
+            <p>On HostB we start the encryption server:</p>
 
 <div class="highlight"><pre><code class="language-bash" data-lang="bash">coffee receiver.coffee --localPort<span class="o">=</span><span class="m">8000</span> --servicePort<span class="o">=</span><span class="m">22</span> --serverOffset<span class="o">=</span><span class="m">52428800</span> --clientOffset<span class="o">=</span>0</code></pre></div>
 
-<p>localPort,serverPort,clientOffset,serverOffset,host</p>
+            <p>localPort,serverPort,clientOffset,serverOffset,host</p>
 
-<p>On HostA we start the encryption client:</p>
+            <p>On HostA we start the encryption client:</p>
 
 <div class="highlight"><pre><code class="language-bash" data-lang="bash">coffee sender.coffee --localPort<span class="o">=</span><span class="m">9000</span> --serverPort<span class="o">=</span><span class="m">8000</span> --host<span class="o">=</span>HostB --serverOffset<span class="o">=</span><span class="m">52428800</span> --clientOffset<span class="o">=</span>0</code></pre></div>
 
-<p>Then we can connect to HostB through the encryption tunnel with this command on HostA:</p>
+            <p>Then we can connect to HostB through the encryption tunnel with this command on HostA:</p>
 
 <div class="highlight"><pre><code class="language-bash" data-lang="bash">ssh localhost -p 9000</code></pre></div>
 
-<p>I also tried it with SCP and even an HTTP proxy and it worked fine!
-Let me know what you think of it!</p>
+            <p>I also tried it with SCP and even an HTTP proxy and it worked fine!
+            Let me know what you think of it!</p>
 
-  </div>
-  
-</div>
+          </div>
 
-<div class="pagination">
-  
-    <span class="pagination-item older">Older</span>
-  
-  
-    <span class="pagination-item newer">Newer</span>
-  
-</div>
+        </div>
+
+        <div class="pagination">
+
+          <span class="pagination-item older">Older</span>
+
+
+          <span class="pagination-item newer">Newer</span>
+
+        </div>
 
 
       </div>
@@ -292,8 +301,8 @@ Let me know what you think of it!</p>
           var target = e.target;
 
           if(!checkbox.checked ||
-             sidebar.contains(target) ||
-             (target === checkbox || target === toggle)) return;
+          sidebar.contains(target) ||
+          (target === checkbox || target === toggle)) return;
 
           checkbox.checked = false;
         }, false);
