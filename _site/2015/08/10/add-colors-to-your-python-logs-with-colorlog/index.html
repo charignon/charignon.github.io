@@ -11,7 +11,7 @@
 
   <title>
     
-      404: Page not found &middot; Laurent Charignon
+      Add Colors To Your Python Logs With Colorlog &middot; Laurent Charignon
     
   </title>
 
@@ -96,9 +96,48 @@ ga('send', 'pageview');
       </div>
 
       <div class="container content">
-        <div class="page">
-  <h1 class="page-title">404: Page not found</h1>
-  <p class="lead">Sorry, we've misplaced that URL or it's pointing to something that doesn't exist. <a href="/">Head back home</a> to try finding it again.</p>
+        <div class="post">
+  <h1 class="post-title">Add Colors To Your Python Logs With Colorlog</h1>
+  <span class="post-date">10 Aug 2015</span>
+  <p><a href="https://pypi.python.org/pypi/colorlog">colorlog</a> is a drop-in replacement for the
+Python logging module that allows you to add color to your logs.</p>
+
+<p>Start by installing the <em>colorlog</em> module with <em>pip</em> (or easy_install):</p>
+
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">pip</span> <span class="n">install</span> <span class="n">colorlog</span></code></pre></div>
+
+<p>Then you can use <em>colorlog</em> the way you would use <em>logging</em>:</p>
+
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">colorlog</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="n">colorlog</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
+<span class="n">colorlog</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;debug&quot;</span><span class="p">)</span>
+<span class="n">colorlog</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;info&quot;</span><span class="p">)</span>
+<span class="n">colorlog</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s">&quot;warning&quot;</span><span class="p">)</span>
+<span class="n">colorlog</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;error&quot;</span><span class="p">)</span>
+<span class="n">colorlog</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span><span class="s">&quot;critical&quot;</span><span class="p">)</span></code></pre></div>
+
+<p>And your log become much easier to read:</p>
+
+<p><img src="/assets/colorlog.gif" alt="Color logging"></p>
+
+</div>
+
+<div class="related">
+  <h2>Related Posts</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="//2014/12/10/one-time-pad-node-js/">
+            Practical one time padding with Node JS
+            <small>10 Dec 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
 </div>
 
       </div>
