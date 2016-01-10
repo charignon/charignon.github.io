@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Automation: Introduction to Mechanize with Python
+title: Introduction to Mechanize with Python
 ---
 
 

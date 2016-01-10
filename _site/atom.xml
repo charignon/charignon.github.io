@@ -4,7 +4,7 @@
  <title>Laurent Charignon</title>
  <link href="http://charignon.github.io/atom.xml" rel="self"/>
  <link href="http://charignon.github.io/"/>
- <updated>2016-01-09T17:23:32-08:00</updated>
+ <updated>2016-01-09T17:26:51-08:00</updated>
  <id>http://charignon.github.io</id>
  <author>
    <name>Laurent Charignon</name>
@@ -13,7 +13,7 @@
 
  
  <entry>
-   <title>Web Browsing Automation</title>
+   <title>Introduction to Mechanize with Python</title>
    <link href="http://charignon.github.io/2016/01/09/web-browsing-automation/"/>
    <updated>2016-01-09T00:00:00-08:00</updated>
    <id>http://charignon.github.io/2016/01/09/web-browsing-automation</id>
