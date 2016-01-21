@@ -4,7 +4,7 @@
  <title>Laurent Charignon</title>
  <link href="http://charignon.github.io/atom.xml" rel="self"/>
  <link href="http://charignon.github.io/"/>
- <updated>2016-01-20T21:22:48-08:00</updated>
+ <updated>2016-01-20T21:35:16-08:00</updated>
  <id>http://charignon.github.io</id>
  <author>
    <name>Laurent Charignon</name>
@@ -17,10 +17,18 @@
    <link href="http://charignon.github.io/2016/01/20/reliable-automation-example/"/>
    <updated>2016-01-20T00:00:00-08:00</updated>
    <id>http://charignon.github.io/2016/01/20/reliable-automation-example</id>
-   <content type="html">&lt;p&gt;I am working on &lt;a href=&quot;https://www.Mercurial-scm.org/&quot;&gt;Mercurial&lt;/a&gt;. Whenever I work
+   <content type="html">&lt;p&gt;I find that doing repetitive computer-related tasks is time consuming, error-prone and frustrating. 
+I am a strong believer of automating everything and I have this mantra:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Automate anything that you did twice as you will certainly have to do it a third time&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;This article describes my approach to automate a time consuming task in my daily workflow.&lt;/p&gt;
+
+&lt;p&gt;I am working on &lt;a href=&quot;https://www.Mercurial-scm.org/&quot;&gt;Mercurial&lt;/a&gt;. Whenever I work
 on a new series of patches, I want to ensure that the whole test suite passes
-on every patch of the series. This article describes the steps I took toward
-making this task completely &lt;strong&gt;automated&lt;/strong&gt; and &lt;strong&gt;transparent&lt;/strong&gt; to me. &lt;/p&gt;
+on every patch of the series. In the end I made this task completely &lt;strong&gt;automated&lt;/strong&gt; and &lt;strong&gt;transparent&lt;/strong&gt;. &lt;/p&gt;
 
 &lt;hr&gt;
 

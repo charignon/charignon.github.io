@@ -3,10 +3,16 @@ layout: post
 title: A Test Automation Story
 ---
 
+I find that doing repetitive computer-related tasks is time consuming, error-prone and frustrating. 
+I am a strong believer of automating everything and I have this mantra:
+
+> Automate anything that you did twice as you will certainly have to do it a third time
+
+This article describes my approach to automate a time consuming task in my daily workflow.
+
 I am working on [Mercurial](https://www.Mercurial-scm.org/). Whenever I work
 on a new series of patches, I want to ensure that the whole test suite passes
-on every patch of the series. This article describes the steps I took toward
-making this task completely **automated** and **transparent** to me. 
+on every patch of the series. In the end I made this task completely **automated** and **transparent**. 
 
 
 
