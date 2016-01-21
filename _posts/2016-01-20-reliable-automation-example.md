@@ -87,7 +87,7 @@ One thing was missing, I still had to read the reports to know when the tests we
 ### Sixth iteration: Cherry on the cake: a hud, colored labels, and vim integration!
 
 It is extremely easy to write Mercurial extensions, it can take as little as 
-5 lines of python to add something useful. I wrote an extension that adds an
+5 lines of python to create a useful feature. I wrote an extension that adds an
 overlay on top of the list of commits in my repository to show me if the tests
 passed for each revision:
 

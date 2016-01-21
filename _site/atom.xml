@@ -4,7 +4,7 @@
  <title>Laurent Charignon</title>
  <link href="http://charignon.github.io/atom.xml" rel="self"/>
  <link href="http://charignon.github.io/"/>
- <updated>2016-01-20T21:21:21-08:00</updated>
+ <updated>2016-01-20T21:22:48-08:00</updated>
  <id>http://charignon.github.io</id>
  <author>
    <name>Laurent Charignon</name>
@@ -102,7 +102,7 @@ results and failures.&lt;/p&gt;
 &lt;h3&gt;Sixth iteration: Cherry on the cake: a hud, colored labels, and vim integration!&lt;/h3&gt;
 
 &lt;p&gt;It is extremely easy to write Mercurial extensions, it can take as little as 
-5 lines of python to add something useful. I wrote an extension that adds an
+5 lines of python to create a useful feature. I wrote an extension that adds an
 overlay on top of the list of commits in my repository to show me if the tests
 passed for each revision:&lt;/p&gt;
 
