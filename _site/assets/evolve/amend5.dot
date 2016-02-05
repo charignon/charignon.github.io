@@ -1,0 +1,11 @@
+digraph G {
+ rankdir=LR
+ b->"b'"[style=dotted];
+ "b'"->"b''"[style=dotted];
+ "b'"->a;
+ b->a;
+ "b''"->a;
+ "b''"[group=g1]
+ b [style=filled,color="lightgray",group=g1];
+ "b'" [style=filled,color="lightgray",group=g1];
+}

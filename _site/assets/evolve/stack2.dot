@@ -1,0 +1,13 @@
+digraph G {
+ d->c
+ c->b
+ b->a
+ "c'"->b
+ c->"c'"[style=dotted]
+ b->"b'"[style=dotted]
+ "b'"->a
+ "b'"[group=g1]
+ "c'"[group=g1]
+ b[style=filled, color=lightgray, group=g2]
+ c[style=filled, color=lightgray, group=g2]
+}
