@@ -4,7 +4,7 @@
  <title>Laurent Charignon</title>
  <link href="http://charignon.github.io/atom.xml" rel="self"/>
  <link href="http://charignon.github.io/"/>
- <updated>2016-02-04T23:31:32-08:00</updated>
+ <updated>2016-02-04T23:50:14-08:00</updated>
  <id>http://charignon.github.io</id>
  <author>
    <name>Laurent Charignon</name>
@@ -241,6 +241,14 @@ the repo you just cloned:&lt;/li&gt;
 
 &lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ini&quot; data-lang=&quot;ini&quot;&gt;&lt;span class=&quot;nn&quot;&gt;[extensions]&lt;/span&gt;
 &lt;span class=&quot;py&quot;&gt;evolve&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;path to/evolve.py&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h2&gt;More resources&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://www.gerg.ca/evolve/user-guide.html&quot;&gt;Gregory Szorc&amp;#39;s post about evolve&lt;/a&gt;: you should start there if you like the concepts discussed in this article and want to start using evolve.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.mercurial-scm.org/wiki/ChangesetEvolution&quot;&gt;Evolve&amp;#39;s wiki&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.mercurial-scm.org/wiki/ChangesetEvolutionDevel&quot;&gt;Evolve&amp;#39;s contributors wiki&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
 </content>
  </entry>
  
