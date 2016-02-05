@@ -221,14 +221,14 @@ to a repository. Let&#39;s assume that you are working on a feature and committe
 This could happen if this other developer changed the same files you changed in <strong>b</strong>.
 But in that case, you know that the person resolved the conflicts once already when applying their work on top of <strong>newb</strong>.
 <strong>The user should not have to do a merge and resolve conflicts in that case and obsolescence markers can help resolving this.</strong>
-What if on pull the server could tell you that <strong>newb</strong> is the new version of <em>b</em>:</p>
+What if on pull the server could tell you that <strong>newb</strong> is the new version of <strong>b</strong>:</p>
 
 <figure style="text-align:center">
 <img style="display: block; margin: 0 auto" alt="Before running the amend command" src ="/assets/evolve/push4.dot.svg" />
 <figcaption>When rebasing the stack, the first commit can be omitted</figcaption>
 </figure>
 
-<p>This way when you rebase the stack, only <strong>d</strong> gets rebased, <strong>b is skipped, and you cannot get conflicts from the content in b</strong>.</p>
+<p>This way when you rebase the stack, only <strong>c</strong> gets rebased, <strong>b is skipped, and you cannot get conflicts from the content in b</strong>.</p>
 
 <h3>3. Working with other people</h3>
 

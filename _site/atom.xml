@@ -4,7 +4,7 @@
  <title>Laurent Charignon</title>
  <link href="http://charignon.github.io/atom.xml" rel="self"/>
  <link href="http://charignon.github.io/"/>
- <updated>2016-02-04T22:41:12-08:00</updated>
+ <updated>2016-02-04T23:23:20-08:00</updated>
  <id>http://charignon.github.io</id>
  <author>
    <name>Laurent Charignon</name>
@@ -139,14 +139,14 @@ to a repository. Let&amp;#39;s assume that you are working on a feature and comm
 This could happen if this other developer changed the same files you changed in &lt;strong&gt;b&lt;/strong&gt;.
 But in that case, you know that the person resolved the conflicts once already when applying their work on top of &lt;strong&gt;newb&lt;/strong&gt;.
 &lt;strong&gt;The user should not have to do a merge and resolve conflicts in that case and obsolescence markers can help resolving this.&lt;/strong&gt;
-What if on pull the server could tell you that &lt;strong&gt;newb&lt;/strong&gt; is the new version of &lt;em&gt;b&lt;/em&gt;:&lt;/p&gt;
+What if on pull the server could tell you that &lt;strong&gt;newb&lt;/strong&gt; is the new version of &lt;strong&gt;b&lt;/strong&gt;:&lt;/p&gt;
 
 &lt;figure style=&quot;text-align:center&quot;&gt;
 &lt;img style=&quot;display: block; margin: 0 auto&quot; alt=&quot;Before running the amend command&quot; src =&quot;/assets/evolve/push4.dot.svg&quot; /&gt;
 &lt;figcaption&gt;When rebasing the stack, the first commit can be omitted&lt;/figcaption&gt;
 &lt;/figure&gt;
 
-&lt;p&gt;This way when you rebase the stack, only &lt;strong&gt;d&lt;/strong&gt; gets rebased, &lt;strong&gt;b is skipped, and you cannot get conflicts from the content in b&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;This way when you rebase the stack, only &lt;strong&gt;c&lt;/strong&gt; gets rebased, &lt;strong&gt;b is skipped, and you cannot get conflicts from the content in b&lt;/strong&gt;.&lt;/p&gt;
 
 &lt;h3&gt;3. Working with other people&lt;/h3&gt;
 

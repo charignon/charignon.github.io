@@ -132,7 +132,7 @@ What if on pull the server could tell you that **newb** is the new version of **
 <figcaption>When rebasing the stack, the first commit can be omitted</figcaption>
 </figure>
 
-This way when you rebase the stack, only **d** gets rebased, **b is skipped, and you cannot get conflicts from the content in b**.
+This way when you rebase the stack, only **c** gets rebased, **b is skipped, and you cannot get conflicts from the content in b**.
 
 ### 3. Working with other people
 
