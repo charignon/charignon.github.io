@@ -125,7 +125,7 @@ And if you try to rebase your stack (b and c) on top of master, you will potenti
 This could happen if this other developer changed the same files you changed in **b**.
 But in that case, you know that the person resolved the conflicts once already when applying their work on top of **newb**.
 **The user should not have to do a merge and resolve conflicts in that case and obsolescence markers can help resolving this.**
-What if on pull the server could tell you that **newb** is the new version of *b*:
+What if on pull the server could tell you that **newb** is the new version of **b**:
 
 <figure style="text-align:center">
 <img style="display: block; margin: 0 auto" alt="Before running the amend command" src ="/assets/evolve/push4.dot.svg" />
