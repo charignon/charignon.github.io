@@ -1,0 +1,10 @@
+digraph G {
+ b->"b''"[style=dotted];
+ "b''"->a;
+ b->"b'"[style=dotted];
+ "b'"->a;
+ b->a;
+ b [style=filled,color="lightgray",group=g1];
+ "b''" [group=g1];
+ "b'" [group=g1];
+}

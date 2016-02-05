@@ -1,0 +1,8 @@
+digraph G {
+ d->a
+ b->a
+ c->b
+ newb->d
+ "remote/master"->newb[color="red"]
+ "remote/master"[shape=none, color="red"]
+}
