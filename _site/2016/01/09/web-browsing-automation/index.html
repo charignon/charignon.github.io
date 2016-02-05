@@ -112,7 +112,7 @@ should consider <strong>CasperJS</strong>. The big advantage of using mechanize 
 a higher level library is speed: it is an order of magnitude faster!</p>
 
 <p>I use the following boilerplate code for all my programs with <strong>mechanize</strong>:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">Set up user agent
+<div class="highlight"><pre><code class="language-" data-lang="">Set up user agent
 
 Load cookies from a file
 
@@ -124,7 +124,7 @@ Interact with the website
 Persist the cookies to a file
 </code></pre></div>
 <p>If you do the following instead:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">Go through the login flow
+<div class="highlight"><pre><code class="language-" data-lang="">Go through the login flow
 
 Interact with the website
 </code></pre></div>
@@ -138,7 +138,7 @@ Let&#39;s see in practice what this code looks like.</p>
 <p>Assuming that you want to log into a website and read a page that shows some
 JSON content, you would do something like this: </p>
 
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">os</span>
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">cookielib</span>
 
@@ -147,13 +147,13 @@ JSON content, you would do something like this: </p>
 <span class="k">def</span> <span class="nf">getbrowser</span><span class="p">():</span>
     <span class="n">br</span> <span class="o">=</span> <span class="n">mechanize</span><span class="o">.</span><span class="n">Browser</span><span class="p">()</span>
     <span class="n">br</span><span class="o">.</span><span class="n">set_handle_redirect</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
-    <span class="n">br</span><span class="o">.</span><span class="n">addheaders</span> <span class="o">=</span> <span class="p">[(</span><span class="s">&#39;User-agent&#39;</span><span class="p">,</span> <span class="s">&#39;XXX&#39;</span><span class="p">)]</span> <span class="c"># Set you user agent here</span>
+    <span class="n">br</span><span class="o">.</span><span class="n">addheaders</span> <span class="o">=</span> <span class="p">[(</span><span class="s">'User-agent'</span><span class="p">,</span> <span class="s">'XXX'</span><span class="p">)]</span> <span class="c"># Set you user agent here</span>
     <span class="k">return</span> <span class="n">br</span>
 
 <span class="k">def</span> <span class="nf">loadcookiejar</span><span class="p">():</span>
     <span class="n">cj</span> <span class="o">=</span> <span class="n">cookielib</span><span class="o">.</span><span class="n">LWPCookieJar</span><span class="p">()</span>
-    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s">&quot;cookies&quot;</span><span class="p">):</span>
-        <span class="n">cj</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s">&quot;cookies&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s">"cookies"</span><span class="p">):</span>
+        <span class="n">cj</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s">"cookies"</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">cj</span>
 
 <span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
@@ -161,23 +161,23 @@ JSON content, you would do something like this: </p>
     <span class="n">cj</span> <span class="o">=</span> <span class="n">loadcookiejar</span><span class="p">()</span>
     <span class="n">br</span><span class="o">.</span><span class="n">set_cookiejar</span><span class="p">(</span><span class="n">cj</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">cj</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="n">url</span> <span class="o">=</span> <span class="s">&#39;https://XXX&#39;</span>
-        <span class="n">br</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="s">'https://XXX'</span>
+        <span class="n">br</span><span class="o">.</span><span class="nb">open</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
         <span class="c"># Select the first form</span>
         <span class="n">br</span><span class="o">.</span><span class="n">select_form</span><span class="p">(</span><span class="n">nr</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
         <span class="c"># Fill in some information</span>
-        <span class="n">br</span><span class="p">[</span><span class="s">&quot;email&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;XXXXXXX&quot;</span>
-        <span class="n">br</span><span class="p">[</span><span class="s">&quot;password&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;YYYYYYY&quot;</span>
+        <span class="n">br</span><span class="p">[</span><span class="s">"email"</span><span class="p">]</span> <span class="o">=</span> <span class="s">"XXXXXXX"</span>
+        <span class="n">br</span><span class="p">[</span><span class="s">"password"</span><span class="p">]</span> <span class="o">=</span> <span class="s">"YYYYYYY"</span>
         <span class="c"># Actually log in and set the cookies</span>
         <span class="n">br</span><span class="o">.</span><span class="n">submit</span><span class="p">()</span>
     <span class="c"># The page you are interested in</span>
-    <span class="n">r</span> <span class="o">=</span> <span class="n">br</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s">&quot;https://YYYY&quot;</span><span class="p">)</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">br</span><span class="o">.</span><span class="nb">open</span><span class="p">(</span><span class="s">"https://YYYY"</span><span class="p">)</span>
     <span class="c"># Assumes that the content is JSON, otherwise use r.read()</span>
     <span class="k">print</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
-    <span class="n">cj</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s">&quot;cookies&quot;</span><span class="p">)</span>
+    <span class="n">cj</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s">"cookies"</span><span class="p">)</span>
 
-<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
-    <span class="n">main</span><span class="p">()</span></code></pre></div>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span></code></pre></figure>
 
 <p>Now, some of you might wonder &quot;how do you figure out what the URLS/parameter 
 are for the stuff that you are interested in&quot;. It is actually fairly easy to
@@ -214,6 +214,15 @@ to make the request from python or a terminal:
     
       <li>
         <h3>
+          <a href="//2016/02/02/changeset-evolution/">
+            Changeset Evolution
+            <small>02 Feb 2016</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
           <a href="//2016/01/20/reliable-automation-example/">
             A Test Automation Story
             <small>20 Jan 2016</small>
@@ -226,15 +235,6 @@ to make the request from python or a terminal:
           <a href="//2015/08/10/add-colors-to-your-python-logs-with-colorlog/">
             Add Colors To Your Python Logs With Colorlog
             <small>10 Aug 2015</small>
-          </a>
-        </h3>
-      </li>
-    
-      <li>
-        <h3>
-          <a href="//2014/12/10/one-time-pad-node-js/">
-            Practical one time padding with Node JS
-            <small>10 Dec 2014</small>
           </a>
         </h3>
       </li>

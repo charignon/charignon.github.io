@@ -107,11 +107,11 @@ Satisfied with **b**, you send it to the CI system that pushes it onto `remote/m
 <figcaption>Pushing a commit can also add a marker</figcaption>
 </figure>
 
-If you pull one hour later (assuming other people are very productive :D) you will have something like:
+If you pull one hour later (assuming other people are very productive :D) you will have a situation like that:
 
 <figure style="text-align:center">
 <img style="display: block; margin: 0 auto" alt="Before running the amend command" src ="/assets/evolve/push3.dot.svg" />
-<figcaption>When rebasing the stack, the first commit can be skipped</figcaption>
+<figcaption>Your colleagues have been productive and pushed many new changes since you last pulled</figcaption>
 </figure>
 
 And if you try to rebase your stack (b and c) on top of master, you will potentially have conflicts applying b because of the work of another developer.

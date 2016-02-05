@@ -100,6 +100,231 @@ ga('send', 'pageview');
   
   <div class="post">
     <h1 class="post-title">
+      <a href="/2016/02/02/changeset-evolution/">
+        Changeset Evolution
+      </a>
+    </h1>
+
+    <span class="post-date">02 Feb 2016</span>
+
+    <h2>Changeset What?</h2>
+
+<p><a href="https://mercurial-scm.com">Mercurial</a> is a distributed version control system, similar to <a href="https://git-scm.com/">git</a>.
+If you have not tried it yet, you really should!</p>
+
+<p>I work on Mercurial, and as you know already, I love to automate everything.
+If you use git and mercurial today, you know that source control is not trivial, 
+ workflows could be easier and require less manual intervention and dark magic. </p>
+
+<p><strong><a href="https://www.mercurial-scm.org/wiki/ChangesetEvolution">Changeset evolution</a> is a proposal to make 
+source-control less error-prone, more forgiving and flexible.</strong>
+I will use <strong>changeset evolution</strong> and <strong>evolve</strong> interchangeably.
+Pierre-Yves David created Changeset Evolution and you can see <a href="https://air.mozilla.org/changesets-evolution-with-mercurial/">his talk
+at FOSDEM 2013</a></p>
+
+<h2>The history of commits does not exist</h2>
+
+<p>Let&#39;s start with an example. Assume that a user committed <strong>b</strong> on top of <strong>a</strong>: </p>
+
+<figure style="text-align:center">
+<img style="display: block; margin: 0 auto" alt="Before running the amend command" src ="/assets/evolve/amend1.dot.svg" />
+<figcaption>Starting point</figcaption>
+</figure>
+
+<p>After making some changes, the user runs <code>hg commit --amend</code> (like git <code>commit --amend</code>) and decides to call the new commit <strong>b&#39;</strong>:</p>
+
+<figure style="text-align:center">
+<img style="display: block; margin: 0 auto" alt="After running the amend command" src ="/assets/evolve/amend2.dot.svg" />
+<figcaption>After amend</figcaption>
+</figure>
+
+<p>Under the cover, the amend command creates a new commit but the old revision is still there but hidden:</p>
+
+<figure style="text-align:center">
+<img style="display: block; margin: 0 auto" alt="Under the cover" src ="/assets/evolve/amend3.dot.svg" />
+<figcaption>b didn't disappear yet, it is hidden</figcaption>
+</figure>
+
+<p>For the user, <strong>b&#39; is a newer version of b</strong>.
+Even though, the intent of amending is clear, <strong>no information about this intent is recorded in the source control system!</strong></p>
+
+<p>If the user wants to access, let&#39;s say a week from now, what <strong>b</strong> was before the amend, he or she will have to dig through the <strong>revlog</strong> to find the hash of <strong>b</strong>.</p>
+
+<p>What if we could record that b&#39; is the successor of b?</p>
+
+<h2>Defining the commit history with obsolescence markers</h2>
+
+<p><strong>Changeset evolution</strong> introduces the concept of <strong>obsolescence markers</strong> to represent that a revision is the <strong>successor</strong> of another revision.
+I will represent the <strong>obsolescence markers</strong> with dotted lines in the following graphs.
+In the example above after running <code>hg commit --amend</code> we would have:</p>
+
+<figure style="text-align:center">
+<img style="display: block; margin: 0 auto" alt="Before running the amend command" src ="/assets/evolve/amend4.dot.svg" />
+<figcaption>Recording that b' is the <b>successor</b> of b with an obsolescence marker. b is the <b>precursor</b> of b'</figcaption>
+</figure>
+
+<p>And after running <code>hg commit --amend</code> again:</p>
+
+<figure style="text-align:center">
+<img style="display: block; margin: 0 auto" alt="Before running the amend command" src ="/assets/evolve/amend5.dot.svg" />
+<figcaption>Two amends: b" is the <b>successor</b> of b' and b' is the <b>successor</b> of b</figcaption>
+</figure>
+
+<p>All this is happening <strong>under the hood</strong>, and the user does not see any difference in the UI.
+It is just some extra information that is recorded that can be used by commands as we will see in the next section.</p>
+
+<h2>Simplify rebases, go back in time and don&#39;t make mistakes</h2>
+
+<p>Let&#39;s see how we can <strong>seamlessly use the obsolescence markers</strong> to simplify the life of the user through three examples.</p>
+
+<h3>1. Easily accessing a precursor:</h3>
+
+<p>Consider the situation discussed above:
+<figure style="text-align:center">
+<img style="display: block; margin: 0 auto" alt="Before running the amend command" src ="/assets/evolve/amend4.dot.svg" />
+<figcaption>After <b>hg commit --amend</b></figcaption>
+</figure></p>
+
+<p>We can give the user some <strong>commands to access precursors of revisions to compare them or manipulate them</strong>.
+After running the amend, you can easily:
+- Go back to the previous version (without using the revlog)
+- Figure out what changes the amend introduced.</p>
+
+<h3>2. Rebasing with fewer conflicts:</h3>
+
+<p>It is common to have a testing/continuous integration system run all the tests on a revision before pushing it
+to a repository. Let&#39;s assume that you are working on a feature and committed <strong>b</strong> and <strong>c</strong> locally.</p>
+
+<figure style="text-align:center">
+<img style="display: block; margin: 0 auto" alt="Before running the amend command" src ="/assets/evolve/push1.dot.svg" />
+<figcaption>Before pushing b to the server on top of d</figcaption>
+</figure>
+
+<p>Satisfied with <strong>b</strong>, you send it to the CI system that pushes it onto <code>remote/master</code> on the server, when you pull, you will have:</p>
+
+<figure style="text-align:center">
+<img style="display: block; margin: 0 auto" alt="Before running the amend command" src ="/assets/evolve/push2.dot.svg" />
+<figcaption>Pushing a commit can also add a marker</figcaption>
+</figure>
+
+<p>If you pull one hour later (assuming other people are very productive :D) you will have a situation like that:</p>
+
+<figure style="text-align:center">
+<img style="display: block; margin: 0 auto" alt="Before running the amend command" src ="/assets/evolve/push3.dot.svg" />
+<figcaption>Your colleagues have been productive and pushed many new changes since you last pulled</figcaption>
+</figure>
+
+<p>And if you try to rebase your stack (b and c) on top of master, you will potentially have conflicts applying b because of the work of another developer.
+This could happen if this other developer changed the same files you changed in <strong>b</strong>.
+But in that case, you know that the person resolved the conflicts once already when applying their work on top of <strong>newb</strong>.
+<strong>The user should have to resolve conflicts in that case and obsolescence markers can help resolving this</strong>.
+What if on pull the server could tell you that <strong>newb</strong> is the new version of <em>b</em>:</p>
+
+<figure style="text-align:center">
+<img style="display: block; margin: 0 auto" alt="Before running the amend command" src ="/assets/evolve/push4.dot.svg" />
+<figcaption>When rebasing the stack, the first commit can be omitted</figcaption>
+</figure>
+
+<p>This way when you rebase the stack, only <strong>d</strong> gets rebased, <strong>b is skipped, and you cannot get conflicts from the content in b</strong>.</p>
+
+<h3>3. Working with other people</h3>
+
+<p>Let&#39;s assume that you start from this simple state:
+<figure style="text-align:center">
+<img style="display: block; margin: 0 auto" alt="Before running the amend command" src ="/assets/evolve/amend1.dot.svg" />
+<figcaption>Starting point</figcaption>
+</figure></p>
+
+<p>And you and your friend work on making changes to b, you create a new change <strong>b&#39;</strong> and your friend creates a new version of b called: <strong>b&#39;&#39;</strong></p>
+
+<figure style="text-align:center">
+<img style="display: block; margin: 0 auto" alt="Before running the amend command" src ="/assets/evolve/amend4.dot.svg" />
+<figcaption>The first developer rewrote b</figcaption>
+</figure>
+
+<figure style="text-align:center">
+<img style="display: block; margin: 0 auto" alt="Before running the amend command" src ="/assets/evolve/amend6.dot.svg" />
+<figcaption>The second developer rewrote b as well</figcaption>
+</figure>
+
+<p>Then you decide to put your work together:</p>
+
+<figure style="text-align:center">
+<img style="display: block; margin: 0 auto" alt="Before running the amend command" src ="/assets/evolve/amend7.dot.svg" />
+<figcaption>b has two successors, <b>b'</b> and <b>b''</b> are called divergent</figcaption>
+</figure>
+
+<p>In <strong>git</strong> or <strong>vanilla (no extension) mercurial</strong>, you would have to figure out that <strong>b&#39;</strong> and <strong>b&#39;&#39;</strong> are two new versions of <strong>b</strong> and merge them.
+<strong>Changeset evolution</strong> detects that situation, marks <strong>b&#39;</strong> and <strong>b&#39;&#39;</strong> as being divergent.
+It then suggests <strong>automatic resolution with a merge and preserves history.</strong></p>
+
+<figure style="text-align:center">
+<img style="display: block; margin: 0 auto" alt="Before running the amend command" src ="/assets/evolve/amend8.dot.svg" />
+<figcaption>Everything gets resolved intelligently</figcaption>
+</figure>
+
+<p>The graph might seem overcomplicated, but once again, most things are happening <strong>under the hood</strong> and the UI impact is minimal.
+These examples <strong>show</strong> the power of changeset evolution, to provide an <strong>automatic resolution</strong> of typical source control issues.
+But, the true power of <strong>changeset evolution</strong> is the flexibility that it gives when working with stacks of commits.</p>
+
+<h2>A more flexible workflow with stacks</h2>
+
+<p><strong>Changeset evolution</strong> defines the concept of an <strong>unstable</strong> revision, a revision based on an obsolete revision.
+From the previous section:</p>
+
+<figure style="text-align:center">
+<img style="display: block; margin: 0 auto" alt="Before running the amend command" src ="/assets/evolve/push4.dot.svg" />
+<figcaption>c is unstable because it is based on b and b has as a new version</figcaption>
+</figure>
+
+<p>Evolve resolves instability intelligently by rebasing unstable commits on a stable destination, in the case above <strong>newb</strong>.
+But it <strong>does not force the user to resolve the instability right away</strong> and allows, therefore, to be more flexible when working with stacks.
+Consider the following stack of commits:</p>
+
+<figure style="text-align:center">
+<img style="display: block; margin: 0 auto" alt="Before running the amend command" src ="/assets/evolve/stack1.dot.svg" />
+</figure>
+
+<p>A user can amend <strong>b</strong> or <strong>c</strong> without having to rebase <strong>d</strong>.</p>
+
+<figure style="text-align:center">
+<img style="display: block; margin: 0 auto" alt="Before running the amend command" src ="/assets/evolve/stack2.dot.svg" />
+<figcaption>We rewrote b and c, so c' and d are now unstable</figcaption>
+</figure>
+
+<p>And when everything looks good <strong>changeset evolution</strong> can figure out the right commands to run to end up with the desired stack:</p>
+
+<figure style="text-align:center">
+<img style="display: block; margin: 0 auto" alt="Before running the amend command" src ="/assets/evolve/stack3.dot.svg" />
+</figure>
+
+<p>If the user was not using changeset evolution, he or she would have to rebase every time anything changes in the stack.
+Also, the user would have to figure out what rebase command to run and could potentially make mistakes!</p>
+
+<h2>What I didn&#39;t cover</h2>
+
+<ul>
+<li>Working collaboratively with stacks</li>
+<li>Markers defining multiple precursors (fold) and multiple successors (split)</li>
+<li>And a lot of other things</li>
+</ul>
+
+<h2>How to install evolve and start playing with it</h2>
+
+<ol>
+<li>Install mercurial</li>
+<li>Clone evolve&#39;s repository with <code>hg clone http://hg.netv6.net/evolve-main/</code></li>
+<li>Add the following configuration to you <code>~/.hgrc</code> with the correct path from
+the repo you just cloned:</li>
+</ol>
+
+<figure class="highlight"><pre><code class="language-ini" data-lang="ini"><span class="nn">[extensions]</span>
+<span class="py">evolve</span> <span class="p">=</span> <span class="s">path to/evolve.py</span></code></pre></figure>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
       <a href="/2016/01/20/reliable-automation-example/">
         A Test Automation Story
       </a>
@@ -242,7 +467,7 @@ should consider <strong>CasperJS</strong>. The big advantage of using mechanize 
 a higher level library is speed: it is an order of magnitude faster!</p>
 
 <p>I use the following boilerplate code for all my programs with <strong>mechanize</strong>:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">Set up user agent
+<div class="highlight"><pre><code class="language-" data-lang="">Set up user agent
 
 Load cookies from a file
 
@@ -254,7 +479,7 @@ Interact with the website
 Persist the cookies to a file
 </code></pre></div>
 <p>If you do the following instead:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">Go through the login flow
+<div class="highlight"><pre><code class="language-" data-lang="">Go through the login flow
 
 Interact with the website
 </code></pre></div>
@@ -268,7 +493,7 @@ Let&#39;s see in practice what this code looks like.</p>
 <p>Assuming that you want to log into a website and read a page that shows some
 JSON content, you would do something like this: </p>
 
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">os</span>
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">cookielib</span>
 
@@ -277,13 +502,13 @@ JSON content, you would do something like this: </p>
 <span class="k">def</span> <span class="nf">getbrowser</span><span class="p">():</span>
     <span class="n">br</span> <span class="o">=</span> <span class="n">mechanize</span><span class="o">.</span><span class="n">Browser</span><span class="p">()</span>
     <span class="n">br</span><span class="o">.</span><span class="n">set_handle_redirect</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
-    <span class="n">br</span><span class="o">.</span><span class="n">addheaders</span> <span class="o">=</span> <span class="p">[(</span><span class="s">&#39;User-agent&#39;</span><span class="p">,</span> <span class="s">&#39;XXX&#39;</span><span class="p">)]</span> <span class="c"># Set you user agent here</span>
+    <span class="n">br</span><span class="o">.</span><span class="n">addheaders</span> <span class="o">=</span> <span class="p">[(</span><span class="s">'User-agent'</span><span class="p">,</span> <span class="s">'XXX'</span><span class="p">)]</span> <span class="c"># Set you user agent here</span>
     <span class="k">return</span> <span class="n">br</span>
 
 <span class="k">def</span> <span class="nf">loadcookiejar</span><span class="p">():</span>
     <span class="n">cj</span> <span class="o">=</span> <span class="n">cookielib</span><span class="o">.</span><span class="n">LWPCookieJar</span><span class="p">()</span>
-    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s">&quot;cookies&quot;</span><span class="p">):</span>
-        <span class="n">cj</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s">&quot;cookies&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s">"cookies"</span><span class="p">):</span>
+        <span class="n">cj</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s">"cookies"</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">cj</span>
 
 <span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
@@ -291,23 +516,23 @@ JSON content, you would do something like this: </p>
     <span class="n">cj</span> <span class="o">=</span> <span class="n">loadcookiejar</span><span class="p">()</span>
     <span class="n">br</span><span class="o">.</span><span class="n">set_cookiejar</span><span class="p">(</span><span class="n">cj</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">cj</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="n">url</span> <span class="o">=</span> <span class="s">&#39;https://XXX&#39;</span>
-        <span class="n">br</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="s">'https://XXX'</span>
+        <span class="n">br</span><span class="o">.</span><span class="nb">open</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
         <span class="c"># Select the first form</span>
         <span class="n">br</span><span class="o">.</span><span class="n">select_form</span><span class="p">(</span><span class="n">nr</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
         <span class="c"># Fill in some information</span>
-        <span class="n">br</span><span class="p">[</span><span class="s">&quot;email&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;XXXXXXX&quot;</span>
-        <span class="n">br</span><span class="p">[</span><span class="s">&quot;password&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;YYYYYYY&quot;</span>
+        <span class="n">br</span><span class="p">[</span><span class="s">"email"</span><span class="p">]</span> <span class="o">=</span> <span class="s">"XXXXXXX"</span>
+        <span class="n">br</span><span class="p">[</span><span class="s">"password"</span><span class="p">]</span> <span class="o">=</span> <span class="s">"YYYYYYY"</span>
         <span class="c"># Actually log in and set the cookies</span>
         <span class="n">br</span><span class="o">.</span><span class="n">submit</span><span class="p">()</span>
     <span class="c"># The page you are interested in</span>
-    <span class="n">r</span> <span class="o">=</span> <span class="n">br</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s">&quot;https://YYYY&quot;</span><span class="p">)</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">br</span><span class="o">.</span><span class="nb">open</span><span class="p">(</span><span class="s">"https://YYYY"</span><span class="p">)</span>
     <span class="c"># Assumes that the content is JSON, otherwise use r.read()</span>
     <span class="k">print</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
-    <span class="n">cj</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s">&quot;cookies&quot;</span><span class="p">)</span>
+    <span class="n">cj</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s">"cookies"</span><span class="p">)</span>
 
-<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
-    <span class="n">main</span><span class="p">()</span></code></pre></div>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span></code></pre></figure>
 
 <p>Now, some of you might wonder &quot;how do you figure out what the URLS/parameter 
 are for the stuff that you are interested in&quot;. It is actually fairly easy to
@@ -352,19 +577,19 @@ Python logging module that allows you to add color to your logs.</p>
 
 <p>Start by installing the <em>colorlog</em> module with <em>pip</em> (or easy_install):</p>
 
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">pip</span> <span class="n">install</span> <span class="n">colorlog</span></code></pre></div>
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">pip</span> <span class="n">install</span> <span class="n">colorlog</span></code></pre></figure>
 
 <p>Then you can use <em>colorlog</em> the way you would use <em>logging</em>:</p>
 
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">colorlog</span>
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">colorlog</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 
 <span class="n">colorlog</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
-<span class="n">colorlog</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;debug&quot;</span><span class="p">)</span>
-<span class="n">colorlog</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;info&quot;</span><span class="p">)</span>
-<span class="n">colorlog</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s">&quot;warning&quot;</span><span class="p">)</span>
-<span class="n">colorlog</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;error&quot;</span><span class="p">)</span>
-<span class="n">colorlog</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span><span class="s">&quot;critical&quot;</span><span class="p">)</span></code></pre></div>
+<span class="n">colorlog</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">"debug"</span><span class="p">)</span>
+<span class="n">colorlog</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">"info"</span><span class="p">)</span>
+<span class="n">colorlog</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s">"warning"</span><span class="p">)</span>
+<span class="n">colorlog</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">"error"</span><span class="p">)</span>
+<span class="n">colorlog</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span><span class="s">"critical"</span><span class="p">)</span></code></pre></figure>
 
 <p>And your log become much easier to read:</p>
 
@@ -401,7 +626,7 @@ Since the key is as long as the message, the message appear as random as the key
 
 <p>We can easily create a key using the <code>/dev/random</code> file. For instance to generate a key file named <code>key</code> of <code>100Mb</code> you could run:</p>
 
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">dd <span class="k">if</span><span class="o">=</span>/dev/random <span class="nv">of</span><span class="o">=</span>./key <span class="nv">bs</span><span class="o">=</span><span class="m">1048576</span> <span class="nv">count</span><span class="o">=</span>100</code></pre></div>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">dd <span class="k">if</span><span class="o">=</span>/dev/random <span class="nv">of</span><span class="o">=</span>./key <span class="nv">bs</span><span class="o">=</span>1048576 <span class="nv">count</span><span class="o">=</span>100</code></pre></figure>
 
 <p>In the next part I assume that you have this key on two different hosts.</p>
 
@@ -424,23 +649,23 @@ It allows the client to operate with the service by:
 - Encrypting the traffic from the service and forwarding it to the client
 - Decrypting the traffic coming from the client and forwarding it to the service</p>
 
-<div class="highlight"><pre><code class="language-coffee" data-lang="coffee"><span class="nv">net = </span><span class="nx">require</span><span class="p">(</span><span class="s">&quot;net&quot;</span><span class="p">)</span>
-<span class="nv">otp = </span><span class="nx">require</span><span class="p">(</span><span class="s">&quot;./otp&quot;</span><span class="p">)</span>
-<span class="nv">argv = </span><span class="nx">require</span><span class="p">(</span><span class="s">&#39;minimist&#39;</span><span class="p">)(</span><span class="nx">process</span><span class="p">.</span><span class="nx">argv</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<figure class="highlight"><pre><code class="language-coffee" data-lang="coffee"><span class="nx">net</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s">"net"</span><span class="p">)</span>
+<span class="nx">otp</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s">"./otp"</span><span class="p">)</span>
+<span class="nx">argv</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s">'minimist'</span><span class="p">)(</span><span class="nx">process</span><span class="p">.</span><span class="na">argv</span><span class="p">.</span><span class="na">slice</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
 
-<span class="nv">expectedArgs = </span><span class="p">[</span><span class="s">&quot;localPort&quot;</span><span class="p">,</span> <span class="s">&quot;servicePort&quot;</span><span class="p">,</span> <span class="s">&quot;serverOffset&quot;</span><span class="p">,</span> <span class="s">&quot;clientOffset&quot;</span><span class="p">]</span>
-<span class="nx">otp</span><span class="p">.</span><span class="nx">validateArgs</span><span class="p">(</span><span class="nx">argv</span><span class="p">,</span> <span class="nx">expectedArgs</span><span class="p">)</span>
+<span class="nx">expectedArgs</span> <span class="o">=</span> <span class="p">[</span><span class="s">"localPort"</span><span class="p">,</span> <span class="s">"servicePort"</span><span class="p">,</span> <span class="s">"serverOffset"</span><span class="p">,</span> <span class="s">"clientOffset"</span><span class="p">]</span>
+<span class="nx">otp</span><span class="p">.</span><span class="na">validateArgs</span><span class="p">(</span><span class="nx">argv</span><span class="p">,</span> <span class="nx">expectedArgs</span><span class="p">)</span>
 
-<span class="nv">servicePort = </span><span class="nb">Number</span><span class="p">(</span><span class="nx">argv</span><span class="p">.</span><span class="nx">servicePort</span><span class="p">)</span>
-<span class="nv">localPort = </span><span class="nb">Number</span><span class="p">(</span><span class="nx">argv</span><span class="p">.</span><span class="nx">localPort</span><span class="p">)</span>
-<span class="nv">serverOffset = </span><span class="nb">Number</span><span class="p">(</span><span class="nx">argv</span><span class="p">.</span><span class="nx">serverOffset</span><span class="p">)</span>
-<span class="nv">clientOffset = </span><span class="nb">Number</span><span class="p">(</span><span class="nx">argv</span><span class="p">.</span><span class="nx">clientOffset</span><span class="p">)</span>
+<span class="nx">servicePort</span> <span class="o">=</span> <span class="nb">Number</span><span class="p">(</span><span class="nx">argv</span><span class="p">.</span><span class="na">servicePort</span><span class="p">)</span>
+<span class="nx">localPort</span> <span class="o">=</span> <span class="nb">Number</span><span class="p">(</span><span class="nx">argv</span><span class="p">.</span><span class="na">localPort</span><span class="p">)</span>
+<span class="nx">serverOffset</span> <span class="o">=</span> <span class="nb">Number</span><span class="p">(</span><span class="nx">argv</span><span class="p">.</span><span class="na">serverOffset</span><span class="p">)</span>
+<span class="nx">clientOffset</span> <span class="o">=</span> <span class="nb">Number</span><span class="p">(</span><span class="nx">argv</span><span class="p">.</span><span class="na">clientOffset</span><span class="p">)</span>
 
-<span class="nx">net</span><span class="p">.</span><span class="nx">createServer</span><span class="p">(</span><span class="nf">(outBoundSocket) -&gt;</span>
-  <span class="nv">inBoundSocket = </span> <span class="nx">net</span><span class="p">.</span><span class="nx">createConnection</span><span class="p">(</span><span class="nx">servicePort</span><span class="p">,</span> <span class="s">&quot;localhost&quot;</span><span class="p">)</span>
-  <span class="nx">outBoundSocket</span><span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">otp</span><span class="p">.</span><span class="nx">encryptor</span><span class="p">(</span><span class="s">&quot;client&quot;</span><span class="p">,</span> <span class="nx">clientOffset</span><span class="p">)).</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">inBoundSocket</span><span class="p">)</span>
-  <span class="nx">inBoundSocket</span><span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">otp</span><span class="p">.</span><span class="nx">encryptor</span><span class="p">(</span><span class="s">&quot;server&quot;</span><span class="p">,</span><span class="nx">serverOffset</span><span class="p">)).</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">outBoundSocket</span><span class="p">)</span>
-<span class="p">).</span><span class="nx">listen</span> <span class="nb">Number</span><span class="p">(</span><span class="nx">localPort</span><span class="p">)</span></code></pre></div>
+<span class="nx">net</span><span class="p">.</span><span class="na">createServer</span><span class="p">((</span><span class="nx">outBoundSocket</span><span class="p">)</span> <span class="o">-&gt;</span>
+  <span class="nx">inBoundSocket</span> <span class="o">=</span>  <span class="nx">net</span><span class="p">.</span><span class="na">createConnection</span><span class="p">(</span><span class="nx">servicePort</span><span class="p">,</span> <span class="s">"localhost"</span><span class="p">)</span>
+  <span class="nx">outBoundSocket</span><span class="p">.</span><span class="na">pipe</span><span class="p">(</span><span class="nx">otp</span><span class="p">.</span><span class="na">encryptor</span><span class="p">(</span><span class="s">"client"</span><span class="p">,</span> <span class="nx">clientOffset</span><span class="p">)).</span><span class="na">pipe</span><span class="p">(</span><span class="nx">inBoundSocket</span><span class="p">)</span>
+  <span class="nx">inBoundSocket</span><span class="p">.</span><span class="na">pipe</span><span class="p">(</span><span class="nx">otp</span><span class="p">.</span><span class="na">encryptor</span><span class="p">(</span><span class="s">"server"</span><span class="p">,</span><span class="nx">serverOffset</span><span class="p">)).</span><span class="na">pipe</span><span class="p">(</span><span class="nx">outBoundSocket</span><span class="p">)</span>
+<span class="p">).</span><span class="na">listen</span> <span class="nb">Number</span><span class="p">(</span><span class="nx">localPort</span><span class="p">)</span></code></pre></figure>
 
 <p>The first part of the code is straightforward, we just parse the arguments and
 validate them.</p>
@@ -457,74 +682,74 @@ this server we:</p>
 
 <p>Very similar to the server code:</p>
 
-<div class="highlight"><pre><code class="language-coffee" data-lang="coffee"><span class="nv">net = </span><span class="nx">require</span><span class="p">(</span><span class="s">&quot;net&quot;</span><span class="p">)</span>
-<span class="nv">otp = </span><span class="nx">require</span><span class="p">(</span><span class="s">&quot;./otp&quot;</span><span class="p">)</span>
-<span class="nv">argv = </span><span class="nx">require</span><span class="p">(</span><span class="s">&#39;minimist&#39;</span><span class="p">)(</span><span class="nx">process</span><span class="p">.</span><span class="nx">argv</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<figure class="highlight"><pre><code class="language-coffee" data-lang="coffee"><span class="nx">net</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s">"net"</span><span class="p">)</span>
+<span class="nx">otp</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s">"./otp"</span><span class="p">)</span>
+<span class="nx">argv</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s">'minimist'</span><span class="p">)(</span><span class="nx">process</span><span class="p">.</span><span class="na">argv</span><span class="p">.</span><span class="na">slice</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
 
-<span class="nv">expectedArgs = </span><span class="p">[</span><span class="s">&quot;localPort&quot;</span><span class="p">,</span> <span class="s">&quot;serverPort&quot;</span><span class="p">,</span> <span class="s">&quot;clientOffset&quot;</span><span class="p">,</span> <span class="s">&quot;serverOffset&quot;</span><span class="p">,</span> <span class="s">&quot;host&quot;</span><span class="p">]</span>
-<span class="nx">otp</span><span class="p">.</span><span class="nx">validateArgs</span><span class="p">(</span><span class="nx">argv</span><span class="p">,</span> <span class="nx">expectedArgs</span><span class="p">)</span>
+<span class="nx">expectedArgs</span> <span class="o">=</span> <span class="p">[</span><span class="s">"localPort"</span><span class="p">,</span> <span class="s">"serverPort"</span><span class="p">,</span> <span class="s">"clientOffset"</span><span class="p">,</span> <span class="s">"serverOffset"</span><span class="p">,</span> <span class="s">"host"</span><span class="p">]</span>
+<span class="nx">otp</span><span class="p">.</span><span class="na">validateArgs</span><span class="p">(</span><span class="nx">argv</span><span class="p">,</span> <span class="nx">expectedArgs</span><span class="p">)</span>
 
-<span class="nv">serverPort = </span><span class="nb">Number</span><span class="p">(</span><span class="nx">argv</span><span class="p">.</span><span class="nx">serverPort</span><span class="p">)</span>
-<span class="nv">localPort = </span><span class="nb">Number</span><span class="p">(</span><span class="nx">argv</span><span class="p">.</span><span class="nx">localPort</span><span class="p">)</span>
-<span class="nv">host = </span><span class="nx">argv</span><span class="p">.</span><span class="nx">host</span>
-<span class="nv">serverOffset = </span><span class="nb">Number</span><span class="p">(</span><span class="nx">argv</span><span class="p">.</span><span class="nx">serverOffset</span><span class="p">)</span>
-<span class="nv">clientOffset = </span><span class="nb">Number</span><span class="p">(</span><span class="nx">argv</span><span class="p">.</span><span class="nx">clientOffset</span><span class="p">)</span>
+<span class="nx">serverPort</span> <span class="o">=</span> <span class="nb">Number</span><span class="p">(</span><span class="nx">argv</span><span class="p">.</span><span class="na">serverPort</span><span class="p">)</span>
+<span class="nx">localPort</span> <span class="o">=</span> <span class="nb">Number</span><span class="p">(</span><span class="nx">argv</span><span class="p">.</span><span class="na">localPort</span><span class="p">)</span>
+<span class="nx">host</span> <span class="o">=</span> <span class="nx">argv</span><span class="p">.</span><span class="na">host</span>
+<span class="nx">serverOffset</span> <span class="o">=</span> <span class="nb">Number</span><span class="p">(</span><span class="nx">argv</span><span class="p">.</span><span class="na">serverOffset</span><span class="p">)</span>
+<span class="nx">clientOffset</span> <span class="o">=</span> <span class="nb">Number</span><span class="p">(</span><span class="nx">argv</span><span class="p">.</span><span class="na">clientOffset</span><span class="p">)</span>
 
-<span class="nv">outBoundSocket = </span><span class="nx">net</span><span class="p">.</span><span class="nx">createConnection</span><span class="p">(</span><span class="nx">serverPort</span><span class="p">,</span> <span class="nx">host</span><span class="p">)</span>
-  <span class="nx">net</span><span class="p">.</span><span class="nx">createServer</span><span class="p">(</span><span class="nf">(inBoundSocket) -&gt;</span>
-  <span class="nx">outBoundSocket</span><span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">otp</span><span class="p">.</span><span class="nx">encryptor</span><span class="p">(</span><span class="s">&quot;server&quot;</span><span class="p">,</span><span class="nx">serverOffset</span><span class="p">)).</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">inBoundSocket</span><span class="p">)</span>
-  <span class="nx">inBoundSocket</span><span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">otp</span><span class="p">.</span><span class="nx">encryptor</span><span class="p">(</span><span class="s">&quot;client&quot;</span><span class="p">,</span><span class="nx">clientOffset</span><span class="p">)).</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">outBoundSocket</span><span class="p">)</span>
-<span class="p">).</span><span class="nx">listen</span><span class="p">(</span><span class="nx">localPort</span><span class="p">)</span></code></pre></div>
+<span class="nx">outBoundSocket</span> <span class="o">=</span> <span class="nx">net</span><span class="p">.</span><span class="na">createConnection</span><span class="p">(</span><span class="nx">serverPort</span><span class="p">,</span> <span class="nx">host</span><span class="p">)</span>
+  <span class="nx">net</span><span class="p">.</span><span class="na">createServer</span><span class="p">((</span><span class="nx">inBoundSocket</span><span class="p">)</span> <span class="o">-&gt;</span>
+  <span class="nx">outBoundSocket</span><span class="p">.</span><span class="na">pipe</span><span class="p">(</span><span class="nx">otp</span><span class="p">.</span><span class="na">encryptor</span><span class="p">(</span><span class="s">"server"</span><span class="p">,</span><span class="nx">serverOffset</span><span class="p">)).</span><span class="na">pipe</span><span class="p">(</span><span class="nx">inBoundSocket</span><span class="p">)</span>
+  <span class="nx">inBoundSocket</span><span class="p">.</span><span class="na">pipe</span><span class="p">(</span><span class="nx">otp</span><span class="p">.</span><span class="na">encryptor</span><span class="p">(</span><span class="s">"client"</span><span class="p">,</span><span class="nx">clientOffset</span><span class="p">)).</span><span class="na">pipe</span><span class="p">(</span><span class="nx">outBoundSocket</span><span class="p">)</span>
+<span class="p">).</span><span class="na">listen</span><span class="p">(</span><span class="nx">localPort</span><span class="p">)</span></code></pre></figure>
 
 <h3>Library code</h3>
 
 <p>This is where the encryption is done, again, pretty straightforward:</p>
 
-<div class="highlight"><pre><code class="language-coffee" data-lang="coffee"><span class="nv">through = </span><span class="nx">require</span><span class="p">(</span><span class="s">&#39;through&#39;</span><span class="p">)</span>
-<span class="nv">_ = </span><span class="nx">require</span><span class="p">(</span><span class="s">&quot;underscore&quot;</span><span class="p">)</span>
-<span class="nv">fs = </span><span class="nx">require</span><span class="p">(</span><span class="s">&quot;fs&quot;</span><span class="p">)</span>
+<figure class="highlight"><pre><code class="language-coffee" data-lang="coffee"><span class="nx">through</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s">'through'</span><span class="p">)</span>
+<span class="nx">_</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s">"underscore"</span><span class="p">)</span>
+<span class="nx">fs</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s">"fs"</span><span class="p">)</span>
 
-<span class="c1"># Keeping track of usage of key per entity</span>
-<span class="nv">root = </span><span class="nx">exports</span> <span class="o">?</span> <span class="k">this</span>
-<span class="nv">root.offsets = </span><span class="p">{}</span>
+<span class="c1"># Keeping track of usage of key per entity
+</span><span class="nx">root</span> <span class="o">=</span> <span class="nx">exports</span> <span class="o">?</span> <span class="k">this</span>
+<span class="nx">root</span><span class="p">.</span><span class="na">offsets</span> <span class="o">=</span> <span class="p">{}</span>
 
-<span class="c1"># Load the key in memory</span>
-<span class="nv">key = </span><span class="nx">fs</span><span class="p">.</span><span class="nx">readFileSync</span><span class="p">(</span><span class="s">&quot;key&quot;</span><span class="p">)</span>
+<span class="c1"># Load the key in memory
+</span><span class="nx">key</span> <span class="o">=</span> <span class="nx">fs</span><span class="p">.</span><span class="na">readFileSync</span><span class="p">(</span><span class="s">"key"</span><span class="p">)</span>
 
-<span class="c1"># Show usage notice</span>
-<span class="nv">usage = </span><span class="nf">(expected) -&gt;</span>
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="s">&quot;Missing argument expecting </span><span class="si">#{</span><span class="nx">expected</span><span class="si">}</span><span class="s">&quot;</span>
-  <span class="nx">process</span><span class="p">.</span><span class="nx">exit</span> <span class="mi">1</span>
+<span class="c1"># Show usage notice
+</span><span class="nx">usage</span> <span class="o">=</span> <span class="p">(</span><span class="nx">expected</span><span class="p">)</span> <span class="o">-&gt;</span>
+  <span class="nx">console</span><span class="p">.</span><span class="na">log</span> <span class="s">"Missing argument expecting </span><span class="si">#{</span><span class="nx">expected</span><span class="si">}</span><span class="s">"</span>
+  <span class="nx">process</span><span class="p">.</span><span class="na">exit</span> <span class="mi">1</span>
 
-<span class="c1"># Compute XOR of two buffers</span>
-<span class="nv">xor = </span><span class="nf">(v1,v2) -&gt;</span>
-  <span class="k">new</span> <span class="nx">Buffer</span><span class="p">(</span><span class="nx">_</span><span class="p">(</span><span class="nx">v1</span><span class="p">).</span><span class="nx">map</span><span class="p">(</span><span class="nf">(e,i) -&gt;</span>
+<span class="c1"># Compute XOR of two buffers
+</span><span class="nx">xor</span> <span class="o">=</span> <span class="p">(</span><span class="nx">v1</span><span class="p">,</span><span class="nx">v2</span><span class="p">)</span> <span class="o">-&gt;</span>
+  <span class="k">new</span> <span class="nx">Buffer</span><span class="p">(</span><span class="nx">_</span><span class="p">(</span><span class="nx">v1</span><span class="p">).</span><span class="na">map</span><span class="p">((</span><span class="nx">e</span><span class="p">,</span><span class="nx">i</span><span class="p">)</span> <span class="o">-&gt;</span>
   <span class="nx">v2</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">^</span> <span class="nx">e</span>
 <span class="p">))</span>
 
-<span class="c1"># Encryptor Through Stream, identifier is for accounting purposes of the offset</span>
-<span class="nv">exports.encryptor = </span><span class="nf">(identifier,offset) -&gt;</span>
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="s">&quot;Init encryptor with offset </span><span class="si">#{</span><span class="nx">offset</span><span class="si">}</span><span class="s">&quot;</span>
-  <span class="nv">_offset = </span><span class="nx">offset</span>
-  <span class="nx">through</span><span class="p">(</span><span class="nf">(data) -&gt;</span>
-    <span class="nv">end_offset = </span><span class="nx">_offset</span> <span class="o">+</span> <span class="nx">data</span><span class="p">.</span><span class="nx">length</span>
-    <span class="nx">@queue</span><span class="p">(</span><span class="nx">xor</span><span class="p">(</span><span class="nx">data</span><span class="p">,</span><span class="nx">key</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="nx">_offset</span><span class="p">,</span><span class="nx">end_offset</span><span class="p">)))</span>
-    <span class="nx">_offset</span> <span class="o">+=</span> <span class="nx">data</span><span class="p">.</span><span class="nx">length</span>
-    <span class="nx">root</span><span class="p">.</span><span class="nx">offsets</span><span class="p">[</span><span class="nx">identifier</span><span class="p">]</span> <span class="o">=</span> <span class="nx">_offset</span>
-    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="nx">root</span><span class="p">.</span><span class="nx">offsets</span>
+<span class="c1"># Encryptor Through Stream, identifier is for accounting purposes of the offset
+</span><span class="nx">exports</span><span class="p">.</span><span class="na">encryptor</span> <span class="o">=</span> <span class="p">(</span><span class="nx">identifier</span><span class="p">,</span><span class="nx">offset</span><span class="p">)</span> <span class="o">-&gt;</span>
+  <span class="nx">console</span><span class="p">.</span><span class="na">log</span> <span class="s">"Init encryptor with offset </span><span class="si">#{</span><span class="nx">offset</span><span class="si">}</span><span class="s">"</span>
+  <span class="nx">_offset</span> <span class="o">=</span> <span class="nx">offset</span>
+  <span class="nx">through</span><span class="p">((</span><span class="nx">data</span><span class="p">)</span> <span class="o">-&gt;</span>
+    <span class="nx">end_offset</span> <span class="o">=</span> <span class="nx">_offset</span> <span class="o">+</span> <span class="nx">data</span><span class="p">.</span><span class="na">length</span>
+    <span class="vi">@</span><span class="na">queue</span><span class="p">(</span><span class="nx">xor</span><span class="p">(</span><span class="nx">data</span><span class="p">,</span><span class="nx">key</span><span class="p">.</span><span class="na">slice</span><span class="p">(</span><span class="nx">_offset</span><span class="p">,</span><span class="nx">end_offset</span><span class="p">)))</span>
+    <span class="nx">_offset</span> <span class="o">+=</span> <span class="nx">data</span><span class="p">.</span><span class="na">length</span>
+    <span class="nx">root</span><span class="p">.</span><span class="na">offsets</span><span class="p">[</span><span class="nx">identifier</span><span class="p">]</span> <span class="o">=</span> <span class="nx">_offset</span>
+    <span class="nx">console</span><span class="p">.</span><span class="na">log</span> <span class="nx">root</span><span class="p">.</span><span class="na">offsets</span>
 <span class="p">)</span>
 
-<span class="c1"># Validate arguments, actual = object from minimist, expected = array</span>
-<span class="nv">exports.validateArgs = </span><span class="nf">(actual,expected) -&gt;</span>
-  <span class="nv">actualKeys = </span><span class="nx">_</span><span class="p">.</span><span class="nx">keys</span><span class="p">(</span><span class="nx">actual</span><span class="p">)</span>
-  <span class="nx">_</span><span class="p">.</span><span class="nx">each</span> <span class="nx">expected</span><span class="p">,</span> <span class="nf">(k) -&gt;</span>
-    <span class="nx">do</span> <span class="nx">usage</span><span class="p">(</span><span class="nx">expected</span><span class="p">)</span> <span class="k">if</span> <span class="nx">actualKeys</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="nx">k</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span>
+<span class="c1"># Validate arguments, actual = object from minimist, expected = array
+</span><span class="nx">exports</span><span class="p">.</span><span class="na">validateArgs</span> <span class="o">=</span> <span class="p">(</span><span class="nx">actual</span><span class="p">,</span><span class="nx">expected</span><span class="p">)</span> <span class="o">-&gt;</span>
+  <span class="nx">actualKeys</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="na">keys</span><span class="p">(</span><span class="nx">actual</span><span class="p">)</span>
+  <span class="nx">_</span><span class="p">.</span><span class="na">each</span> <span class="nx">expected</span><span class="p">,</span> <span class="p">(</span><span class="nx">k</span><span class="p">)</span> <span class="o">-&gt;</span>
+    <span class="nx">do</span> <span class="nx">usage</span><span class="p">(</span><span class="nx">expected</span><span class="p">)</span> <span class="k">if</span> <span class="nx">actualKeys</span><span class="p">.</span><span class="na">indexOf</span><span class="p">(</span><span class="nx">k</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span>
 
-<span class="c1"># Show offset on CTRL-C to keep track of where we stopped</span>
-<span class="nx">process</span><span class="p">.</span><span class="nx">on</span> <span class="s">&#39;SIGINT&#39;</span><span class="p">,</span> <span class="nf">() -&gt;</span>
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="s">&quot;Logging offsets&quot;</span>
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="nx">root</span><span class="p">.</span><span class="nx">offsets</span>
-  <span class="nx">process</span><span class="p">.</span><span class="nx">exit</span> <span class="mi">0</span></code></pre></div>
+<span class="c1"># Show offset on CTRL-C to keep track of where we stopped
+</span><span class="nx">process</span><span class="p">.</span><span class="na">on</span> <span class="s">'SIGINT'</span><span class="p">,</span> <span class="p">()</span> <span class="o">-&gt;</span>
+  <span class="nx">console</span><span class="p">.</span><span class="na">log</span> <span class="s">"Logging offsets"</span>
+  <span class="nx">console</span><span class="p">.</span><span class="na">log</span> <span class="nx">root</span><span class="p">.</span><span class="na">offsets</span>
+  <span class="nx">process</span><span class="p">.</span><span class="na">exit</span> <span class="mi">0</span></code></pre></figure>
 
 <h2>Encrypt ssh traffic</h2>
 
@@ -534,17 +759,17 @@ the server and the first 50Mb for the client.</p>
 
 <p>On HostB we start the encryption server:</p>
 
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">coffee receiver.coffee --localPort<span class="o">=</span><span class="m">8000</span> --servicePort<span class="o">=</span><span class="m">22</span> --serverOffset<span class="o">=</span><span class="m">52428800</span> --clientOffset<span class="o">=</span>0</code></pre></div>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">coffee receiver.coffee --localPort<span class="o">=</span>8000 --servicePort<span class="o">=</span>22 --serverOffset<span class="o">=</span>52428800 --clientOffset<span class="o">=</span>0</code></pre></figure>
 
 <p>localPort,serverPort,clientOffset,serverOffset,host</p>
 
 <p>On HostA we start the encryption client:</p>
 
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">coffee sender.coffee --localPort<span class="o">=</span><span class="m">9000</span> --serverPort<span class="o">=</span><span class="m">8000</span> --host<span class="o">=</span>HostB --serverOffset<span class="o">=</span><span class="m">52428800</span> --clientOffset<span class="o">=</span>0</code></pre></div>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">coffee sender.coffee --localPort<span class="o">=</span>9000 --serverPort<span class="o">=</span>8000 --host<span class="o">=</span>HostB --serverOffset<span class="o">=</span>52428800 --clientOffset<span class="o">=</span>0</code></pre></figure>
 
 <p>Then we can connect to HostB through the encryption tunnel with this command on HostA:</p>
 
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">ssh localhost -p 9000</code></pre></div>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">ssh localhost -p 9000</code></pre></figure>
 
 <p>I also tried it with SCP and even an HTTP proxy and it worked fine!
 Let me know what you think of it!</p>

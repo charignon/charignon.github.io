@@ -119,7 +119,7 @@ Since the key is as long as the message, the message appear as random as the key
 
 <p>We can easily create a key using the <code>/dev/random</code> file. For instance to generate a key file named <code>key</code> of <code>100Mb</code> you could run:</p>
 
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">dd <span class="k">if</span><span class="o">=</span>/dev/random <span class="nv">of</span><span class="o">=</span>./key <span class="nv">bs</span><span class="o">=</span><span class="m">1048576</span> <span class="nv">count</span><span class="o">=</span>100</code></pre></div>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">dd <span class="k">if</span><span class="o">=</span>/dev/random <span class="nv">of</span><span class="o">=</span>./key <span class="nv">bs</span><span class="o">=</span>1048576 <span class="nv">count</span><span class="o">=</span>100</code></pre></figure>
 
 <p>In the next part I assume that you have this key on two different hosts.</p>
 
@@ -142,23 +142,23 @@ It allows the client to operate with the service by:
 - Encrypting the traffic from the service and forwarding it to the client
 - Decrypting the traffic coming from the client and forwarding it to the service</p>
 
-<div class="highlight"><pre><code class="language-coffee" data-lang="coffee"><span class="nv">net = </span><span class="nx">require</span><span class="p">(</span><span class="s">&quot;net&quot;</span><span class="p">)</span>
-<span class="nv">otp = </span><span class="nx">require</span><span class="p">(</span><span class="s">&quot;./otp&quot;</span><span class="p">)</span>
-<span class="nv">argv = </span><span class="nx">require</span><span class="p">(</span><span class="s">&#39;minimist&#39;</span><span class="p">)(</span><span class="nx">process</span><span class="p">.</span><span class="nx">argv</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<figure class="highlight"><pre><code class="language-coffee" data-lang="coffee"><span class="nx">net</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s">"net"</span><span class="p">)</span>
+<span class="nx">otp</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s">"./otp"</span><span class="p">)</span>
+<span class="nx">argv</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s">'minimist'</span><span class="p">)(</span><span class="nx">process</span><span class="p">.</span><span class="na">argv</span><span class="p">.</span><span class="na">slice</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
 
-<span class="nv">expectedArgs = </span><span class="p">[</span><span class="s">&quot;localPort&quot;</span><span class="p">,</span> <span class="s">&quot;servicePort&quot;</span><span class="p">,</span> <span class="s">&quot;serverOffset&quot;</span><span class="p">,</span> <span class="s">&quot;clientOffset&quot;</span><span class="p">]</span>
-<span class="nx">otp</span><span class="p">.</span><span class="nx">validateArgs</span><span class="p">(</span><span class="nx">argv</span><span class="p">,</span> <span class="nx">expectedArgs</span><span class="p">)</span>
+<span class="nx">expectedArgs</span> <span class="o">=</span> <span class="p">[</span><span class="s">"localPort"</span><span class="p">,</span> <span class="s">"servicePort"</span><span class="p">,</span> <span class="s">"serverOffset"</span><span class="p">,</span> <span class="s">"clientOffset"</span><span class="p">]</span>
+<span class="nx">otp</span><span class="p">.</span><span class="na">validateArgs</span><span class="p">(</span><span class="nx">argv</span><span class="p">,</span> <span class="nx">expectedArgs</span><span class="p">)</span>
 
-<span class="nv">servicePort = </span><span class="nb">Number</span><span class="p">(</span><span class="nx">argv</span><span class="p">.</span><span class="nx">servicePort</span><span class="p">)</span>
-<span class="nv">localPort = </span><span class="nb">Number</span><span class="p">(</span><span class="nx">argv</span><span class="p">.</span><span class="nx">localPort</span><span class="p">)</span>
-<span class="nv">serverOffset = </span><span class="nb">Number</span><span class="p">(</span><span class="nx">argv</span><span class="p">.</span><span class="nx">serverOffset</span><span class="p">)</span>
-<span class="nv">clientOffset = </span><span class="nb">Number</span><span class="p">(</span><span class="nx">argv</span><span class="p">.</span><span class="nx">clientOffset</span><span class="p">)</span>
+<span class="nx">servicePort</span> <span class="o">=</span> <span class="nb">Number</span><span class="p">(</span><span class="nx">argv</span><span class="p">.</span><span class="na">servicePort</span><span class="p">)</span>
+<span class="nx">localPort</span> <span class="o">=</span> <span class="nb">Number</span><span class="p">(</span><span class="nx">argv</span><span class="p">.</span><span class="na">localPort</span><span class="p">)</span>
+<span class="nx">serverOffset</span> <span class="o">=</span> <span class="nb">Number</span><span class="p">(</span><span class="nx">argv</span><span class="p">.</span><span class="na">serverOffset</span><span class="p">)</span>
+<span class="nx">clientOffset</span> <span class="o">=</span> <span class="nb">Number</span><span class="p">(</span><span class="nx">argv</span><span class="p">.</span><span class="na">clientOffset</span><span class="p">)</span>
 
-<span class="nx">net</span><span class="p">.</span><span class="nx">createServer</span><span class="p">(</span><span class="nf">(outBoundSocket) -&gt;</span>
-  <span class="nv">inBoundSocket = </span> <span class="nx">net</span><span class="p">.</span><span class="nx">createConnection</span><span class="p">(</span><span class="nx">servicePort</span><span class="p">,</span> <span class="s">&quot;localhost&quot;</span><span class="p">)</span>
-  <span class="nx">outBoundSocket</span><span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">otp</span><span class="p">.</span><span class="nx">encryptor</span><span class="p">(</span><span class="s">&quot;client&quot;</span><span class="p">,</span> <span class="nx">clientOffset</span><span class="p">)).</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">inBoundSocket</span><span class="p">)</span>
-  <span class="nx">inBoundSocket</span><span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">otp</span><span class="p">.</span><span class="nx">encryptor</span><span class="p">(</span><span class="s">&quot;server&quot;</span><span class="p">,</span><span class="nx">serverOffset</span><span class="p">)).</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">outBoundSocket</span><span class="p">)</span>
-<span class="p">).</span><span class="nx">listen</span> <span class="nb">Number</span><span class="p">(</span><span class="nx">localPort</span><span class="p">)</span></code></pre></div>
+<span class="nx">net</span><span class="p">.</span><span class="na">createServer</span><span class="p">((</span><span class="nx">outBoundSocket</span><span class="p">)</span> <span class="o">-&gt;</span>
+  <span class="nx">inBoundSocket</span> <span class="o">=</span>  <span class="nx">net</span><span class="p">.</span><span class="na">createConnection</span><span class="p">(</span><span class="nx">servicePort</span><span class="p">,</span> <span class="s">"localhost"</span><span class="p">)</span>
+  <span class="nx">outBoundSocket</span><span class="p">.</span><span class="na">pipe</span><span class="p">(</span><span class="nx">otp</span><span class="p">.</span><span class="na">encryptor</span><span class="p">(</span><span class="s">"client"</span><span class="p">,</span> <span class="nx">clientOffset</span><span class="p">)).</span><span class="na">pipe</span><span class="p">(</span><span class="nx">inBoundSocket</span><span class="p">)</span>
+  <span class="nx">inBoundSocket</span><span class="p">.</span><span class="na">pipe</span><span class="p">(</span><span class="nx">otp</span><span class="p">.</span><span class="na">encryptor</span><span class="p">(</span><span class="s">"server"</span><span class="p">,</span><span class="nx">serverOffset</span><span class="p">)).</span><span class="na">pipe</span><span class="p">(</span><span class="nx">outBoundSocket</span><span class="p">)</span>
+<span class="p">).</span><span class="na">listen</span> <span class="nb">Number</span><span class="p">(</span><span class="nx">localPort</span><span class="p">)</span></code></pre></figure>
 
 <p>The first part of the code is straightforward, we just parse the arguments and
 validate them.</p>
@@ -175,74 +175,74 @@ this server we:</p>
 
 <p>Very similar to the server code:</p>
 
-<div class="highlight"><pre><code class="language-coffee" data-lang="coffee"><span class="nv">net = </span><span class="nx">require</span><span class="p">(</span><span class="s">&quot;net&quot;</span><span class="p">)</span>
-<span class="nv">otp = </span><span class="nx">require</span><span class="p">(</span><span class="s">&quot;./otp&quot;</span><span class="p">)</span>
-<span class="nv">argv = </span><span class="nx">require</span><span class="p">(</span><span class="s">&#39;minimist&#39;</span><span class="p">)(</span><span class="nx">process</span><span class="p">.</span><span class="nx">argv</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<figure class="highlight"><pre><code class="language-coffee" data-lang="coffee"><span class="nx">net</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s">"net"</span><span class="p">)</span>
+<span class="nx">otp</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s">"./otp"</span><span class="p">)</span>
+<span class="nx">argv</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s">'minimist'</span><span class="p">)(</span><span class="nx">process</span><span class="p">.</span><span class="na">argv</span><span class="p">.</span><span class="na">slice</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
 
-<span class="nv">expectedArgs = </span><span class="p">[</span><span class="s">&quot;localPort&quot;</span><span class="p">,</span> <span class="s">&quot;serverPort&quot;</span><span class="p">,</span> <span class="s">&quot;clientOffset&quot;</span><span class="p">,</span> <span class="s">&quot;serverOffset&quot;</span><span class="p">,</span> <span class="s">&quot;host&quot;</span><span class="p">]</span>
-<span class="nx">otp</span><span class="p">.</span><span class="nx">validateArgs</span><span class="p">(</span><span class="nx">argv</span><span class="p">,</span> <span class="nx">expectedArgs</span><span class="p">)</span>
+<span class="nx">expectedArgs</span> <span class="o">=</span> <span class="p">[</span><span class="s">"localPort"</span><span class="p">,</span> <span class="s">"serverPort"</span><span class="p">,</span> <span class="s">"clientOffset"</span><span class="p">,</span> <span class="s">"serverOffset"</span><span class="p">,</span> <span class="s">"host"</span><span class="p">]</span>
+<span class="nx">otp</span><span class="p">.</span><span class="na">validateArgs</span><span class="p">(</span><span class="nx">argv</span><span class="p">,</span> <span class="nx">expectedArgs</span><span class="p">)</span>
 
-<span class="nv">serverPort = </span><span class="nb">Number</span><span class="p">(</span><span class="nx">argv</span><span class="p">.</span><span class="nx">serverPort</span><span class="p">)</span>
-<span class="nv">localPort = </span><span class="nb">Number</span><span class="p">(</span><span class="nx">argv</span><span class="p">.</span><span class="nx">localPort</span><span class="p">)</span>
-<span class="nv">host = </span><span class="nx">argv</span><span class="p">.</span><span class="nx">host</span>
-<span class="nv">serverOffset = </span><span class="nb">Number</span><span class="p">(</span><span class="nx">argv</span><span class="p">.</span><span class="nx">serverOffset</span><span class="p">)</span>
-<span class="nv">clientOffset = </span><span class="nb">Number</span><span class="p">(</span><span class="nx">argv</span><span class="p">.</span><span class="nx">clientOffset</span><span class="p">)</span>
+<span class="nx">serverPort</span> <span class="o">=</span> <span class="nb">Number</span><span class="p">(</span><span class="nx">argv</span><span class="p">.</span><span class="na">serverPort</span><span class="p">)</span>
+<span class="nx">localPort</span> <span class="o">=</span> <span class="nb">Number</span><span class="p">(</span><span class="nx">argv</span><span class="p">.</span><span class="na">localPort</span><span class="p">)</span>
+<span class="nx">host</span> <span class="o">=</span> <span class="nx">argv</span><span class="p">.</span><span class="na">host</span>
+<span class="nx">serverOffset</span> <span class="o">=</span> <span class="nb">Number</span><span class="p">(</span><span class="nx">argv</span><span class="p">.</span><span class="na">serverOffset</span><span class="p">)</span>
+<span class="nx">clientOffset</span> <span class="o">=</span> <span class="nb">Number</span><span class="p">(</span><span class="nx">argv</span><span class="p">.</span><span class="na">clientOffset</span><span class="p">)</span>
 
-<span class="nv">outBoundSocket = </span><span class="nx">net</span><span class="p">.</span><span class="nx">createConnection</span><span class="p">(</span><span class="nx">serverPort</span><span class="p">,</span> <span class="nx">host</span><span class="p">)</span>
-  <span class="nx">net</span><span class="p">.</span><span class="nx">createServer</span><span class="p">(</span><span class="nf">(inBoundSocket) -&gt;</span>
-  <span class="nx">outBoundSocket</span><span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">otp</span><span class="p">.</span><span class="nx">encryptor</span><span class="p">(</span><span class="s">&quot;server&quot;</span><span class="p">,</span><span class="nx">serverOffset</span><span class="p">)).</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">inBoundSocket</span><span class="p">)</span>
-  <span class="nx">inBoundSocket</span><span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">otp</span><span class="p">.</span><span class="nx">encryptor</span><span class="p">(</span><span class="s">&quot;client&quot;</span><span class="p">,</span><span class="nx">clientOffset</span><span class="p">)).</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">outBoundSocket</span><span class="p">)</span>
-<span class="p">).</span><span class="nx">listen</span><span class="p">(</span><span class="nx">localPort</span><span class="p">)</span></code></pre></div>
+<span class="nx">outBoundSocket</span> <span class="o">=</span> <span class="nx">net</span><span class="p">.</span><span class="na">createConnection</span><span class="p">(</span><span class="nx">serverPort</span><span class="p">,</span> <span class="nx">host</span><span class="p">)</span>
+  <span class="nx">net</span><span class="p">.</span><span class="na">createServer</span><span class="p">((</span><span class="nx">inBoundSocket</span><span class="p">)</span> <span class="o">-&gt;</span>
+  <span class="nx">outBoundSocket</span><span class="p">.</span><span class="na">pipe</span><span class="p">(</span><span class="nx">otp</span><span class="p">.</span><span class="na">encryptor</span><span class="p">(</span><span class="s">"server"</span><span class="p">,</span><span class="nx">serverOffset</span><span class="p">)).</span><span class="na">pipe</span><span class="p">(</span><span class="nx">inBoundSocket</span><span class="p">)</span>
+  <span class="nx">inBoundSocket</span><span class="p">.</span><span class="na">pipe</span><span class="p">(</span><span class="nx">otp</span><span class="p">.</span><span class="na">encryptor</span><span class="p">(</span><span class="s">"client"</span><span class="p">,</span><span class="nx">clientOffset</span><span class="p">)).</span><span class="na">pipe</span><span class="p">(</span><span class="nx">outBoundSocket</span><span class="p">)</span>
+<span class="p">).</span><span class="na">listen</span><span class="p">(</span><span class="nx">localPort</span><span class="p">)</span></code></pre></figure>
 
 <h3>Library code</h3>
 
 <p>This is where the encryption is done, again, pretty straightforward:</p>
 
-<div class="highlight"><pre><code class="language-coffee" data-lang="coffee"><span class="nv">through = </span><span class="nx">require</span><span class="p">(</span><span class="s">&#39;through&#39;</span><span class="p">)</span>
-<span class="nv">_ = </span><span class="nx">require</span><span class="p">(</span><span class="s">&quot;underscore&quot;</span><span class="p">)</span>
-<span class="nv">fs = </span><span class="nx">require</span><span class="p">(</span><span class="s">&quot;fs&quot;</span><span class="p">)</span>
+<figure class="highlight"><pre><code class="language-coffee" data-lang="coffee"><span class="nx">through</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s">'through'</span><span class="p">)</span>
+<span class="nx">_</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s">"underscore"</span><span class="p">)</span>
+<span class="nx">fs</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s">"fs"</span><span class="p">)</span>
 
-<span class="c1"># Keeping track of usage of key per entity</span>
-<span class="nv">root = </span><span class="nx">exports</span> <span class="o">?</span> <span class="k">this</span>
-<span class="nv">root.offsets = </span><span class="p">{}</span>
+<span class="c1"># Keeping track of usage of key per entity
+</span><span class="nx">root</span> <span class="o">=</span> <span class="nx">exports</span> <span class="o">?</span> <span class="k">this</span>
+<span class="nx">root</span><span class="p">.</span><span class="na">offsets</span> <span class="o">=</span> <span class="p">{}</span>
 
-<span class="c1"># Load the key in memory</span>
-<span class="nv">key = </span><span class="nx">fs</span><span class="p">.</span><span class="nx">readFileSync</span><span class="p">(</span><span class="s">&quot;key&quot;</span><span class="p">)</span>
+<span class="c1"># Load the key in memory
+</span><span class="nx">key</span> <span class="o">=</span> <span class="nx">fs</span><span class="p">.</span><span class="na">readFileSync</span><span class="p">(</span><span class="s">"key"</span><span class="p">)</span>
 
-<span class="c1"># Show usage notice</span>
-<span class="nv">usage = </span><span class="nf">(expected) -&gt;</span>
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="s">&quot;Missing argument expecting </span><span class="si">#{</span><span class="nx">expected</span><span class="si">}</span><span class="s">&quot;</span>
-  <span class="nx">process</span><span class="p">.</span><span class="nx">exit</span> <span class="mi">1</span>
+<span class="c1"># Show usage notice
+</span><span class="nx">usage</span> <span class="o">=</span> <span class="p">(</span><span class="nx">expected</span><span class="p">)</span> <span class="o">-&gt;</span>
+  <span class="nx">console</span><span class="p">.</span><span class="na">log</span> <span class="s">"Missing argument expecting </span><span class="si">#{</span><span class="nx">expected</span><span class="si">}</span><span class="s">"</span>
+  <span class="nx">process</span><span class="p">.</span><span class="na">exit</span> <span class="mi">1</span>
 
-<span class="c1"># Compute XOR of two buffers</span>
-<span class="nv">xor = </span><span class="nf">(v1,v2) -&gt;</span>
-  <span class="k">new</span> <span class="nx">Buffer</span><span class="p">(</span><span class="nx">_</span><span class="p">(</span><span class="nx">v1</span><span class="p">).</span><span class="nx">map</span><span class="p">(</span><span class="nf">(e,i) -&gt;</span>
+<span class="c1"># Compute XOR of two buffers
+</span><span class="nx">xor</span> <span class="o">=</span> <span class="p">(</span><span class="nx">v1</span><span class="p">,</span><span class="nx">v2</span><span class="p">)</span> <span class="o">-&gt;</span>
+  <span class="k">new</span> <span class="nx">Buffer</span><span class="p">(</span><span class="nx">_</span><span class="p">(</span><span class="nx">v1</span><span class="p">).</span><span class="na">map</span><span class="p">((</span><span class="nx">e</span><span class="p">,</span><span class="nx">i</span><span class="p">)</span> <span class="o">-&gt;</span>
   <span class="nx">v2</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">^</span> <span class="nx">e</span>
 <span class="p">))</span>
 
-<span class="c1"># Encryptor Through Stream, identifier is for accounting purposes of the offset</span>
-<span class="nv">exports.encryptor = </span><span class="nf">(identifier,offset) -&gt;</span>
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="s">&quot;Init encryptor with offset </span><span class="si">#{</span><span class="nx">offset</span><span class="si">}</span><span class="s">&quot;</span>
-  <span class="nv">_offset = </span><span class="nx">offset</span>
-  <span class="nx">through</span><span class="p">(</span><span class="nf">(data) -&gt;</span>
-    <span class="nv">end_offset = </span><span class="nx">_offset</span> <span class="o">+</span> <span class="nx">data</span><span class="p">.</span><span class="nx">length</span>
-    <span class="nx">@queue</span><span class="p">(</span><span class="nx">xor</span><span class="p">(</span><span class="nx">data</span><span class="p">,</span><span class="nx">key</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="nx">_offset</span><span class="p">,</span><span class="nx">end_offset</span><span class="p">)))</span>
-    <span class="nx">_offset</span> <span class="o">+=</span> <span class="nx">data</span><span class="p">.</span><span class="nx">length</span>
-    <span class="nx">root</span><span class="p">.</span><span class="nx">offsets</span><span class="p">[</span><span class="nx">identifier</span><span class="p">]</span> <span class="o">=</span> <span class="nx">_offset</span>
-    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="nx">root</span><span class="p">.</span><span class="nx">offsets</span>
+<span class="c1"># Encryptor Through Stream, identifier is for accounting purposes of the offset
+</span><span class="nx">exports</span><span class="p">.</span><span class="na">encryptor</span> <span class="o">=</span> <span class="p">(</span><span class="nx">identifier</span><span class="p">,</span><span class="nx">offset</span><span class="p">)</span> <span class="o">-&gt;</span>
+  <span class="nx">console</span><span class="p">.</span><span class="na">log</span> <span class="s">"Init encryptor with offset </span><span class="si">#{</span><span class="nx">offset</span><span class="si">}</span><span class="s">"</span>
+  <span class="nx">_offset</span> <span class="o">=</span> <span class="nx">offset</span>
+  <span class="nx">through</span><span class="p">((</span><span class="nx">data</span><span class="p">)</span> <span class="o">-&gt;</span>
+    <span class="nx">end_offset</span> <span class="o">=</span> <span class="nx">_offset</span> <span class="o">+</span> <span class="nx">data</span><span class="p">.</span><span class="na">length</span>
+    <span class="vi">@</span><span class="na">queue</span><span class="p">(</span><span class="nx">xor</span><span class="p">(</span><span class="nx">data</span><span class="p">,</span><span class="nx">key</span><span class="p">.</span><span class="na">slice</span><span class="p">(</span><span class="nx">_offset</span><span class="p">,</span><span class="nx">end_offset</span><span class="p">)))</span>
+    <span class="nx">_offset</span> <span class="o">+=</span> <span class="nx">data</span><span class="p">.</span><span class="na">length</span>
+    <span class="nx">root</span><span class="p">.</span><span class="na">offsets</span><span class="p">[</span><span class="nx">identifier</span><span class="p">]</span> <span class="o">=</span> <span class="nx">_offset</span>
+    <span class="nx">console</span><span class="p">.</span><span class="na">log</span> <span class="nx">root</span><span class="p">.</span><span class="na">offsets</span>
 <span class="p">)</span>
 
-<span class="c1"># Validate arguments, actual = object from minimist, expected = array</span>
-<span class="nv">exports.validateArgs = </span><span class="nf">(actual,expected) -&gt;</span>
-  <span class="nv">actualKeys = </span><span class="nx">_</span><span class="p">.</span><span class="nx">keys</span><span class="p">(</span><span class="nx">actual</span><span class="p">)</span>
-  <span class="nx">_</span><span class="p">.</span><span class="nx">each</span> <span class="nx">expected</span><span class="p">,</span> <span class="nf">(k) -&gt;</span>
-    <span class="nx">do</span> <span class="nx">usage</span><span class="p">(</span><span class="nx">expected</span><span class="p">)</span> <span class="k">if</span> <span class="nx">actualKeys</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="nx">k</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span>
+<span class="c1"># Validate arguments, actual = object from minimist, expected = array
+</span><span class="nx">exports</span><span class="p">.</span><span class="na">validateArgs</span> <span class="o">=</span> <span class="p">(</span><span class="nx">actual</span><span class="p">,</span><span class="nx">expected</span><span class="p">)</span> <span class="o">-&gt;</span>
+  <span class="nx">actualKeys</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="na">keys</span><span class="p">(</span><span class="nx">actual</span><span class="p">)</span>
+  <span class="nx">_</span><span class="p">.</span><span class="na">each</span> <span class="nx">expected</span><span class="p">,</span> <span class="p">(</span><span class="nx">k</span><span class="p">)</span> <span class="o">-&gt;</span>
+    <span class="nx">do</span> <span class="nx">usage</span><span class="p">(</span><span class="nx">expected</span><span class="p">)</span> <span class="k">if</span> <span class="nx">actualKeys</span><span class="p">.</span><span class="na">indexOf</span><span class="p">(</span><span class="nx">k</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span>
 
-<span class="c1"># Show offset on CTRL-C to keep track of where we stopped</span>
-<span class="nx">process</span><span class="p">.</span><span class="nx">on</span> <span class="s">&#39;SIGINT&#39;</span><span class="p">,</span> <span class="nf">() -&gt;</span>
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="s">&quot;Logging offsets&quot;</span>
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="nx">root</span><span class="p">.</span><span class="nx">offsets</span>
-  <span class="nx">process</span><span class="p">.</span><span class="nx">exit</span> <span class="mi">0</span></code></pre></div>
+<span class="c1"># Show offset on CTRL-C to keep track of where we stopped
+</span><span class="nx">process</span><span class="p">.</span><span class="na">on</span> <span class="s">'SIGINT'</span><span class="p">,</span> <span class="p">()</span> <span class="o">-&gt;</span>
+  <span class="nx">console</span><span class="p">.</span><span class="na">log</span> <span class="s">"Logging offsets"</span>
+  <span class="nx">console</span><span class="p">.</span><span class="na">log</span> <span class="nx">root</span><span class="p">.</span><span class="na">offsets</span>
+  <span class="nx">process</span><span class="p">.</span><span class="na">exit</span> <span class="mi">0</span></code></pre></figure>
 
 <h2>Encrypt ssh traffic</h2>
 
@@ -252,17 +252,17 @@ the server and the first 50Mb for the client.</p>
 
 <p>On HostB we start the encryption server:</p>
 
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">coffee receiver.coffee --localPort<span class="o">=</span><span class="m">8000</span> --servicePort<span class="o">=</span><span class="m">22</span> --serverOffset<span class="o">=</span><span class="m">52428800</span> --clientOffset<span class="o">=</span>0</code></pre></div>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">coffee receiver.coffee --localPort<span class="o">=</span>8000 --servicePort<span class="o">=</span>22 --serverOffset<span class="o">=</span>52428800 --clientOffset<span class="o">=</span>0</code></pre></figure>
 
 <p>localPort,serverPort,clientOffset,serverOffset,host</p>
 
 <p>On HostA we start the encryption client:</p>
 
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">coffee sender.coffee --localPort<span class="o">=</span><span class="m">9000</span> --serverPort<span class="o">=</span><span class="m">8000</span> --host<span class="o">=</span>HostB --serverOffset<span class="o">=</span><span class="m">52428800</span> --clientOffset<span class="o">=</span>0</code></pre></div>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">coffee sender.coffee --localPort<span class="o">=</span>9000 --serverPort<span class="o">=</span>8000 --host<span class="o">=</span>HostB --serverOffset<span class="o">=</span>52428800 --clientOffset<span class="o">=</span>0</code></pre></figure>
 
 <p>Then we can connect to HostB through the encryption tunnel with this command on HostA:</p>
 
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">ssh localhost -p 9000</code></pre></div>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">ssh localhost -p 9000</code></pre></figure>
 
 <p>I also tried it with SCP and even an HTTP proxy and it worked fine!
 Let me know what you think of it!</p>
@@ -272,6 +272,15 @@ Let me know what you think of it!</p>
 <div class="related">
   <h2>Related Posts</h2>
   <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="//2016/02/02/changeset-evolution/">
+            Changeset Evolution
+            <small>02 Feb 2016</small>
+          </a>
+        </h3>
+      </li>
     
       <li>
         <h3>
@@ -287,15 +296,6 @@ Let me know what you think of it!</p>
           <a href="//2016/01/09/web-browsing-automation/">
             Introduction to Mechanize with Python
             <small>09 Jan 2016</small>
-          </a>
-        </h3>
-      </li>
-    
-      <li>
-        <h3>
-          <a href="//2015/08/10/add-colors-to-your-python-logs-with-colorlog/">
-            Add Colors To Your Python Logs With Colorlog
-            <small>10 Aug 2015</small>
           </a>
         </h3>
       </li>
