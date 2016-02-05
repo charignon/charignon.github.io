@@ -148,7 +148,7 @@ at FOSDEM 2013</a></p>
 <p>For the user, <strong>b&#39; is a newer version of b</strong>.
 Even though, the intent of amending is clear, <strong>no information about this intent is recorded in the source control system!</strong></p>
 
-<p>If the user wants to access, let&#39;s say a week from now, what <strong>b</strong> was before the amend, he or she will have to dig through the <strong>revlog</strong> to find the hash of <strong>b</strong>.</p>
+<p>If the user wants to access, let&#39;s say a week from now, what <strong>b</strong> was before the amend, he or she will have to dig through the <strong>reflog</strong> to find the hash of <strong>b</strong>.</p>
 
 <p>What if we could record that b&#39; is the successor of b?</p>
 
@@ -189,7 +189,7 @@ It is just some extra information that is recorded that can be used by commands 
 After running the amend, you can easily:</p>
 
 <ul>
-<li>Go back to the previous version (without using the reflog/revlog)</li>
+<li>Go back to the previous version (without using the reflog)</li>
 <li>Figure out what changes the amend introduced.</li>
 </ul>
 
@@ -228,7 +228,7 @@ to a repository. Let&#39;s assume that you are working on a feature and committe
 <p>And if you try to rebase your stack (b and c) on top of master, you will potentially have conflicts applying b because of the work of another developer.
 This could happen if this other developer changed the same files you changed in <strong>b</strong>.
 But in that case, you know that the person resolved the conflicts once already when applying their work on top of <strong>newb</strong>.
-<strong>The user should have to resolve conflicts in that case and obsolescence markers can help resolving this</strong>.
+<strong>The user should not have to do a merge and resolve conflicts in that case and obsolescence markers can help resolving this.</strong>
 What if on pull the server could tell you that <strong>newb</strong> is the new version of <em>b</em>:</p>
 
 <figure style="text-align:center">

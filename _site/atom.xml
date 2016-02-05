@@ -4,7 +4,7 @@
  <title>Laurent Charignon</title>
  <link href="http://charignon.github.io/atom.xml" rel="self"/>
  <link href="http://charignon.github.io/"/>
- <updated>2016-02-04T22:19:32-08:00</updated>
+ <updated>2016-02-04T22:41:12-08:00</updated>
  <id>http://charignon.github.io</id>
  <author>
    <name>Laurent Charignon</name>
@@ -58,7 +58,7 @@ at FOSDEM 2013&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;For the user, &lt;strong&gt;b&amp;#39; is a newer version of b&lt;/strong&gt;.
 Even though, the intent of amending is clear, &lt;strong&gt;no information about this intent is recorded in the source control system!&lt;/strong&gt;&lt;/p&gt;
 
-&lt;p&gt;If the user wants to access, let&amp;#39;s say a week from now, what &lt;strong&gt;b&lt;/strong&gt; was before the amend, he or she will have to dig through the &lt;strong&gt;revlog&lt;/strong&gt; to find the hash of &lt;strong&gt;b&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;If the user wants to access, let&amp;#39;s say a week from now, what &lt;strong&gt;b&lt;/strong&gt; was before the amend, he or she will have to dig through the &lt;strong&gt;reflog&lt;/strong&gt; to find the hash of &lt;strong&gt;b&lt;/strong&gt;.&lt;/p&gt;
 
 &lt;p&gt;What if we could record that b&amp;#39; is the successor of b?&lt;/p&gt;
 
@@ -99,7 +99,7 @@ It is just some extra information that is recorded that can be used by commands 
 After running the amend, you can easily:&lt;/p&gt;
 
 &lt;ul&gt;
-&lt;li&gt;Go back to the previous version (without using the reflog/revlog)&lt;/li&gt;
+&lt;li&gt;Go back to the previous version (without using the reflog)&lt;/li&gt;
 &lt;li&gt;Figure out what changes the amend introduced.&lt;/li&gt;
 &lt;/ul&gt;
 
@@ -138,7 +138,7 @@ to a repository. Let&amp;#39;s assume that you are working on a feature and comm
 &lt;p&gt;And if you try to rebase your stack (b and c) on top of master, you will potentially have conflicts applying b because of the work of another developer.
 This could happen if this other developer changed the same files you changed in &lt;strong&gt;b&lt;/strong&gt;.
 But in that case, you know that the person resolved the conflicts once already when applying their work on top of &lt;strong&gt;newb&lt;/strong&gt;.
-&lt;strong&gt;The user should have to resolve conflicts in that case and obsolescence markers can help resolving this&lt;/strong&gt;.
+&lt;strong&gt;The user should not have to do a merge and resolve conflicts in that case and obsolescence markers can help resolving this.&lt;/strong&gt;
 What if on pull the server could tell you that &lt;strong&gt;newb&lt;/strong&gt; is the new version of &lt;em&gt;b&lt;/em&gt;:&lt;/p&gt;
 
 &lt;figure style=&quot;text-align:center&quot;&gt;

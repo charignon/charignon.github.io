@@ -47,7 +47,7 @@ Under the cover, the amend command creates a new commit but the old revision is 
 For the user, **b' is a newer version of b**.
 Even though, the intent of amending is clear, **no information about this intent is recorded in the source control system!**
 
-If the user wants to access, let's say a week from now, what **b** was before the amend, he or she will have to dig through the **revlog** to find the hash of **b**.
+If the user wants to access, let's say a week from now, what **b** was before the amend, he or she will have to dig through the **reflog** to find the hash of **b**.
 
 What if we could record that b' is the successor of b?
 
@@ -88,7 +88,7 @@ Consider the situation discussed above:
 We can give the user some **commands to access precursors of revisions to compare them or manipulate them**.
 After running the amend, you can easily:
 
-- Go back to the previous version (without using the reflog/revlog)
+- Go back to the previous version (without using the reflog)
 - Figure out what changes the amend introduced.
 
 > **The reflog ([git](https://www.git-scm.com/docs/git-reflog) or [mercurial](https://bitbucket.org/facebook/hg-experimental))** is a command to list
@@ -124,7 +124,7 @@ If you pull one hour later (assuming other people are very productive :D) you wi
 And if you try to rebase your stack (b and c) on top of master, you will potentially have conflicts applying b because of the work of another developer.
 This could happen if this other developer changed the same files you changed in **b**.
 But in that case, you know that the person resolved the conflicts once already when applying their work on top of **newb**.
-**The user should have to resolve conflicts in that case and obsolescence markers can help resolving this**.
+**The user should not have to do a merge and resolve conflicts in that case and obsolescence markers can help resolving this.**
 What if on pull the server could tell you that **newb** is the new version of *b*:
 
 <figure style="text-align:center">
