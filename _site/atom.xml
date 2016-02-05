@@ -4,7 +4,7 @@
  <title>Laurent Charignon</title>
  <link href="http://charignon.github.io/atom.xml" rel="self"/>
  <link href="http://charignon.github.io/"/>
- <updated>2016-02-04T21:26:04-08:00</updated>
+ <updated>2016-02-04T22:19:32-08:00</updated>
  <id>http://charignon.github.io</id>
  <author>
    <name>Laurent Charignon</name>
@@ -41,7 +41,7 @@ at FOSDEM 2013&lt;/a&gt;&lt;/p&gt;
 &lt;figcaption&gt;Starting point&lt;/figcaption&gt;
 &lt;/figure&gt;
 
-&lt;p&gt;After making some changes, the user runs &lt;code&gt;hg commit --amend&lt;/code&gt; (like git &lt;code&gt;commit --amend&lt;/code&gt;) and decides to call the new commit &lt;strong&gt;b&amp;#39;&lt;/strong&gt;:&lt;/p&gt;
+&lt;p&gt;After making some changes, the user runs &lt;code&gt;hg commit --amend&lt;/code&gt; (like &lt;code&gt;git commit --amend&lt;/code&gt;) and decides to call the new commit &lt;strong&gt;b&amp;#39;&lt;/strong&gt;:&lt;/p&gt;
 
 &lt;figure style=&quot;text-align:center&quot;&gt;
 &lt;img style=&quot;display: block; margin: 0 auto&quot; alt=&quot;After running the amend command&quot; src =&quot;/assets/evolve/amend2.dot.svg&quot; /&gt;
@@ -96,9 +96,20 @@ It is just some extra information that is recorded that can be used by commands 
 &lt;/figure&gt;&lt;/p&gt;
 
 &lt;p&gt;We can give the user some &lt;strong&gt;commands to access precursors of revisions to compare them or manipulate them&lt;/strong&gt;.
-After running the amend, you can easily:
-- Go back to the previous version (without using the revlog)
-- Figure out what changes the amend introduced.&lt;/p&gt;
+After running the amend, you can easily:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Go back to the previous version (without using the reflog/revlog)&lt;/li&gt;
+&lt;li&gt;Figure out what changes the amend introduced.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;The reflog (&lt;a href=&quot;https://www.git-scm.com/docs/git-reflog&quot;&gt;git&lt;/a&gt; or &lt;a href=&quot;https://bitbucket.org/facebook/hg-experimental&quot;&gt;mercurial&lt;/a&gt;)&lt;/strong&gt; is a command to list
+the successive location of the head of the repository and all its branches or
+bookmarks. It is a list of line with the format: &amp;quot;hashes command&amp;quot; and shows
+the working copy parent (i.e. current commit) after each command. &lt;strong&gt;It is used
+to recover from mistakes and go back to a previous state&lt;/strong&gt;.&lt;/p&gt;
+&lt;/blockquote&gt;
 
 &lt;h3&gt;2. Rebasing with fewer conflicts:&lt;/h3&gt;
 

@@ -29,7 +29,7 @@ Let's start with an example. Assume that a user committed **b** on top of **a**:
 <figcaption>Starting point</figcaption>
 </figure>
 
-After making some changes, the user runs `hg commit --amend` (like git `commit --amend`) and decides to call the new commit **b'**:
+After making some changes, the user runs `hg commit --amend` (like `git commit --amend`) and decides to call the new commit **b'**:
 
 <figure style="text-align:center">
 <img style="display: block; margin: 0 auto" alt="After running the amend command" src ="/assets/evolve/amend2.dot.svg" />
@@ -87,8 +87,15 @@ Consider the situation discussed above:
 
 We can give the user some **commands to access precursors of revisions to compare them or manipulate them**.
 After running the amend, you can easily:
-- Go back to the previous version (without using the revlog)
+
+- Go back to the previous version (without using the reflog/revlog)
 - Figure out what changes the amend introduced.
+
+> **The reflog ([git](https://www.git-scm.com/docs/git-reflog) or [mercurial](https://bitbucket.org/facebook/hg-experimental))** is a command to list
+the successive location of the head of the repository and all its branches or
+bookmarks. It is a list of line with the format: "hashes command" and shows
+the working copy parent (i.e. current commit) after each command. **It is used
+to recover from mistakes and go back to a previous state**.
 
 ### 2. Rebasing with fewer conflicts:
 

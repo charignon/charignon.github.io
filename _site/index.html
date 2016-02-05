@@ -131,7 +131,7 @@ at FOSDEM 2013</a></p>
 <figcaption>Starting point</figcaption>
 </figure>
 
-<p>After making some changes, the user runs <code>hg commit --amend</code> (like git <code>commit --amend</code>) and decides to call the new commit <strong>b&#39;</strong>:</p>
+<p>After making some changes, the user runs <code>hg commit --amend</code> (like <code>git commit --amend</code>) and decides to call the new commit <strong>b&#39;</strong>:</p>
 
 <figure style="text-align:center">
 <img style="display: block; margin: 0 auto" alt="After running the amend command" src ="/assets/evolve/amend2.dot.svg" />
@@ -186,9 +186,20 @@ It is just some extra information that is recorded that can be used by commands 
 </figure></p>
 
 <p>We can give the user some <strong>commands to access precursors of revisions to compare them or manipulate them</strong>.
-After running the amend, you can easily:
-- Go back to the previous version (without using the revlog)
-- Figure out what changes the amend introduced.</p>
+After running the amend, you can easily:</p>
+
+<ul>
+<li>Go back to the previous version (without using the reflog/revlog)</li>
+<li>Figure out what changes the amend introduced.</li>
+</ul>
+
+<blockquote>
+<p><strong>The reflog (<a href="https://www.git-scm.com/docs/git-reflog">git</a> or <a href="https://bitbucket.org/facebook/hg-experimental">mercurial</a>)</strong> is a command to list
+the successive location of the head of the repository and all its branches or
+bookmarks. It is a list of line with the format: &quot;hashes command&quot; and shows
+the working copy parent (i.e. current commit) after each command. <strong>It is used
+to recover from mistakes and go back to a previous state</strong>.</p>
+</blockquote>
 
 <h3>2. Rebasing with fewer conflicts:</h3>
 
