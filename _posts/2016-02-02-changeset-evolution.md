@@ -227,7 +227,7 @@ evolve = path to/evolve.py
 {% endhighlight ini %}
 ## More resources
 
-- [Gregory Szorc's post about evolve](http://www.gerg.ca/evolve/user-guide.html): you should start there if you like the concepts discussed in this article and want to start using evolve.
+- [Greg Ward's post about evolve](http://www.gerg.ca/evolve/user-guide.html): you should start there if you like the concepts discussed in this article and want to start using evolve.
 - [Evolve's wiki](https://www.mercurial-scm.org/wiki/ChangesetEvolution)
 - [Evolve's contributors wiki](https://www.mercurial-scm.org/wiki/ChangesetEvolutionDevel)
 
