@@ -12,7 +12,7 @@ title:               Laurent Charignon
 tagline:             'Blog'
 description:         'Technical blog by Laurent Charignon'
 url:                 http://charignon.github.io
-baseurl:             /
+baseurl:             ""
 paginate:            5
 
 # About/contact
