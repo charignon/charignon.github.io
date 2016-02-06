@@ -96,9 +96,39 @@ ga('send', 'pageview');
       </div>
 
       <div class="container content">
-        <div class="post">
+        <!-- facebook Open Graph Metadatas -->
+<meta content="your_facebook_app_id" property="fb:app_id">
+<meta content="Laurent Charignon" property="og:site_name">
+
+<meta content="A Test Automation Story" property="og:title">
+
+
+<meta content="article" property="og:type">
+
+
+<meta content="Technical blog by Laurent Charignon" property="og:description">
+
+
+<meta content="http://charignon.github.io/2016/01/20/reliable-automation-example/" property="og:url">
+
+
+<meta content="2016-01-20T00:00:00-08:00" property="article:published_time">
+<meta content="http://charignon.github.io/about/" property="article:author">
+
+
+<meta content="/img/logo-high-resolution.png" property="og:image">
+
+
+
+
+
+
+
+
+<div class="post">
   <h1 class="post-title">A Test Automation Story</h1>
   <span class="post-date">20 Jan 2016</span>
+
   <p>I find that doing repetitive computer-related tasks is time consuming, error-prone and frustrating. 
 I am a strong believer of automating everything and I have this mantra:</p>
 
@@ -211,7 +241,28 @@ Moving forward, I want to distribute this system to more people. I will write
 more about it and talk about implementation details in other articles. </p>
 
 </div>
+<!-- Load Facebook SDK for JavaScript -->
+<script>
+  window.fbAsyncInit = function() {
+FB.init({
+appId      : '773289616136228',
+xfbml      : true,
+version    : 'v2.5'
+      });
+};
 
+(function(d, s, id){
+var js, fjs = d.getElementsByTagName(s)[0];
+if (d.getElementById(id)) {return;}
+js = d.createElement(s); js.id = id;
+js.src = "//connect.facebook.net/en_US/sdk.js";
+fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+</script>
+
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+<div class="fb-like" data-href="" data-share="true" data-width="450" data-show-faces="true"> </div>
+<div class="fb-comments" data-href="" data-numposts="5" data-width="700"></div>
 <div class="related">
   <h2>Related Posts</h2>
   <ul class="related-posts">
