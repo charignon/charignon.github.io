@@ -132,10 +132,10 @@ ga('send', 'pageview');
   <p>Source code: <a href="https://github.com/charignon/otpCSnode">https://github.com/charignon/otpCSnode</a></p>
 
 <div class="message">
-  Too long don't read: How I used Node JS & CoffeeScript to implement one time padding of TCP traffic. Example use with: SSH, SCP and HTTP Proxying.
+  Too long don't read: How I used Node JS &amp; CoffeeScript to implement one time padding of TCP traffic. Example use with: SSH, SCP and HTTP Proxying.
 </div>
 
-<h2>One time padding</h2>
+<h2 id="one-time-padding">One time padding</h2>
 
 <p><cite>
 In cryptography, a one-time pad (OTP) is an encryption technique that cannot be cracked if used correctly. In this technique, a plaintext is paired with random, secret key (or pad). Then, each bit or character of the plaintext is encrypted by combining it with the corresponding bit or character from the pad using modular addition.</cite><a href="http://en.wikipedia.org/wiki/One-time_pad">Wikipedia: One time pad</a>.</p>
@@ -143,29 +143,29 @@ In cryptography, a one-time pad (OTP) is an encryption technique that cannot be 
 <p>In other words, one-time padding is a cryptography technique using a key (that both sides know) as long as the message.
 Since the key is as long as the message, the message appear as random as the key and is uncrackable if the key cannot be guessed.</p>
 
-<p>Technically, it is implemented with a simple XOR between the message and the key. It has been deem quite unpractical for most encryption needs because the key has to be as long as the data. But when you can afford to use it, it is the only uncrackable encryption technique. Don&#39;t take my word for it, the red telephone apparently used it according to the same wikipedia article.</p>
+<p>Technically, it is implemented with a simple XOR between the message and the key. It has been deem quite unpractical for most encryption needs because the key has to be as long as the data. But when you can afford to use it, it is the only uncrackable encryption technique. Don’t take my word for it, the red telephone apparently used it according to the same wikipedia article.</p>
 
-<h2>Key generation and distribution</h2>
+<h2 id="key-generation-and-distribution">Key generation and distribution</h2>
 
-<p>We can easily create a key using the <code>/dev/random</code> file. For instance to generate a key file named <code>key</code> of <code>100Mb</code> you could run:</p>
+<p>We can easily create a key using the <code class="highlighter-rouge">/dev/random</code> file. For instance to generate a key file named <code class="highlighter-rouge">key</code> of <code class="highlighter-rouge">100Mb</code> you could run:</p>
 
 <figure class="highlight"><pre><code class="language-bash" data-lang="bash">dd <span class="k">if</span><span class="o">=</span>/dev/random <span class="nv">of</span><span class="o">=</span>./key <span class="nv">bs</span><span class="o">=</span>1048576 <span class="nv">count</span><span class="o">=</span>100</code></pre></figure>
 
 <p>In the next part I assume that you have this key on two different hosts.</p>
 
-<h2>Don&#39;t reuse the key</h2>
+<h2 id="dont-reuse-the-key">Don’t reuse the key</h2>
 
 <p>Contrary to most encryption method, the one-time-pad keys are used only once. In our case, it means that our 100Mb key can encrypt only 100Mb, not one more bit!</p>
 
 <p>To use the keys several times (for example several ssh sessions) without having to dump it after each one, you must keep track of what your encrypted before. In other words you need to know your offset in the key file.</p>
 
-<h2>Client and server code</h2>
+<h2 id="client-and-server-code">Client and server code</h2>
 
 <p>To simplify, the key file is hardcoded and loaded fully in memory.</p>
 
 <p>As an improvement the key could be specific on the command line and precached by chunk at runtime.</p>
 
-<h3>Server code</h3>
+<h3 id="server-code">Server code</h3>
 
 <p>The server connects to a service like SSH, HttpProxy, VoIP server etc.
 It allows the client to operate with the service by:
@@ -193,15 +193,15 @@ It allows the client to operate with the service by:
 <p>The first part of the code is straightforward, we just parse the arguments and
 validate them.</p>
 
-<p>Then we create a tcp server bound to <code>localPort</code> and when a client connects to
+<p>Then we create a tcp server bound to <code class="highlighter-rouge">localPort</code> and when a client connects to
 this server we:</p>
 
 <ul>
-<li>Create a connection to the service</li>
-<li>Wire the connection between service and client with an offset for each encryptor: the offset is in byte from start of the key file</li>
+  <li>Create a connection to the service</li>
+  <li>Wire the connection between service and client with an offset for each encryptor: the offset is in byte from start of the key file</li>
 </ul>
 
-<h3>Client code</h3>
+<h3 id="client-code">Client code</h3>
 
 <p>Very similar to the server code:</p>
 
@@ -224,7 +224,7 @@ this server we:</p>
   <span class="nx">inBoundSocket</span><span class="p">.</span><span class="na">pipe</span><span class="p">(</span><span class="nx">otp</span><span class="p">.</span><span class="na">encryptor</span><span class="p">(</span><span class="s">"client"</span><span class="p">,</span><span class="nx">clientOffset</span><span class="p">)).</span><span class="na">pipe</span><span class="p">(</span><span class="nx">outBoundSocket</span><span class="p">)</span>
 <span class="p">).</span><span class="na">listen</span><span class="p">(</span><span class="nx">localPort</span><span class="p">)</span></code></pre></figure>
 
-<h3>Library code</h3>
+<h3 id="library-code">Library code</h3>
 
 <p>This is where the encryption is done, again, pretty straightforward:</p>
 
@@ -274,10 +274,10 @@ this server we:</p>
   <span class="nx">console</span><span class="p">.</span><span class="na">log</span> <span class="nx">root</span><span class="p">.</span><span class="na">offsets</span>
   <span class="nx">process</span><span class="p">.</span><span class="na">exit</span> <span class="mi">0</span></code></pre></figure>
 
-<h2>Encrypt ssh traffic</h2>
+<h2 id="encrypt-ssh-traffic">Encrypt ssh traffic</h2>
 
-<p>We have two computers called HostA and HostB, let&#39;s say that the ssh server is
-on HostB. Let&#39;s say that out of the 100Mb key, we want to use the last 50Mb for
+<p>We have two computers called HostA and HostB, let’s say that the ssh server is
+on HostB. Let’s say that out of the 100Mb key, we want to use the last 50Mb for
 the server and the first 50Mb for the client.</p>
 
 <p>On HostB we start the encryption server:</p>

@@ -130,43 +130,49 @@ ga('send', 'pageview');
   <span class="post-date">09 Jan 2016</span>
 
   <blockquote>
-<p><strong>Disclaimer:</strong> make sure to check the terms of use of the website you plan to 
+  <p><strong>Disclaimer:</strong> make sure to check the terms of use of the website you plan to 
 interact with, a lot of websites forbids interaction from automation. 
-Don&#39;t do anything that could get you in trouble.</p>
+Don’t do anything that could get you in trouble.</p>
 </blockquote>
 
 <p><strong>mechanize</strong> is a library to interact with websites. It fits in between 
 high-level browser automation tools like <strong>Selenium</strong> and HTTP libraries like 
-<strong>requests</strong>. It doesn&#39;t handle Javascript, if that&#39;s an issue for you, you 
+<strong>requests</strong>. It doesn’t handle Javascript, if that’s an issue for you, you 
 should consider <strong>CasperJS</strong>. The big advantage of using mechanize compared to 
 a higher level library is speed: it is an order of magnitude faster!</p>
 
 <p>I use the following boilerplate code for all my programs with <strong>mechanize</strong>:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">Set up user agent
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Set up user agent
 
 Load cookies from a file
 
 If the cookies are expired:
-    Go through the login flow
+	Go through the login flow
 
 Interact with the website
 
 Persist the cookies to a file
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>If you do the following instead:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">Go through the login flow
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Go through the login flow
 
 Interact with the website
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>Then, you will end up going through the login flow as many times as you run the
 script. Not only will this be inefficient, but you would also take the risk of 
-being <strong>blacklisted</strong> by the website&#39;s owner for making too many requests.
-Let&#39;s see in practice what this code looks like.</p>
+being <strong>blacklisted</strong> by the website’s owner for making too many requests.
+Let’s see in practice what this code looks like.</p>
 
-<h2>Boilerplate</h2>
+<h2 id="boilerplate">Boilerplate</h2>
 
 <p>Assuming that you want to log into a website and read a page that shows some
-JSON content, you would do something like this: </p>
+JSON content, you would do something like this:</p>
 
 <figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">json</span>
@@ -183,7 +189,7 @@ JSON content, you would do something like this: </p>
 <span class="k">def</span> <span class="nf">loadcookiejar</span><span class="p">():</span>
     <span class="n">cj</span> <span class="o">=</span> <span class="n">cookielib</span><span class="o">.</span><span class="n">LWPCookieJar</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s">"cookies"</span><span class="p">):</span>
-        <span class="n">cj</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s">"cookies"</span><span class="p">)</span>
+    	<span class="n">cj</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s">"cookies"</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">cj</span>
 
 <span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
@@ -191,15 +197,15 @@ JSON content, you would do something like this: </p>
     <span class="n">cj</span> <span class="o">=</span> <span class="n">loadcookiejar</span><span class="p">()</span>
     <span class="n">br</span><span class="o">.</span><span class="n">set_cookiejar</span><span class="p">(</span><span class="n">cj</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">cj</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="n">url</span> <span class="o">=</span> <span class="s">'https://XXX'</span>
-        <span class="n">br</span><span class="o">.</span><span class="nb">open</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
-        <span class="c"># Select the first form</span>
-        <span class="n">br</span><span class="o">.</span><span class="n">select_form</span><span class="p">(</span><span class="n">nr</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-        <span class="c"># Fill in some information</span>
-        <span class="n">br</span><span class="p">[</span><span class="s">"email"</span><span class="p">]</span> <span class="o">=</span> <span class="s">"XXXXXXX"</span>
-        <span class="n">br</span><span class="p">[</span><span class="s">"password"</span><span class="p">]</span> <span class="o">=</span> <span class="s">"YYYYYYY"</span>
-        <span class="c"># Actually log in and set the cookies</span>
-        <span class="n">br</span><span class="o">.</span><span class="n">submit</span><span class="p">()</span>
+		<span class="n">url</span> <span class="o">=</span> <span class="s">'https://XXX'</span>
+		<span class="n">br</span><span class="o">.</span><span class="nb">open</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+		<span class="c"># Select the first form</span>
+		<span class="n">br</span><span class="o">.</span><span class="n">select_form</span><span class="p">(</span><span class="n">nr</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+		<span class="c"># Fill in some information</span>
+		<span class="n">br</span><span class="p">[</span><span class="s">"email"</span><span class="p">]</span> <span class="o">=</span> <span class="s">"XXXXXXX"</span>
+		<span class="n">br</span><span class="p">[</span><span class="s">"password"</span><span class="p">]</span> <span class="o">=</span> <span class="s">"YYYYYYY"</span>
+		<span class="c"># Actually log in and set the cookies</span>
+		<span class="n">br</span><span class="o">.</span><span class="n">submit</span><span class="p">()</span>
     <span class="c"># The page you are interested in</span>
     <span class="n">r</span> <span class="o">=</span> <span class="n">br</span><span class="o">.</span><span class="nb">open</span><span class="p">(</span><span class="s">"https://YYYY"</span><span class="p">)</span>
     <span class="c"># Assumes that the content is JSON, otherwise use r.read()</span>
@@ -209,11 +215,11 @@ JSON content, you would do something like this: </p>
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
     <span class="n">main</span><span class="p">()</span></code></pre></figure>
 
-<p>Now, some of you might wonder &quot;how do you figure out what the URLS/parameter 
-are for the stuff that you are interested in&quot;. It is actually fairly easy to
+<p>Now, some of you might wonder “how do you figure out what the URLS/parameter 
+are for the stuff that you are interested in”. It is actually fairly easy to
 gather that information.</p>
 
-<h2>Figure out the API behind a website</h2>
+<h2 id="figure-out-the-api-behind-a-website">Figure out the API behind a website</h2>
 
 <p>This explanation assumes that you are using <strong>Google Chrome</strong>, tools exists with 
 many other browser to do the same thing.</p>
@@ -227,14 +233,14 @@ see if you find something interesting.</p>
 
 <p>In my case, I am looking at a website that gives the location of my phone, I
 filtered the XHR requests:
-<img src="/assets/webauto1.png" alt="XHR requests"></p>
+<img src="/assets/webauto1.png" alt="XHR requests" /></p>
 
 <p>It looks like the first entry is very interesting:
-<img src="/assets/webauto2.png" alt="First entry"></p>
+<img src="/assets/webauto2.png" alt="First entry" /></p>
 
 <p>From there, right click on the request and you can copy the URL and information
 to make the request from python or a terminal:
-<img src="/assets/webauto3.png" alt="Exporting"></p>
+<img src="/assets/webauto3.png" alt="Exporting" /></p>
 
 </div>
 <!-- Load Facebook SDK for JavaScript -->

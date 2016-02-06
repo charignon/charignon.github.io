@@ -4,7 +4,7 @@
  <title>Laurent Charignon</title>
  <link href="http://charignon.github.io/atom.xml" rel="self"/>
  <link href="http://charignon.github.io/"/>
- <updated>2016-02-05T18:36:35-08:00</updated>
+ <updated>2016-02-05T18:46:01-08:00</updated>
  <id>http://charignon.github.io</id>
  <author>
    <name>Laurent Charignon</name>
@@ -17,14 +17,14 @@
    <link href="http://charignon.github.io/2016/02/02/changeset-evolution/"/>
    <updated>2016-02-02T00:00:00-08:00</updated>
    <id>http://charignon.github.io/2016/02/02/changeset-evolution</id>
-   <content type="html">&lt;h2&gt;Changeset What?&lt;/h2&gt;
+   <content type="html">&lt;h2 id=&quot;changeset-what&quot;&gt;Changeset What?&lt;/h2&gt;
 
 &lt;p&gt;&lt;a href=&quot;https://mercurial-scm.com&quot;&gt;Mercurial&lt;/a&gt; is a distributed version control system, similar to &lt;a href=&quot;https://git-scm.com/&quot;&gt;git&lt;/a&gt;.
 If you have not tried it yet, you really should!&lt;/p&gt;
 
 &lt;p&gt;I work on Mercurial, and as you know already, I love to automate everything.
 If you use git and mercurial today, you know that source control is not trivial, 
- workflows could be easier and require less manual intervention and dark magic. &lt;/p&gt;
+ workflows could be easier and require less manual intervention and dark magic.&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;&lt;a href=&quot;https://www.mercurial-scm.org/wiki/ChangesetEvolution&quot;&gt;Changeset evolution&lt;/a&gt; is a proposal to make 
 source-control less error-prone, more forgiving and flexible.&lt;/strong&gt;
@@ -32,106 +32,106 @@ I will use &lt;strong&gt;changeset evolution&lt;/strong&gt; and &lt;strong&gt;ev
 Pierre-Yves David created Changeset Evolution and you can see &lt;a href=&quot;https://air.mozilla.org/changesets-evolution-with-mercurial/&quot;&gt;his talk
 at FOSDEM 2013&lt;/a&gt;&lt;/p&gt;
 
-&lt;h2&gt;The history of commits does not exist&lt;/h2&gt;
+&lt;h2 id=&quot;the-history-of-commits-does-not-exist&quot;&gt;The history of commits does not exist&lt;/h2&gt;
 
-&lt;p&gt;Let&amp;#39;s start with an example. Assume that a user committed &lt;strong&gt;b&lt;/strong&gt; on top of &lt;strong&gt;a&lt;/strong&gt;: &lt;/p&gt;
+&lt;p&gt;Let’s start with an example. Assume that a user committed &lt;strong&gt;b&lt;/strong&gt; on top of &lt;strong&gt;a&lt;/strong&gt;:&lt;/p&gt;
 
 &lt;figure style=&quot;text-align:center&quot;&gt;
-&lt;img style=&quot;display: block; margin: 0 auto&quot; alt=&quot;Before running the amend command&quot; src =&quot;/assets/evolve/amend1.dot.svg&quot; /&gt;
+&lt;img style=&quot;display: block; margin: 0 auto&quot; alt=&quot;Before running the amend command&quot; src=&quot;/assets/evolve/amend1.dot.svg&quot; /&gt;
 &lt;figcaption&gt;Starting point&lt;/figcaption&gt;
 &lt;/figure&gt;
 
-&lt;p&gt;After making some changes, the user runs &lt;code&gt;hg commit --amend&lt;/code&gt; (like &lt;code&gt;git commit --amend&lt;/code&gt;) and decides to call the new commit &lt;strong&gt;b&amp;#39;&lt;/strong&gt;:&lt;/p&gt;
+&lt;p&gt;After making some changes, the user runs &lt;code class=&quot;highlighter-rouge&quot;&gt;hg commit --amend&lt;/code&gt; (like &lt;code class=&quot;highlighter-rouge&quot;&gt;git commit --amend&lt;/code&gt;) and decides to call the new commit &lt;strong&gt;b’&lt;/strong&gt;:&lt;/p&gt;
 
 &lt;figure style=&quot;text-align:center&quot;&gt;
-&lt;img style=&quot;display: block; margin: 0 auto&quot; alt=&quot;After running the amend command&quot; src =&quot;/assets/evolve/amend2.dot.svg&quot; /&gt;
+&lt;img style=&quot;display: block; margin: 0 auto&quot; alt=&quot;After running the amend command&quot; src=&quot;/assets/evolve/amend2.dot.svg&quot; /&gt;
 &lt;figcaption&gt;After amend&lt;/figcaption&gt;
 &lt;/figure&gt;
 
 &lt;p&gt;Under the cover, the amend command creates a new commit but the old revision is still there but hidden:&lt;/p&gt;
 
 &lt;figure style=&quot;text-align:center&quot;&gt;
-&lt;img style=&quot;display: block; margin: 0 auto&quot; alt=&quot;Under the cover&quot; src =&quot;/assets/evolve/amend3.dot.svg&quot; /&gt;
+&lt;img style=&quot;display: block; margin: 0 auto&quot; alt=&quot;Under the cover&quot; src=&quot;/assets/evolve/amend3.dot.svg&quot; /&gt;
 &lt;figcaption&gt;b didn&#39;t disappear yet, it is hidden&lt;/figcaption&gt;
 &lt;/figure&gt;
 
-&lt;p&gt;For the user, &lt;strong&gt;b&amp;#39; is a newer version of b&lt;/strong&gt;.
+&lt;p&gt;For the user, &lt;strong&gt;b’ is a newer version of b&lt;/strong&gt;.
 Even though, the intent of amending is clear, &lt;strong&gt;no information about this intent is recorded in the source control system!&lt;/strong&gt;&lt;/p&gt;
 
-&lt;p&gt;If the user wants to access, let&amp;#39;s say a week from now, what &lt;strong&gt;b&lt;/strong&gt; was before the amend, he or she will have to dig through the &lt;strong&gt;reflog&lt;/strong&gt; to find the hash of &lt;strong&gt;b&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;If the user wants to access, let’s say a week from now, what &lt;strong&gt;b&lt;/strong&gt; was before the amend, he or she will have to dig through the &lt;strong&gt;reflog&lt;/strong&gt; to find the hash of &lt;strong&gt;b&lt;/strong&gt;.&lt;/p&gt;
 
-&lt;p&gt;What if we could record that b&amp;#39; is the successor of b?&lt;/p&gt;
+&lt;p&gt;What if we could record that b’ is the successor of b?&lt;/p&gt;
 
-&lt;h2&gt;Defining the commit history with obsolescence markers&lt;/h2&gt;
+&lt;h2 id=&quot;defining-the-commit-history-with-obsolescence-markers&quot;&gt;Defining the commit history with obsolescence markers&lt;/h2&gt;
 
 &lt;p&gt;&lt;strong&gt;Changeset evolution&lt;/strong&gt; introduces the concept of &lt;strong&gt;obsolescence markers&lt;/strong&gt; to represent that a revision is the &lt;strong&gt;successor&lt;/strong&gt; of another revision.
 I will represent the &lt;strong&gt;obsolescence markers&lt;/strong&gt; with dotted lines in the following graphs.
-In the example above after running &lt;code&gt;hg commit --amend&lt;/code&gt; we would have:&lt;/p&gt;
+In the example above after running &lt;code class=&quot;highlighter-rouge&quot;&gt;hg commit --amend&lt;/code&gt; we would have:&lt;/p&gt;
 
 &lt;figure style=&quot;text-align:center&quot;&gt;
-&lt;img style=&quot;display: block; margin: 0 auto&quot; alt=&quot;Before running the amend command&quot; src =&quot;/assets/evolve/amend4.dot.svg&quot; /&gt;
+&lt;img style=&quot;display: block; margin: 0 auto&quot; alt=&quot;Before running the amend command&quot; src=&quot;/assets/evolve/amend4.dot.svg&quot; /&gt;
 &lt;figcaption&gt;Recording that b&#39; is the &lt;b&gt;successor&lt;/b&gt; of b with an obsolescence marker. b is the &lt;b&gt;precursor&lt;/b&gt; of b&#39;&lt;/figcaption&gt;
 &lt;/figure&gt;
 
-&lt;p&gt;And after running &lt;code&gt;hg commit --amend&lt;/code&gt; again:&lt;/p&gt;
+&lt;p&gt;And after running &lt;code class=&quot;highlighter-rouge&quot;&gt;hg commit --amend&lt;/code&gt; again:&lt;/p&gt;
 
 &lt;figure style=&quot;text-align:center&quot;&gt;
-&lt;img style=&quot;display: block; margin: 0 auto&quot; alt=&quot;Before running the amend command&quot; src =&quot;/assets/evolve/amend5.dot.svg&quot; /&gt;
+&lt;img style=&quot;display: block; margin: 0 auto&quot; alt=&quot;Before running the amend command&quot; src=&quot;/assets/evolve/amend5.dot.svg&quot; /&gt;
 &lt;figcaption&gt;Two amends: b&quot; is the &lt;b&gt;successor&lt;/b&gt; of b&#39; and b&#39; is the &lt;b&gt;successor&lt;/b&gt; of b&lt;/figcaption&gt;
 &lt;/figure&gt;
 
 &lt;p&gt;All this is happening &lt;strong&gt;under the hood&lt;/strong&gt;, and the user does not see any difference in the UI.
 It is just some extra information that is recorded that can be used by commands as we will see in the next section.&lt;/p&gt;
 
-&lt;h2&gt;Simplify rebases, go back in time and don&amp;#39;t make mistakes&lt;/h2&gt;
+&lt;h2 id=&quot;simplify-rebases-go-back-in-time-and-dont-make-mistakes&quot;&gt;Simplify rebases, go back in time and don’t make mistakes&lt;/h2&gt;
 
-&lt;p&gt;Let&amp;#39;s see how we can &lt;strong&gt;seamlessly use the obsolescence markers&lt;/strong&gt; to simplify the life of the user through three examples.&lt;/p&gt;
+&lt;p&gt;Let’s see how we can &lt;strong&gt;seamlessly use the obsolescence markers&lt;/strong&gt; to simplify the life of the user through three examples.&lt;/p&gt;
 
-&lt;h3&gt;1. Easily accessing a precursor:&lt;/h3&gt;
+&lt;h3 id=&quot;easily-accessing-a-precursor&quot;&gt;1. Easily accessing a precursor:&lt;/h3&gt;
 
-&lt;p&gt;Consider the situation discussed above:
+&lt;p&gt;Consider the situation discussed above:&lt;/p&gt;
 &lt;figure style=&quot;text-align:center&quot;&gt;
-&lt;img style=&quot;display: block; margin: 0 auto&quot; alt=&quot;Before running the amend command&quot; src =&quot;/assets/evolve/amend4.dot.svg&quot; /&gt;
+&lt;img style=&quot;display: block; margin: 0 auto&quot; alt=&quot;Before running the amend command&quot; src=&quot;/assets/evolve/amend4.dot.svg&quot; /&gt;
 &lt;figcaption&gt;After &lt;b&gt;hg commit --amend&lt;/b&gt;&lt;/figcaption&gt;
-&lt;/figure&gt;&lt;/p&gt;
+&lt;/figure&gt;
 
 &lt;p&gt;We can give the user some &lt;strong&gt;commands to access precursors of revisions to compare them or manipulate them&lt;/strong&gt;.
 After running the amend, you can easily:&lt;/p&gt;
 
 &lt;ul&gt;
-&lt;li&gt;Go back to the previous version (without using the reflog)&lt;/li&gt;
-&lt;li&gt;Figure out what changes the amend introduced.&lt;/li&gt;
+  &lt;li&gt;Go back to the previous version (without using the reflog)&lt;/li&gt;
+  &lt;li&gt;Figure out what changes the amend introduced.&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;blockquote&gt;
-&lt;p&gt;&lt;strong&gt;The reflog (&lt;a href=&quot;https://www.git-scm.com/docs/git-reflog&quot;&gt;git&lt;/a&gt; or &lt;a href=&quot;https://bitbucket.org/facebook/hg-experimental&quot;&gt;mercurial&lt;/a&gt;)&lt;/strong&gt; is a command to list
+  &lt;p&gt;&lt;strong&gt;The reflog (&lt;a href=&quot;https://www.git-scm.com/docs/git-reflog&quot;&gt;git&lt;/a&gt; or &lt;a href=&quot;https://bitbucket.org/facebook/hg-experimental&quot;&gt;mercurial&lt;/a&gt;)&lt;/strong&gt; is a command to list
 the successive location of the head of the repository and all its branches or
-bookmarks. It is a list of line with the format: &amp;quot;hashes command&amp;quot; and shows
+bookmarks. It is a list of line with the format: “hashes command” and shows
 the working copy parent (i.e. current commit) after each command. &lt;strong&gt;It is used
 to recover from mistakes and go back to a previous state&lt;/strong&gt;.&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;h3&gt;2. Rebasing with fewer conflicts:&lt;/h3&gt;
+&lt;h3 id=&quot;rebasing-with-fewer-conflicts&quot;&gt;2. Rebasing with fewer conflicts:&lt;/h3&gt;
 
 &lt;p&gt;It is common to have a testing/continuous integration system run all the tests on a revision before pushing it
-to a repository. Let&amp;#39;s assume that you are working on a feature and committed &lt;strong&gt;b&lt;/strong&gt; and &lt;strong&gt;c&lt;/strong&gt; locally.&lt;/p&gt;
+to a repository. Let’s assume that you are working on a feature and committed &lt;strong&gt;b&lt;/strong&gt; and &lt;strong&gt;c&lt;/strong&gt; locally.&lt;/p&gt;
 
 &lt;figure style=&quot;text-align:center&quot;&gt;
-&lt;img style=&quot;display: block; margin: 0 auto&quot; alt=&quot;Before running the amend command&quot; src =&quot;/assets/evolve/push1.dot.svg&quot; /&gt;
+&lt;img style=&quot;display: block; margin: 0 auto&quot; alt=&quot;Before running the amend command&quot; src=&quot;/assets/evolve/push1.dot.svg&quot; /&gt;
 &lt;figcaption&gt;Before pushing b to the server on top of d&lt;/figcaption&gt;
 &lt;/figure&gt;
 
-&lt;p&gt;Satisfied with &lt;strong&gt;b&lt;/strong&gt;, you send it to the CI system that pushes it onto &lt;code&gt;remote/master&lt;/code&gt; on the server, when you pull, you will have:&lt;/p&gt;
+&lt;p&gt;Satisfied with &lt;strong&gt;b&lt;/strong&gt;, you send it to the CI system that pushes it onto &lt;code class=&quot;highlighter-rouge&quot;&gt;remote/master&lt;/code&gt; on the server, when you pull, you will have:&lt;/p&gt;
 
 &lt;figure style=&quot;text-align:center&quot;&gt;
-&lt;img style=&quot;display: block; margin: 0 auto&quot; alt=&quot;Before running the amend command&quot; src =&quot;/assets/evolve/push2.dot.svg&quot; /&gt;
+&lt;img style=&quot;display: block; margin: 0 auto&quot; alt=&quot;Before running the amend command&quot; src=&quot;/assets/evolve/push2.dot.svg&quot; /&gt;
 &lt;figcaption&gt;Pushing a commit can also add a marker&lt;/figcaption&gt;
 &lt;/figure&gt;
 
 &lt;p&gt;If you pull one hour later (assuming other people are very productive :D) you will have a situation like that:&lt;/p&gt;
 
 &lt;figure style=&quot;text-align:center&quot;&gt;
-&lt;img style=&quot;display: block; margin: 0 auto&quot; alt=&quot;Before running the amend command&quot; src =&quot;/assets/evolve/push3.dot.svg&quot; /&gt;
+&lt;img style=&quot;display: block; margin: 0 auto&quot; alt=&quot;Before running the amend command&quot; src=&quot;/assets/evolve/push3.dot.svg&quot; /&gt;
 &lt;figcaption&gt;Your colleagues have been productive and pushed many new changes since you last pulled&lt;/figcaption&gt;
 &lt;/figure&gt;
 
@@ -142,45 +142,45 @@ But in that case, you know that the person resolved the conflicts once already w
 What if on pull the server could tell you that &lt;strong&gt;newb&lt;/strong&gt; is the new version of &lt;strong&gt;b&lt;/strong&gt;:&lt;/p&gt;
 
 &lt;figure style=&quot;text-align:center&quot;&gt;
-&lt;img style=&quot;display: block; margin: 0 auto&quot; alt=&quot;Before running the amend command&quot; src =&quot;/assets/evolve/push4.dot.svg&quot; /&gt;
+&lt;img style=&quot;display: block; margin: 0 auto&quot; alt=&quot;Before running the amend command&quot; src=&quot;/assets/evolve/push4.dot.svg&quot; /&gt;
 &lt;figcaption&gt;When rebasing the stack, the first commit can be omitted&lt;/figcaption&gt;
 &lt;/figure&gt;
 
 &lt;p&gt;This way when you rebase the stack, only &lt;strong&gt;c&lt;/strong&gt; gets rebased, &lt;strong&gt;b is skipped, and you cannot get conflicts from the content in b&lt;/strong&gt;.&lt;/p&gt;
 
-&lt;h3&gt;3. Working with other people&lt;/h3&gt;
+&lt;h3 id=&quot;working-with-other-people&quot;&gt;3. Working with other people&lt;/h3&gt;
 
-&lt;p&gt;Let&amp;#39;s assume that you start from this simple state:
+&lt;p&gt;Let’s assume that you start from this simple state:&lt;/p&gt;
 &lt;figure style=&quot;text-align:center&quot;&gt;
-&lt;img style=&quot;display: block; margin: 0 auto&quot; alt=&quot;Before running the amend command&quot; src =&quot;/assets/evolve/amend1.dot.svg&quot; /&gt;
+&lt;img style=&quot;display: block; margin: 0 auto&quot; alt=&quot;Before running the amend command&quot; src=&quot;/assets/evolve/amend1.dot.svg&quot; /&gt;
 &lt;figcaption&gt;Starting point&lt;/figcaption&gt;
-&lt;/figure&gt;&lt;/p&gt;
+&lt;/figure&gt;
 
-&lt;p&gt;And you and your friend work on making changes to b, you create a new change &lt;strong&gt;b&amp;#39;&lt;/strong&gt; and your friend creates a new version of b called: &lt;strong&gt;b&amp;#39;&amp;#39;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;And you and your friend work on making changes to b, you create a new change &lt;strong&gt;b’&lt;/strong&gt; and your friend creates a new version of b called: &lt;strong&gt;b’‘&lt;/strong&gt;&lt;/p&gt;
 
 &lt;figure style=&quot;text-align:center&quot;&gt;
-&lt;img style=&quot;display: block; margin: 0 auto&quot; alt=&quot;Before running the amend command&quot; src =&quot;/assets/evolve/amend4.dot.svg&quot; /&gt;
+&lt;img style=&quot;display: block; margin: 0 auto&quot; alt=&quot;Before running the amend command&quot; src=&quot;/assets/evolve/amend4.dot.svg&quot; /&gt;
 &lt;figcaption&gt;The first developer rewrote b&lt;/figcaption&gt;
 &lt;/figure&gt;
 
 &lt;figure style=&quot;text-align:center&quot;&gt;
-&lt;img style=&quot;display: block; margin: 0 auto&quot; alt=&quot;Before running the amend command&quot; src =&quot;/assets/evolve/amend6.dot.svg&quot; /&gt;
+&lt;img style=&quot;display: block; margin: 0 auto&quot; alt=&quot;Before running the amend command&quot; src=&quot;/assets/evolve/amend6.dot.svg&quot; /&gt;
 &lt;figcaption&gt;The second developer rewrote b as well&lt;/figcaption&gt;
 &lt;/figure&gt;
 
 &lt;p&gt;Then you decide to put your work together:&lt;/p&gt;
 
 &lt;figure style=&quot;text-align:center&quot;&gt;
-&lt;img style=&quot;display: block; margin: 0 auto&quot; alt=&quot;Before running the amend command&quot; src =&quot;/assets/evolve/amend7.dot.svg&quot; /&gt;
+&lt;img style=&quot;display: block; margin: 0 auto&quot; alt=&quot;Before running the amend command&quot; src=&quot;/assets/evolve/amend7.dot.svg&quot; /&gt;
 &lt;figcaption&gt;b has two successors, &lt;b&gt;b&#39;&lt;/b&gt; and &lt;b&gt;b&#39;&#39;&lt;/b&gt; are called divergent&lt;/figcaption&gt;
 &lt;/figure&gt;
 
-&lt;p&gt;In &lt;strong&gt;git&lt;/strong&gt; or &lt;strong&gt;vanilla (no extension) mercurial&lt;/strong&gt;, you would have to figure out that &lt;strong&gt;b&amp;#39;&lt;/strong&gt; and &lt;strong&gt;b&amp;#39;&amp;#39;&lt;/strong&gt; are two new versions of &lt;strong&gt;b&lt;/strong&gt; and merge them.
-&lt;strong&gt;Changeset evolution&lt;/strong&gt; detects that situation, marks &lt;strong&gt;b&amp;#39;&lt;/strong&gt; and &lt;strong&gt;b&amp;#39;&amp;#39;&lt;/strong&gt; as being divergent.
+&lt;p&gt;In &lt;strong&gt;git&lt;/strong&gt; or &lt;strong&gt;vanilla (no extension) mercurial&lt;/strong&gt;, you would have to figure out that &lt;strong&gt;b’&lt;/strong&gt; and &lt;strong&gt;b’‘&lt;/strong&gt; are two new versions of &lt;strong&gt;b&lt;/strong&gt; and merge them.
+&lt;strong&gt;Changeset evolution&lt;/strong&gt; detects that situation, marks &lt;strong&gt;b’&lt;/strong&gt; and &lt;strong&gt;b’‘&lt;/strong&gt; as being divergent.
 It then suggests &lt;strong&gt;automatic resolution with a merge and preserves history.&lt;/strong&gt;&lt;/p&gt;
 
 &lt;figure style=&quot;text-align:center&quot;&gt;
-&lt;img style=&quot;display: block; margin: 0 auto&quot; alt=&quot;Before running the amend command&quot; src =&quot;/assets/evolve/amend8.dot.svg&quot; /&gt;
+&lt;img style=&quot;display: block; margin: 0 auto&quot; alt=&quot;Before running the amend command&quot; src=&quot;/assets/evolve/amend8.dot.svg&quot; /&gt;
 &lt;figcaption&gt;Everything gets resolved intelligently&lt;/figcaption&gt;
 &lt;/figure&gt;
 
@@ -188,13 +188,13 @@ It then suggests &lt;strong&gt;automatic resolution with a merge and preserves h
 These examples &lt;strong&gt;show&lt;/strong&gt; the power of changeset evolution, to provide an &lt;strong&gt;automatic resolution&lt;/strong&gt; of typical source control issues.
 But, the true power of &lt;strong&gt;changeset evolution&lt;/strong&gt; is the flexibility that it gives when working with stacks of commits.&lt;/p&gt;
 
-&lt;h2&gt;A more flexible workflow with stacks&lt;/h2&gt;
+&lt;h2 id=&quot;a-more-flexible-workflow-with-stacks&quot;&gt;A more flexible workflow with stacks&lt;/h2&gt;
 
 &lt;p&gt;&lt;strong&gt;Changeset evolution&lt;/strong&gt; defines the concept of an &lt;strong&gt;unstable&lt;/strong&gt; revision, a revision based on an obsolete revision.
 From the previous section:&lt;/p&gt;
 
 &lt;figure style=&quot;text-align:center&quot;&gt;
-&lt;img style=&quot;display: block; margin: 0 auto&quot; alt=&quot;Before running the amend command&quot; src =&quot;/assets/evolve/push4.dot.svg&quot; /&gt;
+&lt;img style=&quot;display: block; margin: 0 auto&quot; alt=&quot;Before running the amend command&quot; src=&quot;/assets/evolve/push4.dot.svg&quot; /&gt;
 &lt;figcaption&gt;c is unstable because it is based on b and b has as a new version&lt;/figcaption&gt;
 &lt;/figure&gt;
 
@@ -203,52 +203,53 @@ But it &lt;strong&gt;does not force the user to resolve the instability right aw
 Consider the following stack of commits:&lt;/p&gt;
 
 &lt;figure style=&quot;text-align:center&quot;&gt;
-&lt;img style=&quot;display: block; margin: 0 auto&quot; alt=&quot;Before running the amend command&quot; src =&quot;/assets/evolve/stack1.dot.svg&quot; /&gt;
+&lt;img style=&quot;display: block; margin: 0 auto&quot; alt=&quot;Before running the amend command&quot; src=&quot;/assets/evolve/stack1.dot.svg&quot; /&gt;
 &lt;/figure&gt;
 
 &lt;p&gt;A user can amend &lt;strong&gt;b&lt;/strong&gt; or &lt;strong&gt;c&lt;/strong&gt; without having to rebase &lt;strong&gt;d&lt;/strong&gt;.&lt;/p&gt;
 
 &lt;figure style=&quot;text-align:center&quot;&gt;
-&lt;img style=&quot;display: block; margin: 0 auto&quot; alt=&quot;Before running the amend command&quot; src =&quot;/assets/evolve/stack2.dot.svg&quot; /&gt;
+&lt;img style=&quot;display: block; margin: 0 auto&quot; alt=&quot;Before running the amend command&quot; src=&quot;/assets/evolve/stack2.dot.svg&quot; /&gt;
 &lt;figcaption&gt;We rewrote b and c, so c&#39; and d are now unstable&lt;/figcaption&gt;
 &lt;/figure&gt;
 
 &lt;p&gt;And when everything looks good &lt;strong&gt;changeset evolution&lt;/strong&gt; can figure out the right commands to run to end up with the desired stack:&lt;/p&gt;
 
 &lt;figure style=&quot;text-align:center&quot;&gt;
-&lt;img style=&quot;display: block; margin: 0 auto&quot; alt=&quot;Before running the amend command&quot; src =&quot;/assets/evolve/stack3.dot.svg&quot; /&gt;
+&lt;img style=&quot;display: block; margin: 0 auto&quot; alt=&quot;Before running the amend command&quot; src=&quot;/assets/evolve/stack3.dot.svg&quot; /&gt;
 &lt;/figure&gt;
 
 &lt;p&gt;If the user was not using changeset evolution, he or she would have to rebase every time anything changes in the stack.
 Also, the user would have to figure out what rebase command to run and could potentially make mistakes!&lt;/p&gt;
 
-&lt;h2&gt;What I didn&amp;#39;t cover&lt;/h2&gt;
+&lt;h2 id=&quot;what-i-didnt-cover&quot;&gt;What I didn’t cover&lt;/h2&gt;
 
 &lt;ul&gt;
-&lt;li&gt;Working collaboratively with stacks&lt;/li&gt;
-&lt;li&gt;Markers defining multiple precursors (fold) and multiple successors (split)&lt;/li&gt;
-&lt;li&gt;And a lot of other things&lt;/li&gt;
+  &lt;li&gt;Working collaboratively with stacks&lt;/li&gt;
+  &lt;li&gt;Markers defining multiple precursors (fold) and multiple successors (split)&lt;/li&gt;
+  &lt;li&gt;And a lot of other things&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2&gt;How to install evolve and start playing with it&lt;/h2&gt;
+&lt;h2 id=&quot;how-to-install-evolve-and-start-playing-with-it&quot;&gt;How to install evolve and start playing with it&lt;/h2&gt;
 
 &lt;ol&gt;
-&lt;li&gt;Install mercurial&lt;/li&gt;
-&lt;li&gt;Clone evolve&amp;#39;s repository with &lt;code&gt;hg clone http://hg.netv6.net/evolve-main/&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Add the following configuration to you &lt;code&gt;~/.hgrc&lt;/code&gt; with the correct path from
+  &lt;li&gt;Install mercurial&lt;/li&gt;
+  &lt;li&gt;Clone evolve’s repository with &lt;code class=&quot;highlighter-rouge&quot;&gt;hg clone http://hg.netv6.net/evolve-main/&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;Add the following configuration to you &lt;code class=&quot;highlighter-rouge&quot;&gt;~/.hgrc&lt;/code&gt; with the correct path from
 the repo you just cloned:&lt;/li&gt;
 &lt;/ol&gt;
 
 &lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ini&quot; data-lang=&quot;ini&quot;&gt;&lt;span class=&quot;nn&quot;&gt;[extensions]&lt;/span&gt;
 &lt;span class=&quot;py&quot;&gt;evolve&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;path to/evolve.py&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
-&lt;h2&gt;More resources&lt;/h2&gt;
+&lt;h2 id=&quot;more-resources&quot;&gt;More resources&lt;/h2&gt;
 
 &lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;http://www.gerg.ca/evolve/user-guide.html&quot;&gt;Greg Ward&amp;#39;s post about evolve&lt;/a&gt;: you should start there if you like the concepts discussed in this article and want to start using evolve.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.mercurial-scm.org/wiki/ChangesetEvolution&quot;&gt;Evolve&amp;#39;s wiki&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.mercurial-scm.org/wiki/ChangesetEvolutionDevel&quot;&gt;Evolve&amp;#39;s contributors wiki&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.gerg.ca/evolve/user-guide.html&quot;&gt;Greg Ward’s post about evolve&lt;/a&gt;: you should start there if you like the concepts discussed in this article and want to start using evolve.&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.mercurial-scm.org/wiki/ChangesetEvolution&quot;&gt;Evolve’s wiki&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.mercurial-scm.org/wiki/ChangesetEvolutionDevel&quot;&gt;Evolve’s contributors wiki&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
+
 </content>
  </entry>
  
@@ -261,18 +262,18 @@ the repo you just cloned:&lt;/li&gt;
 I am a strong believer of automating everything and I have this mantra:&lt;/p&gt;
 
 &lt;blockquote&gt;
-&lt;p&gt;Automate anything that you did twice as you will certainly have to do it a third time&lt;/p&gt;
+  &lt;p&gt;Automate anything that you did twice as you will certainly have to do it a third time&lt;/p&gt;
 &lt;/blockquote&gt;
 
 &lt;p&gt;This article describes my approach to automate a time consuming task in my daily workflow.&lt;/p&gt;
 
 &lt;p&gt;I am working on &lt;a href=&quot;https://www.Mercurial-scm.org/&quot;&gt;Mercurial&lt;/a&gt;. Whenever I work
 on a new series of patches, I want to ensure that the whole test suite passes
-on every patch of the series. In the end I made this task completely &lt;strong&gt;automated&lt;/strong&gt; and &lt;strong&gt;transparent&lt;/strong&gt;. &lt;/p&gt;
+on every patch of the series. In the end I made this task completely &lt;strong&gt;automated&lt;/strong&gt; and &lt;strong&gt;transparent&lt;/strong&gt;.&lt;/p&gt;
 
-&lt;hr&gt;
+&lt;hr /&gt;
 
-&lt;h3&gt;Iteration Zero: run the tests and go grab a drink with a friend&lt;/h3&gt;
+&lt;h3 id=&quot;iteration-zero-run-the-tests-and-go-grab-a-drink-with-a-friend&quot;&gt;Iteration Zero: run the tests and go grab a drink with a friend&lt;/h3&gt;
 
 &lt;p&gt;The very first time I ran the Mercurial test I stared at my screen while the tests results
 were being slowly displayed. After a while, I went to grab coffee, came back, and all the tests had run. I swore to myself that I would never waste more time staring at the screen waiting for the tests to finish. The first
@@ -281,23 +282,21 @@ Some people never get frustrated by that but I have a pretty low tolerance for
 repetitive tasks!&lt;/p&gt;
 
 &lt;blockquote&gt;
-&lt;p&gt;I am not saying that Mercurial tests are too slow, they actually take typically
+  &lt;p&gt;I am not saying that Mercurial tests are too slow, they actually take typically
 less than 5 minutes to run. For tests that take one hour to run, people
-don&amp;#39;t hesitate to automate the process. For tests that take 2 minutes, most
+don’t hesitate to automate the process. For tests that take 2 minutes, most
 people think they can stand staring at their screen and it is a &lt;strong&gt;mistake&lt;/strong&gt;! 
-Automate &lt;strong&gt;all the things&lt;/strong&gt;, don&amp;#39;t manually do the same thing &lt;strong&gt;twice&lt;/strong&gt; and you
+Automate &lt;strong&gt;all the things&lt;/strong&gt;, don’t manually do the same thing &lt;strong&gt;twice&lt;/strong&gt; and you
 will improve!&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;h3&gt;First iteration: Open a new window, type some commands, check later&lt;/h3&gt;
-
+&lt;h3 id=&quot;first-iteration-open-a-new-window-type-some-commands-check-later&quot;&gt;First iteration: Open a new window, type some commands, check later&lt;/h3&gt;
 &lt;p&gt;The first improvement I made was opening a new terminal window to run all the tests.
 This was better than waiting for the tests to finish. If you are not using
 a terminal multiplexer, I strongly advise you to do so, check out &lt;a href=&quot;https://tmux.github.io/&quot;&gt;tmux&lt;/a&gt;.
 While running the tests, I was being careful not to modify any files to avoid messing up the results of the test.&lt;/p&gt;
 
-&lt;h3&gt;Second iteration: Isolate testing and work environment&lt;/h3&gt;
-
+&lt;h3 id=&quot;second-iteration-isolate-testing-and-work-environment&quot;&gt;Second iteration: Isolate testing and work environment&lt;/h3&gt;
 &lt;p&gt;Soon after, I decided to have two copies of the Mercurial repository. I kept one copy  to run the test
 completely in RAM (for the sake of speed) and one copy on disk on which I was working. After
 finishing a patch, I would push my changes to the test repository and run the
@@ -308,32 +307,32 @@ overcoming the main issue of the first iteration.&lt;/p&gt;
 &lt;p&gt;Despite being an enhancement over the previous iteration, four key things were missing:&lt;/p&gt;
 
 &lt;ol&gt;
-&lt;li&gt;I still had to type commands to push the changes, checkout the revisions
+  &lt;li&gt;I still had to type commands to push the changes, checkout the revisions
 and run the tests&lt;/li&gt;
-&lt;li&gt;If I had to test 10 patches, I would have to launch them one by one&lt;/li&gt;
-&lt;li&gt;I had to look through the test results and take note of what passed and what
-didn&amp;#39;t pass&lt;/li&gt;
-&lt;li&gt;There was no neat way for me to see what changes pass the test and what changes
-didn&amp;#39;t pass the test&lt;/li&gt;
+  &lt;li&gt;If I had to test 10 patches, I would have to launch them one by one&lt;/li&gt;
+  &lt;li&gt;I had to look through the test results and take note of what passed and what
+didn’t pass&lt;/li&gt;
+  &lt;li&gt;There was no neat way for me to see what changes pass the test and what changes
+didn’t pass the test&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;h3&gt;Third iteration: Avoid unnecessary typing&lt;/h3&gt;
+&lt;h3 id=&quot;third-iteration-avoid-unnecessary-typing&quot;&gt;Third iteration: Avoid unnecessary typing&lt;/h3&gt;
 
 &lt;p&gt;I got fed up with typing the commands to push my changes, check them out
 and run the tests. I did some research and figured out that tmux allows
 you to open new windows and run commands in other windows programmatically. 
 I used this API and scripted tmux to open a new window to run my tests.&lt;/p&gt;
 
-&lt;h3&gt;Fourth iteration: Getting tired of reading test output&lt;/h3&gt;
+&lt;h3 id=&quot;fourth-iteration-getting-tired-of-reading-test-output&quot;&gt;Fourth iteration: Getting tired of reading test output&lt;/h3&gt;
 
 &lt;p&gt;I realized that our tests runner could produce a JSON report with the results
-of each test. There was a bug where the output was not a valid JSON and it didn&amp;#39;t
+of each test. There was a bug where the output was not a valid JSON and it didn’t
 contain some of the information I needed so I sent patches upstream. Once fixed
 I managed to get my previous automation to read the report, archive it, parse it
 and give me a summary. I decided to store all these information in SQLite to
 easily query them later.&lt;/p&gt;
 
-&lt;h3&gt;Fifth iteration: When it gets serious&lt;/h3&gt;
+&lt;h3 id=&quot;fifth-iteration-when-it-gets-serious&quot;&gt;Fifth iteration: When it gets serious&lt;/h3&gt;
 
 &lt;p&gt;My main issue at that point was that I was launching the tests one by one and
 being careful not to launch two at a time. I added a task queue to my system using
@@ -343,18 +342,18 @@ At this point, I hooked up tests for other repositories and not just the core Me
 I built a command line tool to easily select what tests to run and to query the tests
 results and failures.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/assets/listcset.png&quot; alt=&quot;List of changesets and test results&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/listcset.png&quot; alt=&quot;List of changesets and test results&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;One thing was missing, I still had to read the reports to know when the tests were passing.&lt;/p&gt;
 
-&lt;h3&gt;Sixth iteration: Cherry on the cake: a hud, colored labels, and vim integration!&lt;/h3&gt;
+&lt;h3 id=&quot;sixth-iteration-cherry-on-the-cake-a-hud-colored-labels-and-vim-integration&quot;&gt;Sixth iteration: Cherry on the cake: a hud, colored labels, and vim integration!&lt;/h3&gt;
 
 &lt;p&gt;It is extremely easy to write Mercurial extensions, it can take as little as 
 5 lines of python to create a useful feature. I wrote an extension that adds an
 overlay on top of the list of commits in my repository to show me if the tests
 passed for each revision:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/assets/slog.png&quot; alt=&quot;Changelog&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/slog.png&quot; alt=&quot;Changelog&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;I added a status bar in tmux to inform me of what is being tested and I am thinking
 of adding an ETA for the tests.&lt;/p&gt;
@@ -362,11 +361,12 @@ of adding an ETA for the tests.&lt;/p&gt;
 &lt;p&gt;Finally, I added shortcuts in vim to launch tests against the current revision,
 the current stack and see test results.&lt;/p&gt;
 
-&lt;h3&gt;Future iterations: Dependencies, packaging, and distribution&lt;/h3&gt;
+&lt;h3 id=&quot;future-iterations-dependencies-packaging-and-distribution&quot;&gt;Future iterations: Dependencies, packaging, and distribution&lt;/h3&gt;
 
 &lt;p&gt;I installed this automation on three machines already and it works great! 
 Moving forward, I want to distribute this system to more people. I will write
-more about it and talk about implementation details in other articles. &lt;/p&gt;
+more about it and talk about implementation details in other articles.&lt;/p&gt;
+
 </content>
  </entry>
  
@@ -376,43 +376,49 @@ more about it and talk about implementation details in other articles. &lt;/p&gt
    <updated>2016-01-09T00:00:00-08:00</updated>
    <id>http://charignon.github.io/2016/01/09/web-browsing-automation</id>
    <content type="html">&lt;blockquote&gt;
-&lt;p&gt;&lt;strong&gt;Disclaimer:&lt;/strong&gt; make sure to check the terms of use of the website you plan to 
+  &lt;p&gt;&lt;strong&gt;Disclaimer:&lt;/strong&gt; make sure to check the terms of use of the website you plan to 
 interact with, a lot of websites forbids interaction from automation. 
-Don&amp;#39;t do anything that could get you in trouble.&lt;/p&gt;
+Don’t do anything that could get you in trouble.&lt;/p&gt;
 &lt;/blockquote&gt;
 
 &lt;p&gt;&lt;strong&gt;mechanize&lt;/strong&gt; is a library to interact with websites. It fits in between 
 high-level browser automation tools like &lt;strong&gt;Selenium&lt;/strong&gt; and HTTP libraries like 
-&lt;strong&gt;requests&lt;/strong&gt;. It doesn&amp;#39;t handle Javascript, if that&amp;#39;s an issue for you, you 
+&lt;strong&gt;requests&lt;/strong&gt;. It doesn’t handle Javascript, if that’s an issue for you, you 
 should consider &lt;strong&gt;CasperJS&lt;/strong&gt;. The big advantage of using mechanize compared to 
 a higher level library is speed: it is an order of magnitude faster!&lt;/p&gt;
 
 &lt;p&gt;I use the following boilerplate code for all my programs with &lt;strong&gt;mechanize&lt;/strong&gt;:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-&quot; data-lang=&quot;&quot;&gt;Set up user agent
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Set up user agent
 
 Load cookies from a file
 
 If the cookies are expired:
-    Go through the login flow
+	Go through the login flow
 
 Interact with the website
 
 Persist the cookies to a file
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
 &lt;p&gt;If you do the following instead:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-&quot; data-lang=&quot;&quot;&gt;Go through the login flow
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Go through the login flow
 
 Interact with the website
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
 &lt;p&gt;Then, you will end up going through the login flow as many times as you run the
 script. Not only will this be inefficient, but you would also take the risk of 
-being &lt;strong&gt;blacklisted&lt;/strong&gt; by the website&amp;#39;s owner for making too many requests.
-Let&amp;#39;s see in practice what this code looks like.&lt;/p&gt;
+being &lt;strong&gt;blacklisted&lt;/strong&gt; by the website’s owner for making too many requests.
+Let’s see in practice what this code looks like.&lt;/p&gt;
 
-&lt;h2&gt;Boilerplate&lt;/h2&gt;
+&lt;h2 id=&quot;boilerplate&quot;&gt;Boilerplate&lt;/h2&gt;
 
 &lt;p&gt;Assuming that you want to log into a website and read a page that shows some
-JSON content, you would do something like this: &lt;/p&gt;
+JSON content, you would do something like this:&lt;/p&gt;
 
 &lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;os&lt;/span&gt;
 &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;json&lt;/span&gt;
@@ -429,7 +435,7 @@ JSON content, you would do something like this: &lt;/p&gt;
 &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;loadcookiejar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
     &lt;span class=&quot;n&quot;&gt;cj&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cookielib&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;LWPCookieJar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
     &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;os&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;exists&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;cookies&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;cj&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;load&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;cookies&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    	&lt;span class=&quot;n&quot;&gt;cj&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;load&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;cookies&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
     &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cj&lt;/span&gt;
 
 &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
@@ -437,15 +443,15 @@ JSON content, you would do something like this: &lt;/p&gt;
     &lt;span class=&quot;n&quot;&gt;cj&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;loadcookiejar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
     &lt;span class=&quot;n&quot;&gt;br&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;set_cookiejar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cj&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
     &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cj&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;url&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&#39;https://XXX&#39;&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;br&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;open&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-        &lt;span class=&quot;c&quot;&gt;# Select the first form&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;br&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;select_form&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;nr&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-        &lt;span class=&quot;c&quot;&gt;# Fill in some information&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;br&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;email&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;XXXXXXX&quot;&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;br&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;password&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;YYYYYYY&quot;&lt;/span&gt;
-        &lt;span class=&quot;c&quot;&gt;# Actually log in and set the cookies&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;br&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;submit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+		&lt;span class=&quot;n&quot;&gt;url&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&#39;https://XXX&#39;&lt;/span&gt;
+		&lt;span class=&quot;n&quot;&gt;br&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;open&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+		&lt;span class=&quot;c&quot;&gt;# Select the first form&lt;/span&gt;
+		&lt;span class=&quot;n&quot;&gt;br&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;select_form&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;nr&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+		&lt;span class=&quot;c&quot;&gt;# Fill in some information&lt;/span&gt;
+		&lt;span class=&quot;n&quot;&gt;br&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;email&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;XXXXXXX&quot;&lt;/span&gt;
+		&lt;span class=&quot;n&quot;&gt;br&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;password&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;YYYYYYY&quot;&lt;/span&gt;
+		&lt;span class=&quot;c&quot;&gt;# Actually log in and set the cookies&lt;/span&gt;
+		&lt;span class=&quot;n&quot;&gt;br&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;submit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
     &lt;span class=&quot;c&quot;&gt;# The page you are interested in&lt;/span&gt;
     &lt;span class=&quot;n&quot;&gt;r&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;br&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;open&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;https://YYYY&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
     &lt;span class=&quot;c&quot;&gt;# Assumes that the content is JSON, otherwise use r.read()&lt;/span&gt;
@@ -455,11 +461,11 @@ JSON content, you would do something like this: &lt;/p&gt;
 &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;__name__&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;__main__&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
     &lt;span class=&quot;n&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
-&lt;p&gt;Now, some of you might wonder &amp;quot;how do you figure out what the URLS/parameter 
-are for the stuff that you are interested in&amp;quot;. It is actually fairly easy to
+&lt;p&gt;Now, some of you might wonder “how do you figure out what the URLS/parameter 
+are for the stuff that you are interested in”. It is actually fairly easy to
 gather that information.&lt;/p&gt;
 
-&lt;h2&gt;Figure out the API behind a website&lt;/h2&gt;
+&lt;h2 id=&quot;figure-out-the-api-behind-a-website&quot;&gt;Figure out the API behind a website&lt;/h2&gt;
 
 &lt;p&gt;This explanation assumes that you are using &lt;strong&gt;Google Chrome&lt;/strong&gt;, tools exists with 
 many other browser to do the same thing.&lt;/p&gt;
@@ -473,14 +479,14 @@ see if you find something interesting.&lt;/p&gt;
 
 &lt;p&gt;In my case, I am looking at a website that gives the location of my phone, I
 filtered the XHR requests:
-&lt;img src=&quot;/assets/webauto1.png&quot; alt=&quot;XHR requests&quot;&gt;&lt;/p&gt;
+&lt;img src=&quot;/assets/webauto1.png&quot; alt=&quot;XHR requests&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;It looks like the first entry is very interesting:
-&lt;img src=&quot;/assets/webauto2.png&quot; alt=&quot;First entry&quot;&gt;&lt;/p&gt;
+&lt;img src=&quot;/assets/webauto2.png&quot; alt=&quot;First entry&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;From there, right click on the request and you can copy the URL and information
 to make the request from python or a terminal:
-&lt;img src=&quot;/assets/webauto3.png&quot; alt=&quot;Exporting&quot;&gt;&lt;/p&gt;
+&lt;img src=&quot;/assets/webauto3.png&quot; alt=&quot;Exporting&quot; /&gt;&lt;/p&gt;
 </content>
  </entry>
  
@@ -510,7 +516,7 @@ Python logging module that allows you to add color to your logs.&lt;/p&gt;
 
 &lt;p&gt;And your log become much easier to read:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/assets/colorlog.gif&quot; alt=&quot;Color logging&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/colorlog.gif&quot; alt=&quot;Color logging&quot; /&gt;&lt;/p&gt;
 </content>
  </entry>
  
@@ -522,10 +528,10 @@ Python logging module that allows you to add color to your logs.&lt;/p&gt;
    <content type="html">&lt;p&gt;Source code: &lt;a href=&quot;https://github.com/charignon/otpCSnode&quot;&gt;https://github.com/charignon/otpCSnode&lt;/a&gt;&lt;/p&gt;
 
 &lt;div class=&quot;message&quot;&gt;
-  Too long don&#39;t read: How I used Node JS &amp; CoffeeScript to implement one time padding of TCP traffic. Example use with: SSH, SCP and HTTP Proxying.
+  Too long don&#39;t read: How I used Node JS &amp;amp; CoffeeScript to implement one time padding of TCP traffic. Example use with: SSH, SCP and HTTP Proxying.
 &lt;/div&gt;
 
-&lt;h2&gt;One time padding&lt;/h2&gt;
+&lt;h2 id=&quot;one-time-padding&quot;&gt;One time padding&lt;/h2&gt;
 
 &lt;p&gt;&lt;cite&gt;
 In cryptography, a one-time pad (OTP) is an encryption technique that cannot be cracked if used correctly. In this technique, a plaintext is paired with random, secret key (or pad). Then, each bit or character of the plaintext is encrypted by combining it with the corresponding bit or character from the pad using modular addition.&lt;/cite&gt;&lt;a href=&quot;http://en.wikipedia.org/wiki/One-time_pad&quot;&gt;Wikipedia: One time pad&lt;/a&gt;.&lt;/p&gt;
@@ -533,29 +539,29 @@ In cryptography, a one-time pad (OTP) is an encryption technique that cannot be 
 &lt;p&gt;In other words, one-time padding is a cryptography technique using a key (that both sides know) as long as the message.
 Since the key is as long as the message, the message appear as random as the key and is uncrackable if the key cannot be guessed.&lt;/p&gt;
 
-&lt;p&gt;Technically, it is implemented with a simple XOR between the message and the key. It has been deem quite unpractical for most encryption needs because the key has to be as long as the data. But when you can afford to use it, it is the only uncrackable encryption technique. Don&amp;#39;t take my word for it, the red telephone apparently used it according to the same wikipedia article.&lt;/p&gt;
+&lt;p&gt;Technically, it is implemented with a simple XOR between the message and the key. It has been deem quite unpractical for most encryption needs because the key has to be as long as the data. But when you can afford to use it, it is the only uncrackable encryption technique. Don’t take my word for it, the red telephone apparently used it according to the same wikipedia article.&lt;/p&gt;
 
-&lt;h2&gt;Key generation and distribution&lt;/h2&gt;
+&lt;h2 id=&quot;key-generation-and-distribution&quot;&gt;Key generation and distribution&lt;/h2&gt;
 
-&lt;p&gt;We can easily create a key using the &lt;code&gt;/dev/random&lt;/code&gt; file. For instance to generate a key file named &lt;code&gt;key&lt;/code&gt; of &lt;code&gt;100Mb&lt;/code&gt; you could run:&lt;/p&gt;
+&lt;p&gt;We can easily create a key using the &lt;code class=&quot;highlighter-rouge&quot;&gt;/dev/random&lt;/code&gt; file. For instance to generate a key file named &lt;code class=&quot;highlighter-rouge&quot;&gt;key&lt;/code&gt; of &lt;code class=&quot;highlighter-rouge&quot;&gt;100Mb&lt;/code&gt; you could run:&lt;/p&gt;
 
 &lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;dd &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/dev/random &lt;span class=&quot;nv&quot;&gt;of&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;./key &lt;span class=&quot;nv&quot;&gt;bs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;1048576 &lt;span class=&quot;nv&quot;&gt;count&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;100&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;In the next part I assume that you have this key on two different hosts.&lt;/p&gt;
 
-&lt;h2&gt;Don&amp;#39;t reuse the key&lt;/h2&gt;
+&lt;h2 id=&quot;dont-reuse-the-key&quot;&gt;Don’t reuse the key&lt;/h2&gt;
 
 &lt;p&gt;Contrary to most encryption method, the one-time-pad keys are used only once. In our case, it means that our 100Mb key can encrypt only 100Mb, not one more bit!&lt;/p&gt;
 
 &lt;p&gt;To use the keys several times (for example several ssh sessions) without having to dump it after each one, you must keep track of what your encrypted before. In other words you need to know your offset in the key file.&lt;/p&gt;
 
-&lt;h2&gt;Client and server code&lt;/h2&gt;
+&lt;h2 id=&quot;client-and-server-code&quot;&gt;Client and server code&lt;/h2&gt;
 
 &lt;p&gt;To simplify, the key file is hardcoded and loaded fully in memory.&lt;/p&gt;
 
 &lt;p&gt;As an improvement the key could be specific on the command line and precached by chunk at runtime.&lt;/p&gt;
 
-&lt;h3&gt;Server code&lt;/h3&gt;
+&lt;h3 id=&quot;server-code&quot;&gt;Server code&lt;/h3&gt;
 
 &lt;p&gt;The server connects to a service like SSH, HttpProxy, VoIP server etc.
 It allows the client to operate with the service by:
@@ -583,15 +589,15 @@ It allows the client to operate with the service by:
 &lt;p&gt;The first part of the code is straightforward, we just parse the arguments and
 validate them.&lt;/p&gt;
 
-&lt;p&gt;Then we create a tcp server bound to &lt;code&gt;localPort&lt;/code&gt; and when a client connects to
+&lt;p&gt;Then we create a tcp server bound to &lt;code class=&quot;highlighter-rouge&quot;&gt;localPort&lt;/code&gt; and when a client connects to
 this server we:&lt;/p&gt;
 
 &lt;ul&gt;
-&lt;li&gt;Create a connection to the service&lt;/li&gt;
-&lt;li&gt;Wire the connection between service and client with an offset for each encryptor: the offset is in byte from start of the key file&lt;/li&gt;
+  &lt;li&gt;Create a connection to the service&lt;/li&gt;
+  &lt;li&gt;Wire the connection between service and client with an offset for each encryptor: the offset is in byte from start of the key file&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3&gt;Client code&lt;/h3&gt;
+&lt;h3 id=&quot;client-code&quot;&gt;Client code&lt;/h3&gt;
 
 &lt;p&gt;Very similar to the server code:&lt;/p&gt;
 
@@ -614,7 +620,7 @@ this server we:&lt;/p&gt;
   &lt;span class=&quot;nx&quot;&gt;inBoundSocket&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;pipe&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;otp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;encryptor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;client&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;clientOffset&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)).&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;pipe&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;outBoundSocket&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;listen&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;localPort&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
-&lt;h3&gt;Library code&lt;/h3&gt;
+&lt;h3 id=&quot;library-code&quot;&gt;Library code&lt;/h3&gt;
 
 &lt;p&gt;This is where the encryption is done, again, pretty straightforward:&lt;/p&gt;
 
@@ -664,10 +670,10 @@ this server we:&lt;/p&gt;
   &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;log&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;root&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;offsets&lt;/span&gt;
   &lt;span class=&quot;nx&quot;&gt;process&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;exit&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
-&lt;h2&gt;Encrypt ssh traffic&lt;/h2&gt;
+&lt;h2 id=&quot;encrypt-ssh-traffic&quot;&gt;Encrypt ssh traffic&lt;/h2&gt;
 
-&lt;p&gt;We have two computers called HostA and HostB, let&amp;#39;s say that the ssh server is
-on HostB. Let&amp;#39;s say that out of the 100Mb key, we want to use the last 50Mb for
+&lt;p&gt;We have two computers called HostA and HostB, let’s say that the ssh server is
+on HostB. Let’s say that out of the 100Mb key, we want to use the last 50Mb for
 the server and the first 50Mb for the client.&lt;/p&gt;
 
 &lt;p&gt;On HostB we start the encryption server:&lt;/p&gt;
