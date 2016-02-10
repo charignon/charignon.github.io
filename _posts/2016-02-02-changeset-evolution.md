@@ -93,7 +93,7 @@ After running the amend, you can easily:
 
 > **The reflog ([git](https://www.git-scm.com/docs/git-reflog) or [mercurial](https://bitbucket.org/facebook/hg-experimental))** is a command to list
 the successive location of the head of the repository and all its branches or
-bookmarks. It is a list of line with the format: "hashes command" and shows
+bookmarks. It is a list of lines with the format: "hashes command" and shows
 the working copy parent (i.e. current commit) after each command. **It is used
 to recover from mistakes and go back to a previous state**.
 
@@ -142,7 +142,8 @@ Let's assume that you start from this simple state:
 <figcaption>Starting point</figcaption>
 </figure>
 
-And you and your friend work on making changes to b, you create a new change **b'** and your friend creates a new version of b called: **b''**
+You and your friend make changes to the revision **b**.
+You create a new version of **b** called **b'** and your friend creates a new version of **b** called **b''**.
 
 <figure style="text-align:center">
 <img style="display: block; margin: 0 auto" alt="Before running the amend command" src ="/assets/evolve/amend4.dot.svg" />
@@ -154,7 +155,8 @@ And you and your friend work on making changes to b, you create a new change **b
 <figcaption>The second developer rewrote b as well</figcaption>
 </figure>
 
-Then you decide to put your work together:
+Then you decide to put your work together. For example, you can do that by pulling from eachother's repository.
+The obsolescence markers and revisions are exchanged and you end up with the following state:
 
 <figure style="text-align:center">
 <img style="display: block; margin: 0 auto" alt="Before running the amend command" src ="/assets/evolve/amend7.dot.svg" />
@@ -165,15 +167,15 @@ In **git** or **vanilla (no extension) mercurial**, you would have to figure out
 **Changeset evolution** detects that situation, marks **b'** and **b''** as being divergent.
 It then suggests **automatic resolution with a merge and preserves history.**
 
-
 <figure style="text-align:center">
 <img style="display: block; margin: 0 auto" alt="Before running the amend command" src ="/assets/evolve/amend8.dot.svg" />
 <figcaption>Everything gets resolved intelligently</figcaption>
 </figure>
 
 The graph might seem overcomplicated, but once again, most things are happening **under the hood** and the UI impact is minimal.
-These examples **show** the power of changeset evolution, to provide an **automatic resolution** of typical source control issues.
-But, the true power of **changeset evolution** is the flexibility that it gives when working with stacks of commits.
+These examples **show** one of the benefit of working with Changeset Evolution: it provides an **automatic resolution of typical source control issues**.
+
+As we will see in the next section, **Changeset Evolution** does much more than that and gives developers more flexibility when working with stacks of commits.
 
 ## A more flexible workflow with stacks
 

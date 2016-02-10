@@ -218,7 +218,7 @@ After running the amend, you can easily:</p>
 <blockquote>
   <p><strong>The reflog (<a href="https://www.git-scm.com/docs/git-reflog">git</a> or <a href="https://bitbucket.org/facebook/hg-experimental">mercurial</a>)</strong> is a command to list
 the successive location of the head of the repository and all its branches or
-bookmarks. It is a list of line with the format: “hashes command” and shows
+bookmarks. It is a list of lines with the format: “hashes command” and shows
 the working copy parent (i.e. current commit) after each command. <strong>It is used
 to recover from mistakes and go back to a previous state</strong>.</p>
 </blockquote>
@@ -268,7 +268,8 @@ What if on pull the server could tell you that <strong>newb</strong> is the new 
 <figcaption>Starting point</figcaption>
 </figure>
 
-<p>And you and your friend work on making changes to b, you create a new change <strong>b’</strong> and your friend creates a new version of b called: <strong>b’‘</strong></p>
+<p>You and your friend make changes to the revision <strong>b</strong>.
+You create a new version of <strong>b</strong> called <strong>b’</strong> and your friend creates a new version of <strong>b</strong> called <strong>b’‘</strong>.</p>
 
 <figure style="text-align:center">
 <img style="display: block; margin: 0 auto" alt="Before running the amend command" src="/assets/evolve/amend4.dot.svg" />
@@ -280,7 +281,8 @@ What if on pull the server could tell you that <strong>newb</strong> is the new 
 <figcaption>The second developer rewrote b as well</figcaption>
 </figure>
 
-<p>Then you decide to put your work together:</p>
+<p>Then you decide to put your work together. For example, you can do that by pulling from eachother’s repository.
+The obsolescence markers and revisions are exchanged and you end up with the following state:</p>
 
 <figure style="text-align:center">
 <img style="display: block; margin: 0 auto" alt="Before running the amend command" src="/assets/evolve/amend7.dot.svg" />
@@ -297,8 +299,9 @@ It then suggests <strong>automatic resolution with a merge and preserves history
 </figure>
 
 <p>The graph might seem overcomplicated, but once again, most things are happening <strong>under the hood</strong> and the UI impact is minimal.
-These examples <strong>show</strong> the power of changeset evolution, to provide an <strong>automatic resolution</strong> of typical source control issues.
-But, the true power of <strong>changeset evolution</strong> is the flexibility that it gives when working with stacks of commits.</p>
+These examples <strong>show</strong> one of the benefit of working with Changeset Evolution: it provides an <strong>automatic resolution of typical source control issues</strong>.</p>
+
+<p>As we will see in the next section, <strong>Changeset Evolution</strong> does much more than that and gives developers more flexibility when working with stacks of commits.</p>
 
 <h2 id="a-more-flexible-workflow-with-stacks">A more flexible workflow with stacks</h2>
 

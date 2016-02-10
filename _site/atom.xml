@@ -4,7 +4,7 @@
  <title>Laurent Charignon</title>
  <link href="http://charignon.github.io/atom.xml" rel="self"/>
  <link href="http://charignon.github.io/"/>
- <updated>2016-02-05T18:46:01-08:00</updated>
+ <updated>2016-02-09T19:17:30-08:00</updated>
  <id>http://charignon.github.io</id>
  <author>
    <name>Laurent Charignon</name>
@@ -106,7 +106,7 @@ After running the amend, you can easily:&lt;/p&gt;
 &lt;blockquote&gt;
   &lt;p&gt;&lt;strong&gt;The reflog (&lt;a href=&quot;https://www.git-scm.com/docs/git-reflog&quot;&gt;git&lt;/a&gt; or &lt;a href=&quot;https://bitbucket.org/facebook/hg-experimental&quot;&gt;mercurial&lt;/a&gt;)&lt;/strong&gt; is a command to list
 the successive location of the head of the repository and all its branches or
-bookmarks. It is a list of line with the format: “hashes command” and shows
+bookmarks. It is a list of lines with the format: “hashes command” and shows
 the working copy parent (i.e. current commit) after each command. &lt;strong&gt;It is used
 to recover from mistakes and go back to a previous state&lt;/strong&gt;.&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -156,7 +156,8 @@ What if on pull the server could tell you that &lt;strong&gt;newb&lt;/strong&gt;
 &lt;figcaption&gt;Starting point&lt;/figcaption&gt;
 &lt;/figure&gt;
 
-&lt;p&gt;And you and your friend work on making changes to b, you create a new change &lt;strong&gt;b’&lt;/strong&gt; and your friend creates a new version of b called: &lt;strong&gt;b’‘&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;You and your friend make changes to the revision &lt;strong&gt;b&lt;/strong&gt;.
+You create a new version of &lt;strong&gt;b&lt;/strong&gt; called &lt;strong&gt;b’&lt;/strong&gt; and your friend creates a new version of &lt;strong&gt;b&lt;/strong&gt; called &lt;strong&gt;b’‘&lt;/strong&gt;.&lt;/p&gt;
 
 &lt;figure style=&quot;text-align:center&quot;&gt;
 &lt;img style=&quot;display: block; margin: 0 auto&quot; alt=&quot;Before running the amend command&quot; src=&quot;/assets/evolve/amend4.dot.svg&quot; /&gt;
@@ -168,7 +169,8 @@ What if on pull the server could tell you that &lt;strong&gt;newb&lt;/strong&gt;
 &lt;figcaption&gt;The second developer rewrote b as well&lt;/figcaption&gt;
 &lt;/figure&gt;
 
-&lt;p&gt;Then you decide to put your work together:&lt;/p&gt;
+&lt;p&gt;Then you decide to put your work together. For example, you can do that by pulling from eachother’s repository.
+The obsolescence markers and revisions are exchanged and you end up with the following state:&lt;/p&gt;
 
 &lt;figure style=&quot;text-align:center&quot;&gt;
 &lt;img style=&quot;display: block; margin: 0 auto&quot; alt=&quot;Before running the amend command&quot; src=&quot;/assets/evolve/amend7.dot.svg&quot; /&gt;
@@ -185,8 +187,9 @@ It then suggests &lt;strong&gt;automatic resolution with a merge and preserves h
 &lt;/figure&gt;
 
 &lt;p&gt;The graph might seem overcomplicated, but once again, most things are happening &lt;strong&gt;under the hood&lt;/strong&gt; and the UI impact is minimal.
-These examples &lt;strong&gt;show&lt;/strong&gt; the power of changeset evolution, to provide an &lt;strong&gt;automatic resolution&lt;/strong&gt; of typical source control issues.
-But, the true power of &lt;strong&gt;changeset evolution&lt;/strong&gt; is the flexibility that it gives when working with stacks of commits.&lt;/p&gt;
+These examples &lt;strong&gt;show&lt;/strong&gt; one of the benefit of working with Changeset Evolution: it provides an &lt;strong&gt;automatic resolution of typical source control issues&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;As we will see in the next section, &lt;strong&gt;Changeset Evolution&lt;/strong&gt; does much more than that and gives developers more flexibility when working with stacks of commits.&lt;/p&gt;
 
 &lt;h2 id=&quot;a-more-flexible-workflow-with-stacks&quot;&gt;A more flexible workflow with stacks&lt;/h2&gt;
 
