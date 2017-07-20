@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>https://blog.laurentcharignon.com/post/manage-reminders-with-emacs-and-facebook-bot/</loc>
+    <lastmod>2017-07-18T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.laurentcharignon.com/post/2016-02-02-changeset-evolution/</loc>
+    <lastmod>2016-02-02T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.laurentcharignon.com/post/2016-01-20-reliable-automation-example/</loc>
+    <lastmod>2016-01-20T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.laurentcharignon.com/post/2016-01-09-web-browsing-automation/</loc>
+    <lastmod>2016-01-09T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.laurentcharignon.com/post/2015-08-10-add-colors-to-your-python-logs-with-colorlog/</loc>
+    <lastmod>2015-08-10T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.laurentcharignon.com/post/2014-12-10-one-time-pad-node-js/</loc>
+    <lastmod>2014-12-10T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.laurentcharignon.com/</loc>
+    <lastmod>2017-07-18T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.laurentcharignon.com/categories/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.laurentcharignon.com/post/</loc>
+    <lastmod>2017-07-18T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.laurentcharignon.com/tags/</loc>
+    <priority>0</priority>
+  </url>
+  
+</urlset>

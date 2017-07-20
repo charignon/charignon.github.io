@@ -1,0 +1,19 @@
+  digraph G {
+    rankdir=LR;
+    facebook -> fb_nginx
+    subgraph cluster_1 {
+      fb_nginx -> fb_adapter
+      fb_adapter -> backend_1
+      label = "Facebook bot stack";
+    }
+    backend_1[color=green, style=filled, label="backend"]
+    backend_1 -> redis
+    telegram -> telegram_nginx
+    subgraph cluster_0 {
+      telegram_nginx -> telegram_adapter
+      telegram_adapter -> backend
+      label = "Telegram bot stack"
+    }
+    backend -> redis
+    backend[color=green, style=filled]
+  }

@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="generator" content="Hugo 0.25.1" />
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  
+  <title>Blog</title>
+  
+
+  
+  <link rel="stylesheet" href="https://blog.laurentcharignon.com/css/poole.css">
+  <link rel="stylesheet" href="https://blog.laurentcharignon.com/css/syntax.css">
+  <link rel="stylesheet" href="https://blog.laurentcharignon.com/css/hyde.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.png">
+
+  
+  <link href="https://blog.laurentcharignon.com/index.xml" rel="alternate" type="application/rss+xml" title="Blog" />
+  <link rel="stylesheet" href="https://blog.laurentcharignon.com/css/override.css">
+  <script>
+   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	                          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+   })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+   ga('create', 'UA-57650622-5', 'auto');
+   ga('send', 'pageview');
+  </script>
+</head>
+
+<body class="theme-base-01 ">
+
+<div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <a href="https://blog.laurentcharignon.com/"><h1>Blog</h1></a>
+      <p class="lead">
+       Laurent Charignon 
+      </p>
+    </div>
+
+    <ul class="sidebar-nav">
+      <li><a href="/">Home</a> </li>
+      
+        <li><a href="/post/2016-01-20-reliable-automation-example/"> A Test Automation Story </a></li>
+      
+        <li><a href="/post/2015-08-10-add-colors-to-your-python-logs-with-colorlog/"> Add Colors To Your Python Logs With Colorlog </a></li>
+      
+        <li><a href="/post/2016-02-02-changeset-evolution/"> Changeset Evolution </a></li>
+      
+        <li><a href="/post/2016-01-09-web-browsing-automation/"> Introduction to Mechanize with Python </a></li>
+      
+        <li><a href="/post/manage-reminders-with-emacs-and-facebook-bot/"> Managing my todos, notes, and reminders </a></li>
+      
+        <li><a href="/post/2014-12-10-one-time-pad-node-js/"> Practical one time padding with Node JS </a></li>
+      
+    </ul>
+
+    <p>&copy; 2017. All rights reserved. </p>
+  </div>
+</div>
+
+
+    <div class="content container">
+<div class="posts">
+
+      
+  <div class="post">
+    <h1 class="post-title">
+      <a href="https://blog.laurentcharignon.com/post/manage-reminders-with-emacs-and-facebook-bot/">
+        Managing my todos, notes, and reminders
+      </a>
+    </h1>
+
+    <span class="post-date">Tue, Jul 18, 2017</span>
+
+    <p>This post is about the chatbot I used to managed my reminders and notes.</p>
+
+<h2 id="moving-from-many-apps-to-one-bot">Moving from many apps to one bot</h2>
+
+<p>Before, when I wanted to be reminded of something, I would use the reminders app on my iPhone, to take notes, I would use the notes app and for todos, wunderlist.</p>
+
+<p>Recently I have tried to <strong>simplify</strong> my apps in order to <strong>focus</strong> more and avoid <strong>context switching</strong>.
+I have decided to rely on <strong>org mode</strong>, a mode that ships with <strong>emacs</strong> (I actually use spacemacs (<a href="http://spacemacs.org/" title="http://spacemacs.org/">http://spacemacs.org/</a>).</p>
+
+<blockquote>
+<p>
+Org mode is for keeping notes, maintaining TODO lists, planning projects, and authoring documents with a fast and effective plain-text system.
+</p>
+<p>
+- <a href="http://orgmode.org/" title="Org mode definition from org mode's site">Org mode definition from org mode's site</a>
+</p>
+</blockquote>
+
+<p>I use org mode for my todos, my notes, my reminders and many other things on my laptop.</p>
+
+<p>Contrary to the apps like notes and reminders, org mode does not integrate as well with the iPhone.
+So, I decided to devise an interface between all my org mode content and my phone, bi-directional and easy to use.
+This interface is <strong>a bot</strong>.</p>
+
+<h2 id="building-a-bot">Building a bot</h2>
+
+<p>There are many resources and tools you can use to build a bot. My favorite is this book: <a href="http://shop.oreilly.com/product/0636920057741.do" title="http://shop.oreilly.com/product/0636920057741.do">http://shop.oreilly.com/product/0636920057741.do</a>.
+It highlights some of the basic principles to respect to make your bot useful, friendly and manageable (from a developers perspective).</p>
+
+<p>I decided to build my bot from scratch instead of relying on prebuilt services that make a bot for you as I wanted to learn. My goals were:</p>
+
+<ul>
+<li>improve my knowledge of docker-compose, python3, Digital Ocean and Ansible</li>
+<li>learn how to build regression testing with traffic replay</li>
+<li>support both telegram and facebook messenger and share code logic</li>
+<li>deployable bot on a brand new server in less than 2 minutes</li>
+<li>to manage the state externally (separate server)</li>
+<li>to have a repl interface for the bot too</li>
+</ul>
+
+<p><figure style="text-align:center">
+<img style="display: block; margin: 0 auto" alt="Architecture of the bot" src ="/assets/archi-bot.svg" />
+<figcaption>Architecture of the bot</figcaption>
+</figure></p>
+
+<p>I can deploy both the facebook and telegram bot separately using docker-compose.
+<a href="https://docs.docker.com/compose/" title="Docker Compose">Docker Compose</a> is a way to specify containers configuration and links between containers forming an app.
+I use it in conjunction with <a href="https://www.ansible.com/" title="ansible">ansible</a> to orchestrate the deployment of the bot.
+Here is the docker-compose file for the telegram bot (not that I frontend in this file is the same as adapter above):</p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #ae81ff">version</span><span style="color: #f8f8f2">:</span> <span style="color: #e6db74">&quot;2&quot;</span>
+<span style="color: #ae81ff">networks</span><span style="color: #f8f8f2">:</span>
+  <span style="color: #ae81ff">internal</span><span style="color: #f8f8f2">:</span>
+<span style="color: #ae81ff">services</span><span style="color: #f8f8f2">:</span>
+  <span style="color: #ae81ff">telegram_backend</span><span style="color: #f8f8f2">:</span>
+    <span style="color: #ae81ff">build</span><span style="color: #f8f8f2">:</span> <span style="color: #ae81ff">../../APPS/backend</span>
+    <span style="color: #ae81ff">image</span><span style="color: #f8f8f2">:</span> <span style="color: #e6db74">&quot;backend:1.0&quot;</span>
+    <span style="color: #ae81ff">volumes</span><span style="color: #f8f8f2">:</span>
+     <span style="color: #f8f8f2">-</span> <span style="color: #ae81ff">../../CONFIG/backend:/usr/src/app/config</span>
+    <span style="color: #ae81ff">environment</span><span style="color: #f8f8f2">:</span>
+     <span style="color: #f8f8f2">-</span> <span style="color: #ae81ff">FRONTEND_URL=http://telegram_frontend:5000/reply</span>
+     <span style="color: #f8f8f2">-</span> <span style="color: #ae81ff">REDIS_HOST=redis.laurentcharignon.com</span>
+    <span style="color: #ae81ff">networks</span><span style="color: #f8f8f2">:</span>
+      <span style="color: #ae81ff">internal</span><span style="color: #f8f8f2">:</span> 
+        <span style="color: #ae81ff">aliases</span><span style="color: #f8f8f2">:</span>
+         <span style="color: #f8f8f2">-</span> <span style="color: #ae81ff">telegram_backend</span>
+  <span style="color: #ae81ff">telegram_nginx</span><span style="color: #f8f8f2">:</span>
+    <span style="color: #ae81ff">image</span><span style="color: #f8f8f2">:</span> <span style="color: #e6db74">&quot;nginx&quot;</span>
+    <span style="color: #ae81ff">volumes</span><span style="color: #f8f8f2">:</span>
+     <span style="color: #f8f8f2">-</span> <span style="color: #ae81ff">../../CONFIG/nginx/config/telegram_nginx.conf:/etc/nginx/nginx.conf:ro</span>
+     <span style="color: #f8f8f2">-</span> <span style="color: #ae81ff">../../CONFIG/nginx/config/ssl-params.conf:/etc/nginx/snippets/ssl-params.conf:ro</span>
+     <span style="color: #f8f8f2">-</span> <span style="color: #ae81ff">../../CONFIG/nginx/certificates/fullchain.pem:/usr/src/fullchain.pem:ro</span>
+     <span style="color: #f8f8f2">-</span> <span style="color: #ae81ff">../../CONFIG/nginx/certificates/privkey.pem:/usr/src/privkey.pem:ro</span>
+     <span style="color: #f8f8f2">-</span> <span style="color: #ae81ff">../../CONFIG/nginx/certificates/dhparam.pem:/etc/ssl/certs/dhparam.pem:ro</span>
+    <span style="color: #ae81ff">networks</span><span style="color: #f8f8f2">:</span>
+      <span style="color: #ae81ff">internal</span><span style="color: #f8f8f2">:</span>
+        <span style="color: #ae81ff">aliases</span><span style="color: #f8f8f2">:</span>
+          <span style="color: #f8f8f2">-</span> <span style="color: #ae81ff">telegram_nginx</span>
+    <span style="color: #ae81ff">depends_on</span><span style="color: #f8f8f2">:</span>
+      <span style="color: #f8f8f2">-</span> <span style="color: #e6db74">&quot;telegram_frontend&quot;</span>
+    <span style="color: #ae81ff">ports</span><span style="color: #f8f8f2">:</span>
+      <span style="color: #f8f8f2">-</span> <span style="color: #e6db74">&quot;8443:8443&quot;</span>
+  <span style="color: #ae81ff">telegram_frontend</span><span style="color: #f8f8f2">:</span>
+    <span style="color: #ae81ff">build</span><span style="color: #f8f8f2">:</span> <span style="color: #ae81ff">../../APPS/telegram_frontend</span>
+    <span style="color: #ae81ff">image</span><span style="color: #f8f8f2">:</span> <span style="color: #e6db74">&quot;telegram_frontend:1.0&quot;</span>
+    <span style="color: #ae81ff">environment</span><span style="color: #f8f8f2">:</span>
+     <span style="color: #f8f8f2">-</span> <span style="color: #ae81ff">BACKEND_URL=http://telegram_backend:3000</span>
+     <span style="color: #f8f8f2">-</span> <span style="color: #ae81ff">ADVERTISE_URL=https://bot.laurentcharignon.com:8443</span>
+    <span style="color: #ae81ff">volumes</span><span style="color: #f8f8f2">:</span>
+     <span style="color: #f8f8f2">-</span> <span style="color: #ae81ff">../../CONFIG/telegram_frontend:/usr/src/app/config</span>
+    <span style="color: #ae81ff">networks</span><span style="color: #f8f8f2">:</span>
+      <span style="color: #ae81ff">internal</span><span style="color: #f8f8f2">:</span>
+        <span style="color: #ae81ff">aliases</span><span style="color: #f8f8f2">:</span>
+         <span style="color: #f8f8f2">-</span> <span style="color: #ae81ff">telegram_frontend</span>
+    <span style="color: #ae81ff">depends_on</span><span style="color: #f8f8f2">:</span>
+      <span style="color: #f8f8f2">-</span> <span style="color: #e6db74">&quot;telegram_backend&quot;</span>
+</pre></div>
+
+<h2 id="how-to-interact-with-the-bot">How to interact with the bot?</h2>
+
+<ul>
+Typically bots use slash commands. I decided not to use that because the feature set of my bot is so limited:
+<li>Reminding me of things</li>
+<li>Asking me to acknowledge reminders</li>
+<li>Log tasks and todos</li>
+</ul>
+
+<p>I can ask</p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>help
+</pre></div>
+
+<p>To get some help</p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>gtd
+</pre></div>
+
+<p>To turn on/off a recording session of notes, whatever I send will be persisted for further processing.
+When recording notes, multiple formats are supported to route the request to different note files.</p>
+
+<p><figure style="text-align:center">
+<img style="display: block; margin: 0 auto" alt="Interaction with the bot" src ="/assets/bot-interaction.png" />
+<figcaption>Interaction with the bot</figcaption>
+</figure></p>
+
+<p>The bot is named <strong>Pascal</strong> by the way!.</p>
+
+<h2 id="emacs-integration">Emacs integration</h2>
+
+<p>The main reason why I built <strong>Pascal</strong> was to be reminded of things to do.
+I created a module to parse my <strong>org-mode</strong> files and set up reminders in the bot.</p>
+
+<p>Entries for reminders in my org mode files look like this:</p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>* Columbia CS@CU Happy Hour
+   :PROPERTIES:
+   :REMINDER_DATE: &lt;2017-07-15 Sat 12:00&gt;
+   :REMINDER_TARGET: laurent
+   :REMINDER_QUICK_REPLY: yes
+   :END:
+</pre></div>
+
+<p>This is plain text. The first line is</p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>* Columbia CS@CU Happy Hour
+</pre></div>
+
+<p>It is a heading, it starts with a star, in markdown you would achieve a similar result using <strong>#</strong></p>
+
+<p>The heading is followed by:</p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>:REMINDER_DATE: &lt;2017-07-15 Sat 12:00&gt;
+:REMINDER_TARGET: laurent
+:REMINDER_QUICK_REPLY: yes
+:END:
+</pre></div>
+
+<p>Which is called a property drawer, it stores key/value pairs associated with an entry, here we have three key value pairs.
+The first one is a date (When the reminder will filre), the second is a target (who to notify, me), and the last one configures quick replies.
+<a href="https://developers.facebook.com/docs/messenger-platform/send-api-reference/quick-replies" title="When I toggle Quick Replies">When I toggle Quick Replies</a> it means that the bot should display buttons to make me acknowledge that I acted on the reminder.</p>
+
+<p>Here is another example of a weekly reminder, every Monday at 6pm, I go to the gym:</p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>* Gym Monday
+  :PROPERTIES:
+  :REMINDER_TARGET: laurent
+  :REMINDER_HOUR: 18
+  :REMINDER_MINUTE: 0
+  :REMINDER_WEEKDAY: 0
+  :REMINDER_MESSAGE: It&#39;s monday night, workout night! 
+  :END:
+</pre></div>
+
+<p>I create these programmatically with a template and sync them with the datastore powering the bot every day.</p>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="https://blog.laurentcharignon.com/post/2016-02-02-changeset-evolution/">
+        Changeset Evolution
+      </a>
+    </h1>
+
+    <span class="post-date">Tue, Feb 2, 2016</span>
+
+    
+
+<h2 id="changeset-what">Changeset What?</h2>
+
+<p><a href="https://mercurial-scm.com">Mercurial</a> is a distributed version control system, similar to <a href="https://git-scm.com/">git</a>.
+If you have not tried it yet, you really should!</p>
+
+<p>I work on Mercurial, and as you know already, I love to automate everything.
+If you use git and mercurial today, you know that source control is not trivial,
+ workflows could be easier and require less manual intervention and dark magic.</p>
+
+<p><strong><a href="https://www.mercurial-scm.org/wiki/ChangesetEvolution">Changeset evolution</a> is a proposal to make
+source-control less error-prone, more forgiving and flexible.</strong>
+I will use <strong>changeset evolution</strong> and <strong>evolve</strong> interchangeably.
+Pierre-Yves David created Changeset Evolution and you can see <a href="https://air.mozilla.org/changesets-evolution-with-mercurial/">his talk
+at FOSDEM 2013</a></p>
+
+<h2 id="the-history-of-commits-does-not-exist">The history of commits does not exist</h2>
+
+<p>Let&rsquo;s start with an example. Assume that a user committed <strong>b</strong> on top of <strong>a</strong>:</p>
+
+<figure style="text-align:center">
+<img style="display: block; margin: 0 auto" alt="Before running the amend command" src ="/assets/evolve/amend1.svg" />
+<figcaption>Starting point</figcaption>
+</figure>
+
+<p>After making some changes, the user runs <code>hg commit --amend</code> (like <code>git commit --amend</code>) and decides to call the new commit <strong>b&rsquo;</strong>:</p>
+
+<figure style="text-align:center">
+<img style="display: block; margin: 0 auto" alt="After running the amend command" src ="/assets/evolve/amend2.svg" />
+<figcaption>After amend</figcaption>
+</figure>
+
+<p>Under the cover, the amend command creates a new commit but the old revision is still there but hidden:</p>
+
+<figure style="text-align:center">
+<img style="display: block; margin: 0 auto" alt="Under the cover" src ="/assets/evolve/amend3.svg" />
+<figcaption>b didn't disappear yet, it is hidden</figcaption>
+</figure>
+
+<p>For the user, <strong>b&rsquo; is a newer version of b</strong>.
+Even though, the intent of amending is clear, <strong>no information about this intent is recorded in the source control system!</strong></p>
+
+<p>If the user wants to access, let&rsquo;s say a week from now, what <strong>b</strong> was before the amend, he or she will have to dig through the <strong>reflog</strong> to find the hash of <strong>b</strong>.</p>
+
+<p>What if we could record that b&rsquo; is the successor of b?</p>
+
+<h2 id="defining-the-commit-history-with-obsolescence-markers">Defining the commit history with obsolescence markers</h2>
+
+<p><strong>Changeset evolution</strong> introduces the concept of <strong>obsolescence markers</strong> to represent that a revision is the <strong>successor</strong> of another revision.
+I will represent the <strong>obsolescence markers</strong> with dotted lines in the following graphs.
+In the example above after running <code>hg commit --amend</code> we would have:</p>
+
+<figure style="text-align:center">
+<img style="display: block; margin: 0 auto" alt="Before running the amend command" src ="/assets/evolve/amend4.svg" />
+<figcaption>Recording that b' is the <b>successor</b> of b with an obsolescence marker. b is the <b>precursor</b> of b'</figcaption>
+</figure>
+
+<p>And after running <code>hg commit --amend</code> again:</p>
+
+<figure style="text-align:center">
+<img style="display: block; margin: 0 auto" alt="Before running the amend command" src ="/assets/evolve/amend5.svg" />
+<figcaption>Two amends: b" is the <b>successor</b> of b' and b' is the <b>successor</b> of b</figcaption>
+</figure>
+
+<p>All this is happening <strong>under the hood</strong>, and the user does not see any difference in the UI.
+It is just some extra information that is recorded that can be used by commands as we will see in the next section.</p>
+
+<h2 id="simplify-rebases-go-back-in-time-and-don-t-make-mistakes">Simplify rebases, go back in time and don&rsquo;t make mistakes</h2>
+
+<p>Let&rsquo;s see how we can <strong>seamlessly use the obsolescence markers</strong> to simplify the life of the user through three examples.</p>
+
+<h3 id="1-easily-accessing-a-precursor">1. Easily accessing a precursor:</h3>
+
+<p>Consider the situation discussed above:
+<figure style="text-align:center">
+<img style="display: block; margin: 0 auto" alt="Before running the amend command" src ="/assets/evolve/amend4.svg" />
+<figcaption>After <b>hg commit &ndash;amend</b></figcaption>
+</figure></p>
+
+<p>We can give the user some <strong>commands to access precursors of revisions to compare them or manipulate them</strong>.
+After running the amend, you can easily:</p>
+
+<ul>
+<li>Go back to the previous version (without using the reflog)</li>
+<li>Figure out what changes the amend introduced.</li>
+</ul>
+
+<blockquote>
+<p><strong>The reflog (<a href="https://www.git-scm.com/docs/git-reflog">git</a> or <a href="https://bitbucket.org/facebook/hg-experimental">mercurial</a>)</strong> is a command to list
+the successive location of the head of the repository and all its branches or
+bookmarks. It is a list of lines with the format: &ldquo;hashes command&rdquo; and shows
+the working copy parent (i.e. current commit) after each command. <strong>It is used
+to recover from mistakes and go back to a previous state</strong>.</p>
+</blockquote>
+
+<h3 id="2-rebasing-with-fewer-conflicts">2. Rebasing with fewer conflicts:</h3>
+
+<p>It is common to have a testing/continuous integration system run all the tests on a revision before pushing it
+to a repository. Let&rsquo;s assume that you are working on a feature and committed <strong>b</strong> and <strong>c</strong> locally.</p>
+
+<figure style="text-align:center">
+<img style="display: block; margin: 0 auto" alt="Before running the amend command" src ="/assets/evolve/push1.svg" />
+<figcaption>Before pushing b to the server on top of d</figcaption>
+</figure>
+
+<p>Satisfied with <strong>b</strong>, you send it to the CI system that pushes it onto <code>remote/master</code> on the server, when you pull, you will have:</p>
+
+<figure style="text-align:center">
+<img style="display: block; margin: 0 auto" alt="Before running the amend command" src ="/assets/evolve/push2.svg" />
+<figcaption>Pushing a commit can also add a marker</figcaption>
+</figure>
+
+<p>If you pull one hour later (assuming other people are very productive :D) you will have a situation like that:</p>
+
+<figure style="text-align:center">
+<img style="display: block; margin: 0 auto" alt="Before running the amend command" src ="/assets/evolve/push3.svg" />
+<figcaption>Your colleagues have been productive and pushed many new changes since you last pulled</figcaption>
+</figure>
+
+<p>And if you try to rebase your stack (b and c) on top of master, you will potentially have conflicts applying b because of the work of another developer.
+This could happen if this other developer changed the same files you changed in <strong>b</strong>.
+But in that case, you know that the person resolved the conflicts once already when applying their work on top of <strong>newb</strong>.
+<strong>The user should not have to do a merge and resolve conflicts in that case and obsolescence markers can help resolving this.</strong>
+What if on pull the server could tell you that <strong>newb</strong> is the new version of <strong>b</strong>:</p>
+
+<figure style="text-align:center">
+<img style="display: block; margin: 0 auto" alt="Before running the amend command" src ="/assets/evolve/push4.svg" />
+<figcaption>When rebasing the stack, the first commit can be omitted</figcaption>
+</figure>
+
+<p>This way when you rebase the stack, only <strong>c</strong> gets rebased, <strong>b is skipped, and you cannot get conflicts from the content in b</strong>.</p>
+
+<h3 id="3-working-with-other-people">3. Working with other people</h3>
+
+<p>Let&rsquo;s assume that you start from this simple state:
+<figure style="text-align:center">
+<img style="display: block; margin: 0 auto" alt="Before running the amend command" src ="/assets/evolve/amend1.svg" />
+<figcaption>Starting point</figcaption>
+</figure></p>
+
+<p>You and your friend make changes to the revision <strong>b</strong>.
+You create a new version of <strong>b</strong> called <strong>b&rsquo;</strong> and your friend creates a new version of <strong>b</strong> called <strong>b&rdquo;</strong>.</p>
+
+<figure style="text-align:center">
+<img style="display: block; margin: 0 auto" alt="Before running the amend command" src ="/assets/evolve/amend4.svg" />
+<figcaption>The first developer rewrote b</figcaption>
+</figure>
+
+<figure style="text-align:center">
+<img style="display: block; margin: 0 auto" alt="Before running the amend command" src ="/assets/evolve/amend6.svg" />
+<figcaption>The second developer rewrote b as well</figcaption>
+</figure>
+
+<p>Then you decide to put your work together. For example, you can do that by pulling from eachother&rsquo;s repository.
+The obsolescence markers and revisions are exchanged and you end up with the following state:</p>
+
+<figure style="text-align:center">
+<img style="display: block; margin: 0 auto" alt="Before running the amend command" src ="/assets/evolve/amend7.svg" />
+<figcaption>b has two successors, <b>b'</b> and <b>b''</b> are called divergent</figcaption>
+</figure>
+
+<p>In <strong>git</strong> or <strong>vanilla (no extension) mercurial</strong>, you would have to figure out that <strong>b&rsquo;</strong> and <strong>b&rdquo;</strong> are two new versions of <strong>b</strong> and merge them.
+<strong>Changeset evolution</strong> detects that situation, marks <strong>b&rsquo;</strong> and <strong>b&rdquo;</strong> as being divergent.
+It then suggests <strong>automatic resolution with a merge and preserves history.</strong></p>
+
+<figure style="text-align:center">
+<img style="display: block; margin: 0 auto" alt="Before running the amend command" src ="/assets/evolve/amend8.svg" />
+<figcaption>Everything gets resolved intelligently</figcaption>
+</figure>
+
+<p>The graph might seem overcomplicated, but once again, most things are happening <strong>under the hood</strong> and the UI impact is minimal.
+These examples <strong>show</strong> one of the benefit of working with Changeset Evolution: it provides an <strong>automatic resolution of typical source control issues</strong>.</p>
+
+<p>As we will see in the next section, <strong>Changeset Evolution</strong> does much more than that and gives developers more flexibility when working with stacks of commits.</p>
+
+<h2 id="a-more-flexible-workflow-with-stacks">A more flexible workflow with stacks</h2>
+
+<p><strong>Changeset evolution</strong> defines the concept of an <strong>unstable</strong> revision, a revision based on an obsolete revision.
+From the previous section:</p>
+
+<figure style="text-align:center">
+<img style="display: block; margin: 0 auto" alt="Before running the amend command" src ="/assets/evolve/push4.svg" />
+<figcaption>c is unstable because it is based on b and b has as a new version</figcaption>
+</figure>
+
+<p>Evolve resolves instability intelligently by rebasing unstable commits on a stable destination, in the case above <strong>newb</strong>.
+But it <strong>does not force the user to resolve the instability right away</strong> and allows, therefore, to be more flexible when working with stacks.
+Consider the following stack of commits:</p>
+
+<figure style="text-align:center">
+<img style="display: block; margin: 0 auto" alt="Before running the amend command" src ="/assets/evolve/stack1.svg" />
+</figure>
+
+<p>A user can amend <strong>b</strong> or <strong>c</strong> without having to rebase <strong>d</strong>.</p>
+
+<figure style="text-align:center">
+<img style="display: block; margin: 0 auto" alt="Before running the amend command" src ="/assets/evolve/stack2.svg" />
+<figcaption>We rewrote b and c, so c' and d are now unstable</figcaption>
+</figure>
+
+<p>And when everything looks good <strong>changeset evolution</strong> can figure out the right commands to run to end up with the desired stack:</p>
+
+<figure style="text-align:center">
+<img style="display: block; margin: 0 auto" alt="Before running the amend command" src ="/assets/evolve/stack3.svg" />
+</figure>
+
+<p>If the user was not using changeset evolution, he or she would have to rebase every time anything changes in the stack.
+Also, the user would have to figure out what rebase command to run and could potentially make mistakes!</p>
+
+<h2 id="what-i-didn-t-cover">What I didn&rsquo;t cover</h2>
+
+<ul>
+<li>Working collaboratively with stacks</li>
+<li>Markers defining multiple precursors (fold) and multiple successors (split)</li>
+<li>And a lot of other things</li>
+</ul>
+
+<h2 id="how-to-install-evolve-and-start-playing-with-it">How to install evolve and start playing with it</h2>
+
+<ol>
+<li>Install mercurial</li>
+<li>Clone evolve&rsquo;s repository with <code>hg clone http://hg.netv6.net/evolve-main/</code></li>
+
+<li><p>Add the following configuration to you <code>~/.hgrc</code> with the correct path from
+the repo you just cloned:
+{% highlight ini %}
+[extensions]
+evolve = path to/evolve.py
+{% endhighlight ini %}</p>
+
+<h2 id="more-resources">More resources</h2></li>
+</ol>
+
+<ul>
+<li><a href="http://www.gerg.ca/evolve/user-guide.html">Greg Ward&rsquo;s post about evolve</a>: you should start there if you like the concepts discussed in this article and want to start using evolve.</li>
+<li><a href="https://www.mercurial-scm.org/wiki/ChangesetEvolution">Evolve&rsquo;s wiki</a></li>
+<li><a href="https://www.mercurial-scm.org/wiki/ChangesetEvolutionDevel">Evolve&rsquo;s contributors wiki</a></li>
+</ul>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="https://blog.laurentcharignon.com/post/2016-01-20-reliable-automation-example/">
+        A Test Automation Story
+      </a>
+    </h1>
+
+    <span class="post-date">Wed, Jan 20, 2016</span>
+
+    
+
+<p>I find that doing repetitive computer-related tasks is time consuming, error-prone and frustrating.
+I am a strong believer of automating everything and I have this mantra:</p>
+
+<blockquote>
+<p>Automate anything that you did twice as you will certainly have to do it a third time</p>
+</blockquote>
+
+<p>This article describes my approach to automate a time consuming task in my daily workflow.</p>
+
+<p>I am working on <a href="https://www.Mercurial-scm.org/">Mercurial</a>. Whenever I work
+on a new series of patches, I want to ensure that the whole test suite passes
+on every patch of the series. In the end I made this task completely <strong>automated</strong> and <strong>transparent</strong>.</p>
+
+<hr />
+
+<h3 id="iteration-zero-run-the-tests-and-go-grab-a-drink-with-a-friend">Iteration Zero: run the tests and go grab a drink with a friend</h3>
+
+<p>The very first time I ran the Mercurial test I stared at my screen while the tests results
+were being slowly displayed. After a while, I went to grab coffee, came back, and all the tests had run. I swore to myself that I would never waste more time staring at the screen waiting for the tests to finish. The first
+step to a successful automation is getting frustrated with doing things manually.
+Some people never get frustrated by that but I have a pretty low tolerance for
+repetitive tasks!</p>
+
+<blockquote>
+<p>I am not saying that Mercurial tests are too slow, they actually take typically
+less than 5 minutes to run. For tests that take one hour to run, people
+don&rsquo;t hesitate to automate the process. For tests that take 2 minutes, most
+people think they can stand staring at their screen and it is a <strong>mistake</strong>!
+Automate <strong>all the things</strong>, don&rsquo;t manually do the same thing <strong>twice</strong> and you
+will improve!</p>
+</blockquote>
+
+<h3 id="first-iteration-open-a-new-window-type-some-commands-check-later">First iteration: Open a new window, type some commands, check later</h3>
+
+<p>The first improvement I made was opening a new terminal window to run all the tests.
+This was better than waiting for the tests to finish. If you are not using
+a terminal multiplexer, I strongly advise you to do so, check out <a href="https://tmux.github.io/">tmux</a>.
+While running the tests, I was being careful not to modify any files to avoid messing up the results of the test.</p>
+
+<h3 id="second-iteration-isolate-testing-and-work-environment">Second iteration: Isolate testing and work environment</h3>
+
+<p>Soon after, I decided to have two copies of the Mercurial repository. I kept one copy  to run the test
+completely in RAM (for the sake of speed) and one copy on disk on which I was working. After
+finishing a patch, I would push my changes to the test repository and run the
+tests while not being blocked to make further changes. This created a separation
+of environment between the test environment and the development environment, effectively
+overcoming the main issue of the first iteration.</p>
+
+<p>Despite being an enhancement over the previous iteration, four key things were missing:</p>
+
+<ol>
+<li>I still had to type commands to push the changes, checkout the revisions
+and run the tests</li>
+<li>If I had to test 10 patches, I would have to launch them one by one</li>
+<li>I had to look through the test results and take note of what passed and what
+didn&rsquo;t pass</li>
+<li>There was no neat way for me to see what changes pass the test and what changes
+didn&rsquo;t pass the test</li>
+</ol>
+
+<h3 id="third-iteration-avoid-unnecessary-typing">Third iteration: Avoid unnecessary typing</h3>
+
+<p>I got fed up with typing the commands to push my changes, check them out
+and run the tests. I did some research and figured out that tmux allows
+you to open new windows and run commands in other windows programmatically.
+I used this API and scripted tmux to open a new window to run my tests.</p>
+
+<h3 id="fourth-iteration-getting-tired-of-reading-test-output">Fourth iteration: Getting tired of reading test output</h3>
+
+<p>I realized that our tests runner could produce a JSON report with the results
+of each test. There was a bug where the output was not a valid JSON and it didn&rsquo;t
+contain some of the information I needed so I sent patches upstream. Once fixed
+I managed to get my previous automation to read the report, archive it, parse it
+and give me a summary. I decided to store all these information in SQLite to
+easily query them later.</p>
+
+<h3 id="fifth-iteration-when-it-gets-serious">Fifth iteration: When it gets serious</h3>
+
+<p>My main issue at that point was that I was launching the tests one by one and
+being careful not to launch two at a time. I added a task queue to my system using
+<a href="http://www.celeryproject.org/">Celery</a> to separate launching the tests and running them.
+This way also, I can run the tests on multiple machines in the future or run unrelated tests in parallel.
+At this point, I hooked up tests for other repositories and not just the core Mercurial repository.
+I built a command line tool to easily select what tests to run and to query the tests
+results and failures.</p>
+
+<p><img src="/assets/listcset.png" alt="List of changesets and test results" /></p>
+
+<p>One thing was missing, I still had to read the reports to know when the tests were passing.</p>
+
+<h3 id="sixth-iteration-cherry-on-the-cake-a-hud-colored-labels-and-vim-integration">Sixth iteration: Cherry on the cake: a hud, colored labels, and vim integration!</h3>
+
+<p>It is extremely easy to write Mercurial extensions, it can take as little as
+5 lines of python to create a useful feature. I wrote an extension that adds an
+overlay on top of the list of commits in my repository to show me if the tests
+passed for each revision:</p>
+
+<p><img src="/assets/slog.png" alt="Changelog" /></p>
+
+<p>I added a status bar in tmux to inform me of what is being tested and I am thinking
+of adding an ETA for the tests.</p>
+
+<p>Finally, I added shortcuts in vim to launch tests against the current revision,
+the current stack and see test results.</p>
+
+<h3 id="future-iterations-dependencies-packaging-and-distribution">Future iterations: Dependencies, packaging, and distribution</h3>
+
+<p>I installed this automation on three machines already and it works great!
+Moving forward, I want to distribute this system to more people. I will write
+more about it and talk about implementation details in other articles.</p>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="https://blog.laurentcharignon.com/post/2016-01-09-web-browsing-automation/">
+        Introduction to Mechanize with Python
+      </a>
+    </h1>
+
+    <span class="post-date">Sat, Jan 9, 2016</span>
+
+    
+
+<blockquote>
+<p><strong>Disclaimer:</strong> make sure to check the terms of use of the website you plan to
+interact with, a lot of websites forbids interaction from automation.
+Don&rsquo;t do anything that could get you in trouble.</p>
+</blockquote>
+
+<p><strong>mechanize</strong> is a library to interact with websites. It fits in between
+high-level browser automation tools like <strong>Selenium</strong> and HTTP libraries like
+<strong>requests</strong>. It doesn&rsquo;t handle Javascript, if that&rsquo;s an issue for you, you
+should consider <strong>CasperJS</strong>. The big advantage of using mechanize compared to
+a higher level library is speed: it is an order of magnitude faster!</p>
+
+<p>I use the following boilerplate code for all my programs with <strong>mechanize</strong>:</p>
+
+<pre><code>Set up user agent
+
+Load cookies from a file
+
+If the cookies are expired:
+    Go through the login flow
+
+Interact with the website
+
+Persist the cookies to a file
+</code></pre>
+
+<p>If you do the following instead:</p>
+
+<pre><code>Go through the login flow
+
+Interact with the website
+</code></pre>
+
+<p>Then, you will end up going through the login flow as many times as you run the
+script. Not only will this be inefficient, but you would also take the risk of
+being <strong>blacklisted</strong> by the website&rsquo;s owner for making too many requests.
+Let&rsquo;s see in practice what this code looks like.</p>
+
+<h2 id="boilerplate">Boilerplate</h2>
+
+<p>Assuming that you want to log into a website and read a page that shows some
+JSON content, you would do something like this:</p>
+
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #f92672">import</span> <span style="color: #f8f8f2">os</span>
+<span style="color: #f92672">import</span> <span style="color: #f8f8f2">json</span>
+<span style="color: #f92672">import</span> <span style="color: #f8f8f2">cookielib</span>
+
+<span style="color: #f92672">import</span> <span style="color: #f8f8f2">mechanize</span>
+
+<span style="color: #66d9ef">def</span> <span style="color: #a6e22e">getbrowser</span><span style="color: #f8f8f2">():</span>
+    <span style="color: #f8f8f2">br</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">mechanize</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">Browser()</span>
+    <span style="color: #f8f8f2">br</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">set_handle_redirect(True)</span>
+    <span style="color: #f8f8f2">br</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">addheaders</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">[(</span><span style="color: #e6db74">&#39;User-agent&#39;</span><span style="color: #f8f8f2">,</span> <span style="color: #e6db74">&#39;XXX&#39;</span><span style="color: #f8f8f2">)]</span> <span style="color: #75715e"># Set you user agent here</span>
+    <span style="color: #66d9ef">return</span> <span style="color: #f8f8f2">br</span>
+
+<span style="color: #66d9ef">def</span> <span style="color: #a6e22e">loadcookiejar</span><span style="color: #f8f8f2">():</span>
+    <span style="color: #f8f8f2">cj</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">cookielib</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">LWPCookieJar()</span>
+    <span style="color: #66d9ef">if</span> <span style="color: #f8f8f2">os</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">path</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">exists(</span><span style="color: #e6db74">&quot;cookies&quot;</span><span style="color: #f8f8f2">):</span>
+    	<span style="color: #f8f8f2">cj</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">load(</span><span style="color: #e6db74">&quot;cookies&quot;</span><span style="color: #f8f8f2">)</span>
+    <span style="color: #66d9ef">return</span> <span style="color: #f8f8f2">cj</span>
+
+<span style="color: #66d9ef">def</span> <span style="color: #a6e22e">main</span><span style="color: #f8f8f2">():</span>
+    <span style="color: #f8f8f2">br</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">getbrowser()</span>
+    <span style="color: #f8f8f2">cj</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">loadcookiejar()</span>
+    <span style="color: #f8f8f2">br</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">set_cookiejar(cj)</span>
+    <span style="color: #66d9ef">if</span> <span style="color: #f8f8f2">len(cj)</span> <span style="color: #f92672">!=</span> <span style="color: #ae81ff">1</span><span style="color: #f8f8f2">:</span>
+		<span style="color: #f8f8f2">url</span> <span style="color: #f92672">=</span> <span style="color: #e6db74">&#39;https://XXX&#39;</span>
+		<span style="color: #f8f8f2">br</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">open(url)</span>
+		<span style="color: #75715e"># Select the first form</span>
+		<span style="color: #f8f8f2">br</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">select_form(nr</span><span style="color: #f92672">=</span><span style="color: #ae81ff">0</span><span style="color: #f8f8f2">)</span>
+		<span style="color: #75715e"># Fill in some information</span>
+		<span style="color: #f8f8f2">br[</span><span style="color: #e6db74">&quot;email&quot;</span><span style="color: #f8f8f2">]</span> <span style="color: #f92672">=</span> <span style="color: #e6db74">&quot;XXXXXXX&quot;</span>
+		<span style="color: #f8f8f2">br[</span><span style="color: #e6db74">&quot;password&quot;</span><span style="color: #f8f8f2">]</span> <span style="color: #f92672">=</span> <span style="color: #e6db74">&quot;YYYYYYY&quot;</span>
+		<span style="color: #75715e"># Actually log in and set the cookies</span>
+		<span style="color: #f8f8f2">br</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">submit()</span>
+    <span style="color: #75715e"># The page you are interested in</span>
+    <span style="color: #f8f8f2">r</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">br</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">open(</span><span style="color: #e6db74">&quot;https://YYYY&quot;</span><span style="color: #f8f8f2">)</span>
+    <span style="color: #75715e"># Assumes that the content is JSON, otherwise use r.read()</span>
+    <span style="color: #66d9ef">print</span> <span style="color: #f8f8f2">json</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">loads(r</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">read())</span>
+    <span style="color: #f8f8f2">cj</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">save(</span><span style="color: #e6db74">&quot;cookies&quot;</span><span style="color: #f8f8f2">)</span>
+
+<span style="color: #66d9ef">if</span> <span style="color: #f8f8f2">__name__</span> <span style="color: #f92672">==</span> <span style="color: #e6db74">&quot;__main__&quot;</span><span style="color: #f8f8f2">:</span>
+    <span style="color: #f8f8f2">main()</span>
+</pre></div>
+
+
+<p>Now, some of you might wonder &ldquo;how do you figure out what the URLS/parameter
+are for the stuff that you are interested in&rdquo;. It is actually fairly easy to
+gather that information.</p>
+
+<h2 id="figure-out-the-api-behind-a-website">Figure out the API behind a website</h2>
+
+<p>This explanation assumes that you are using <strong>Google Chrome</strong>, tools exists with
+many other browser to do the same thing.</p>
+
+<p>Open the Developer Console and go to the <strong>Network Tab</strong>. Click on the button
+to start a recording and navigate to a page.</p>
+
+<p>You will see a bunch of requests, filter the kind that interests you, you
+generally want to see the requests for web pages and XHR, click on both and
+see if you find something interesting.</p>
+
+<p>In my case, I am looking at a website that gives the location of my phone, I
+filtered the XHR requests:
+<img src="/assets/webauto1.png" alt="XHR requests" /></p>
+
+<p>It looks like the first entry is very interesting:
+<img src="/assets/webauto2.png" alt="First entry" /></p>
+
+<p>From there, right click on the request and you can copy the URL and information
+to make the request from python or a terminal:
+<img src="/assets/webauto3.png" alt="Exporting" /></p>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="https://blog.laurentcharignon.com/post/2015-08-10-add-colors-to-your-python-logs-with-colorlog/">
+        Add Colors To Your Python Logs With Colorlog
+      </a>
+    </h1>
+
+    <span class="post-date">Mon, Aug 10, 2015</span>
+
+    <p><a href="https://pypi.python.org/pypi/colorlog">colorlog</a> is a drop-in replacement for the
+Python logging module that allows you to add color to your logs.</p>
+
+<p>Start by installing the <em>colorlog</em> module with <em>pip</em> (or easy_install):</p>
+
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #f8f8f2">pip</span> <span style="color: #f8f8f2">install</span> <span style="color: #f8f8f2">colorlog</span>
+</pre></div>
+
+
+<p>Then you can use <em>colorlog</em> the way you would use <em>logging</em>:</p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #f92672">import</span> <span style="color: #f8f8f2">colorlog</span>
+<span style="color: #f92672">import</span> <span style="color: #f8f8f2">logging</span>
+
+<span style="color: #f8f8f2">colorlog</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">basicConfig(level</span><span style="color: #f92672">=</span><span style="color: #f8f8f2">logging</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">DEBUG)</span>
+<span style="color: #f8f8f2">colorlog</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">debug(</span><span style="color: #e6db74">&quot;debug&quot;</span><span style="color: #f8f8f2">)</span>
+<span style="color: #f8f8f2">colorlog</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">info(</span><span style="color: #e6db74">&quot;info&quot;</span><span style="color: #f8f8f2">)</span>
+<span style="color: #f8f8f2">colorlog</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">warning(</span><span style="color: #e6db74">&quot;warning&quot;</span><span style="color: #f8f8f2">)</span>
+<span style="color: #f8f8f2">colorlog</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">error(</span><span style="color: #e6db74">&quot;error&quot;</span><span style="color: #f8f8f2">)</span>
+<span style="color: #f8f8f2">colorlog</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">critical(</span><span style="color: #e6db74">&quot;critical&quot;</span><span style="color: #f8f8f2">)</span>
+</pre></div>
+
+<p>And your log become much easier to read:</p>
+
+<p><img src="/assets/colorlog.gif" alt="Color logging" /></p>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="https://blog.laurentcharignon.com/post/2014-12-10-one-time-pad-node-js/">
+        Practical one time padding with Node JS
+      </a>
+    </h1>
+
+    <span class="post-date">Wed, Dec 10, 2014</span>
+
+    
+
+<p>Source code: <a href="https://github.com/charignon/otpCSnode">https://github.com/charignon/otpCSnode</a></p>
+
+<div class="message">
+  Too long don't read: How I used Node JS & CoffeeScript to implement one time padding of TCP traffic. Example use with: SSH, SCP and HTTP Proxying.
+</div>
+
+<h2 id="one-time-padding">One time padding</h2>
+
+<p><cite>
+In cryptography, a one-time pad (OTP) is an encryption technique that cannot be cracked if used correctly. In this technique, a plaintext is paired with random, secret key (or pad). Then, each bit or character of the plaintext is encrypted by combining it with the corresponding bit or character from the pad using modular addition.</cite><a href="http://en.wikipedia.org/wiki/One-time_pad">Wikipedia: One time pad</a>.</p>
+
+<p>In other words, one-time padding is a cryptography technique using a key (that both sides know) as long as the message.
+Since the key is as long as the message, the message appear as random as the key and is uncrackable if the key cannot be guessed.</p>
+
+<p>Technically, it is implemented with a simple XOR between the message and the key. It has been deem quite unpractical for most encryption needs because the key has to be as long as the data. But when you can afford to use it, it is the only uncrackable encryption technique. Don&rsquo;t take my word for it, the red telephone apparently used it according to the same wikipedia article.</p>
+
+<h2 id="key-generation-and-distribution">Key generation and distribution</h2>
+
+<p>We can easily create a key using the <code>/dev/random</code> file. For instance to generate a key file named <code>key</code> of <code>100Mb</code> you could run:</p>
+
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>dd <span style="color: #66d9ef">if</span><span style="color: #f92672">=</span>/dev/random <span style="color: #f8f8f2">of</span><span style="color: #f92672">=</span>./key <span style="color: #f8f8f2">bs</span><span style="color: #f92672">=</span><span style="color: #ae81ff">1048576</span> <span style="color: #f8f8f2">count</span><span style="color: #f92672">=</span><span style="color: #ae81ff">100</span>
+</pre></div>
+
+
+<p>In the next part I assume that you have this key on two different hosts.</p>
+
+<h2 id="don-t-reuse-the-key">Don&rsquo;t reuse the key</h2>
+
+<p>Contrary to most encryption method, the one-time-pad keys are used only once. In our case, it means that our 100Mb key can encrypt only 100Mb, not one more bit!</p>
+
+<p>To use the keys several times (for example several ssh sessions) without having to dump it after each one, you must keep track of what your encrypted before. In other words you need to know your offset in the key file.</p>
+
+<h2 id="client-and-server-code">Client and server code</h2>
+
+<p>To simplify, the key file is hardcoded and loaded fully in memory.</p>
+
+<p>As an improvement the key could be specific on the command line and precached by chunk at runtime.</p>
+
+<h3 id="server-code">Server code</h3>
+
+<p>The server connects to a service like SSH, HttpProxy, VoIP server etc.
+It allows the client to operate with the service by:
+- Encrypting the traffic from the service and forwarding it to the client
+- Decrypting the traffic coming from the client and forwarding it to the service</p>
+
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #f8f8f2">net = </span><span style="color: #a6e22e">require</span><span style="color: #f8f8f2">(</span><span style="color: #e6db74">&quot;net&quot;</span><span style="color: #f8f8f2">)</span>
+<span style="color: #f8f8f2">otp = </span><span style="color: #a6e22e">require</span><span style="color: #f8f8f2">(</span><span style="color: #e6db74">&quot;./otp&quot;</span><span style="color: #f8f8f2">)</span>
+<span style="color: #f8f8f2">argv = </span><span style="color: #a6e22e">require</span><span style="color: #f8f8f2">(</span><span style="color: #e6db74">&#39;minimist&#39;</span><span style="color: #f8f8f2">)(</span><span style="color: #a6e22e">process</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">argv</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">slice</span><span style="color: #f8f8f2">(</span><span style="color: #ae81ff">2</span><span style="color: #f8f8f2">))</span>
+
+<span style="color: #f8f8f2">expectedArgs = [</span><span style="color: #e6db74">&quot;localPort&quot;</span><span style="color: #f8f8f2">,</span> <span style="color: #e6db74">&quot;servicePort&quot;</span><span style="color: #f8f8f2">,</span> <span style="color: #e6db74">&quot;serverOffset&quot;</span><span style="color: #f8f8f2">,</span> <span style="color: #e6db74">&quot;clientOffset&quot;</span><span style="color: #f8f8f2">]</span>
+<span style="color: #a6e22e">otp</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">validateArgs</span><span style="color: #f8f8f2">(</span><span style="color: #a6e22e">argv</span><span style="color: #f8f8f2">,</span> <span style="color: #a6e22e">expectedArgs</span><span style="color: #f8f8f2">)</span>
+
+<span style="color: #f8f8f2">servicePort = Number(</span><span style="color: #a6e22e">argv</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">servicePort</span><span style="color: #f8f8f2">)</span>
+<span style="color: #f8f8f2">localPort = Number(</span><span style="color: #a6e22e">argv</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">localPort</span><span style="color: #f8f8f2">)</span>
+<span style="color: #f8f8f2">serverOffset = Number(</span><span style="color: #a6e22e">argv</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">serverOffset</span><span style="color: #f8f8f2">)</span>
+<span style="color: #f8f8f2">clientOffset = Number(</span><span style="color: #a6e22e">argv</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">clientOffset</span><span style="color: #f8f8f2">)</span>
+
+<span style="color: #a6e22e">net</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">createServer</span><span style="color: #f8f8f2">(</span><span style="color: #a6e22e">(outBoundSocket) -&gt;</span>
+  <span style="color: #f8f8f2">inBoundSocket = </span> <span style="color: #a6e22e">net</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">createConnection</span><span style="color: #f8f8f2">(</span><span style="color: #a6e22e">servicePort</span><span style="color: #f8f8f2">,</span> <span style="color: #e6db74">&quot;localhost&quot;</span><span style="color: #f8f8f2">)</span>
+  <span style="color: #a6e22e">outBoundSocket</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">pipe</span><span style="color: #f8f8f2">(</span><span style="color: #a6e22e">otp</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">encryptor</span><span style="color: #f8f8f2">(</span><span style="color: #e6db74">&quot;client&quot;</span><span style="color: #f8f8f2">,</span> <span style="color: #a6e22e">clientOffset</span><span style="color: #f8f8f2">)).</span><span style="color: #a6e22e">pipe</span><span style="color: #f8f8f2">(</span><span style="color: #a6e22e">inBoundSocket</span><span style="color: #f8f8f2">)</span>
+  <span style="color: #a6e22e">inBoundSocket</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">pipe</span><span style="color: #f8f8f2">(</span><span style="color: #a6e22e">otp</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">encryptor</span><span style="color: #f8f8f2">(</span><span style="color: #e6db74">&quot;server&quot;</span><span style="color: #f8f8f2">,</span><span style="color: #a6e22e">serverOffset</span><span style="color: #f8f8f2">)).</span><span style="color: #a6e22e">pipe</span><span style="color: #f8f8f2">(</span><span style="color: #a6e22e">outBoundSocket</span><span style="color: #f8f8f2">)</span>
+<span style="color: #f8f8f2">).</span><span style="color: #a6e22e">listen</span> <span style="color: #f8f8f2">Number(</span><span style="color: #a6e22e">localPort</span><span style="color: #f8f8f2">)</span>
+</pre></div>
+
+
+<p>The first part of the code is straightforward, we just parse the arguments and
+validate them.</p>
+
+<p>Then we create a tcp server bound to <code>localPort</code> and when a client connects to
+this server we:</p>
+
+<ul>
+<li>Create a connection to the service</li>
+<li>Wire the connection between service and client with an offset for each encryptor: the offset is in byte from start of the key file</li>
+</ul>
+
+<h3 id="client-code">Client code</h3>
+
+<p>Very similar to the server code:</p>
+
+<p><div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #f8f8f2">net = </span><span style="color: #a6e22e">require</span><span style="color: #f8f8f2">(</span><span style="color: #e6db74">&quot;net&quot;</span><span style="color: #f8f8f2">)</span>
+<span style="color: #f8f8f2">otp = </span><span style="color: #a6e22e">require</span><span style="color: #f8f8f2">(</span><span style="color: #e6db74">&quot;./otp&quot;</span><span style="color: #f8f8f2">)</span>
+<span style="color: #f8f8f2">argv = </span><span style="color: #a6e22e">require</span><span style="color: #f8f8f2">(</span><span style="color: #e6db74">&#39;minimist&#39;</span><span style="color: #f8f8f2">)(</span><span style="color: #a6e22e">process</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">argv</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">slice</span><span style="color: #f8f8f2">(</span><span style="color: #ae81ff">2</span><span style="color: #f8f8f2">))</span>
+
+<span style="color: #f8f8f2">expectedArgs = [</span><span style="color: #e6db74">&quot;localPort&quot;</span><span style="color: #f8f8f2">,</span> <span style="color: #e6db74">&quot;serverPort&quot;</span><span style="color: #f8f8f2">,</span> <span style="color: #e6db74">&quot;clientOffset&quot;</span><span style="color: #f8f8f2">,</span> <span style="color: #e6db74">&quot;serverOffset&quot;</span><span style="color: #f8f8f2">,</span> <span style="color: #e6db74">&quot;host&quot;</span><span style="color: #f8f8f2">]</span>
+<span style="color: #a6e22e">otp</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">validateArgs</span><span style="color: #f8f8f2">(</span><span style="color: #a6e22e">argv</span><span style="color: #f8f8f2">,</span> <span style="color: #a6e22e">expectedArgs</span><span style="color: #f8f8f2">)</span>
+
+<span style="color: #f8f8f2">serverPort = Number(</span><span style="color: #a6e22e">argv</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">serverPort</span><span style="color: #f8f8f2">)</span>
+<span style="color: #f8f8f2">localPort = Number(</span><span style="color: #a6e22e">argv</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">localPort</span><span style="color: #f8f8f2">)</span>
+<span style="color: #f8f8f2">host = </span><span style="color: #a6e22e">argv</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">host</span>
+<span style="color: #f8f8f2">serverOffset = Number(</span><span style="color: #a6e22e">argv</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">serverOffset</span><span style="color: #f8f8f2">)</span>
+<span style="color: #f8f8f2">clientOffset = Number(</span><span style="color: #a6e22e">argv</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">clientOffset</span><span style="color: #f8f8f2">)</span>
+
+<span style="color: #f8f8f2">outBoundSocket = </span><span style="color: #a6e22e">net</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">createConnection</span><span style="color: #f8f8f2">(</span><span style="color: #a6e22e">serverPort</span><span style="color: #f8f8f2">,</span> <span style="color: #a6e22e">host</span><span style="color: #f8f8f2">)</span>
+  <span style="color: #a6e22e">net</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">createServer</span><span style="color: #f8f8f2">(</span><span style="color: #a6e22e">(inBoundSocket) -&gt;</span>
+  <span style="color: #a6e22e">outBoundSocket</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">pipe</span><span style="color: #f8f8f2">(</span><span style="color: #a6e22e">otp</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">encryptor</span><span style="color: #f8f8f2">(</span><span style="color: #e6db74">&quot;server&quot;</span><span style="color: #f8f8f2">,</span><span style="color: #a6e22e">serverOffset</span><span style="color: #f8f8f2">)).</span><span style="color: #a6e22e">pipe</span><span style="color: #f8f8f2">(</span><span style="color: #a6e22e">inBoundSocket</span><span style="color: #f8f8f2">)</span>
+  <span style="color: #a6e22e">inBoundSocket</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">pipe</span><span style="color: #f8f8f2">(</span><span style="color: #a6e22e">otp</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">encryptor</span><span style="color: #f8f8f2">(</span><span style="color: #e6db74">&quot;client&quot;</span><span style="color: #f8f8f2">,</span><span style="color: #a6e22e">clientOffset</span><span style="color: #f8f8f2">)).</span><span style="color: #a6e22e">pipe</span><span style="color: #f8f8f2">(</span><span style="color: #a6e22e">outBoundSocket</span><span style="color: #f8f8f2">)</span>
+<span style="color: #f8f8f2">).</span><span style="color: #a6e22e">listen</span><span style="color: #f8f8f2">(</span><span style="color: #a6e22e">localPort</span><span style="color: #f8f8f2">)</span>
+</pre></div>
+</p>
+
+<h3 id="library-code">Library code</h3>
+
+<p>This is where the encryption is done, again, pretty straightforward:</p>
+
+<p><div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #f8f8f2">through = </span><span style="color: #a6e22e">require</span><span style="color: #f8f8f2">(</span><span style="color: #e6db74">&#39;through&#39;</span><span style="color: #f8f8f2">)</span>
+<span style="color: #f8f8f2">_ = </span><span style="color: #a6e22e">require</span><span style="color: #f8f8f2">(</span><span style="color: #e6db74">&quot;underscore&quot;</span><span style="color: #f8f8f2">)</span>
+<span style="color: #f8f8f2">fs = </span><span style="color: #a6e22e">require</span><span style="color: #f8f8f2">(</span><span style="color: #e6db74">&quot;fs&quot;</span><span style="color: #f8f8f2">)</span>
+
+<span style="color: #75715e"># Keeping track of usage of key per entity</span>
+<span style="color: #f8f8f2">root = </span><span style="color: #a6e22e">exports</span> <span style="color: #f92672">?</span> <span style="color: #66d9ef">this</span>
+<span style="color: #f8f8f2">root.offsets = {}</span>
+
+<span style="color: #75715e"># Load the key in memory</span>
+<span style="color: #f8f8f2">key = </span><span style="color: #a6e22e">fs</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">readFileSync</span><span style="color: #f8f8f2">(</span><span style="color: #e6db74">&quot;key&quot;</span><span style="color: #f8f8f2">)</span>
+
+<span style="color: #75715e"># Show usage notice</span>
+<span style="color: #f8f8f2">usage = </span><span style="color: #a6e22e">(expected) -&gt;</span>
+  <span style="color: #a6e22e">console</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">log</span> <span style="color: #e6db74">&quot;Missing argument expecting #{</span><span style="color: #a6e22e">expected</span><span style="color: #e6db74">}&quot;</span>
+  <span style="color: #a6e22e">process</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">exit</span> <span style="color: #ae81ff">1</span>
+
+<span style="color: #75715e"># Compute XOR of two buffers</span>
+<span style="color: #f8f8f2">xor = </span><span style="color: #a6e22e">(v1,v2) -&gt;</span>
+  <span style="color: #66d9ef">new</span> <span style="color: #a6e22e">Buffer</span><span style="color: #f8f8f2">(</span><span style="color: #a6e22e">_</span><span style="color: #f8f8f2">(</span><span style="color: #a6e22e">v1</span><span style="color: #f8f8f2">).</span><span style="color: #a6e22e">map</span><span style="color: #f8f8f2">(</span><span style="color: #a6e22e">(e,i) -&gt;</span>
+  <span style="color: #a6e22e">v2</span><span style="color: #f8f8f2">[</span><span style="color: #a6e22e">i</span><span style="color: #f8f8f2">]</span> <span style="color: #f92672">^</span> <span style="color: #a6e22e">e</span>
+<span style="color: #f8f8f2">))</span>
+
+<span style="color: #75715e"># Encryptor Through Stream, identifier is for accounting purposes of the offset</span>
+<span style="color: #f8f8f2">exports.encryptor = </span><span style="color: #a6e22e">(identifier,offset) -&gt;</span>
+  <span style="color: #a6e22e">console</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">log</span> <span style="color: #e6db74">&quot;Init encryptor with offset #{</span><span style="color: #a6e22e">offset</span><span style="color: #e6db74">}&quot;</span>
+  <span style="color: #f8f8f2">_offset = </span><span style="color: #a6e22e">offset</span>
+  <span style="color: #a6e22e">through</span><span style="color: #f8f8f2">(</span><span style="color: #a6e22e">(data) -&gt;</span>
+    <span style="color: #f8f8f2">end_offset = </span><span style="color: #a6e22e">_offset</span> <span style="color: #f92672">+</span> <span style="color: #a6e22e">data</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">length</span>
+    <span style="color: #a6e22e">@queue</span><span style="color: #f8f8f2">(</span><span style="color: #a6e22e">xor</span><span style="color: #f8f8f2">(</span><span style="color: #a6e22e">data</span><span style="color: #f8f8f2">,</span><span style="color: #a6e22e">key</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">slice</span><span style="color: #f8f8f2">(</span><span style="color: #a6e22e">_offset</span><span style="color: #f8f8f2">,</span><span style="color: #a6e22e">end_offset</span><span style="color: #f8f8f2">)))</span>
+    <span style="color: #a6e22e">_offset</span> <span style="color: #f92672">+=</span> <span style="color: #a6e22e">data</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">length</span>
+    <span style="color: #a6e22e">root</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">offsets</span><span style="color: #f8f8f2">[</span><span style="color: #a6e22e">identifier</span><span style="color: #f8f8f2">]</span> <span style="color: #f92672">=</span> <span style="color: #a6e22e">_offset</span>
+    <span style="color: #a6e22e">console</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">log</span> <span style="color: #a6e22e">root</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">offsets</span>
+<span style="color: #f8f8f2">)</span>
+
+<span style="color: #75715e"># Validate arguments, actual = object from minimist, expected = array</span>
+<span style="color: #f8f8f2">exports.validateArgs = </span><span style="color: #a6e22e">(actual,expected) -&gt;</span>
+  <span style="color: #f8f8f2">actualKeys = </span><span style="color: #a6e22e">_</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">keys</span><span style="color: #f8f8f2">(</span><span style="color: #a6e22e">actual</span><span style="color: #f8f8f2">)</span>
+  <span style="color: #a6e22e">_</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">each</span> <span style="color: #a6e22e">expected</span><span style="color: #f8f8f2">,</span> <span style="color: #a6e22e">(k) -&gt;</span>
+    <span style="color: #a6e22e">do</span> <span style="color: #a6e22e">usage</span><span style="color: #f8f8f2">(</span><span style="color: #a6e22e">expected</span><span style="color: #f8f8f2">)</span> <span style="color: #66d9ef">if</span> <span style="color: #a6e22e">actualKeys</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">indexOf</span><span style="color: #f8f8f2">(</span><span style="color: #a6e22e">k</span><span style="color: #f8f8f2">)</span> <span style="color: #f92672">==</span> <span style="color: #f92672">-</span><span style="color: #ae81ff">1</span>
+
+<span style="color: #75715e"># Show offset on CTRL-C to keep track of where we stopped</span>
+<span style="color: #a6e22e">process</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">on</span> <span style="color: #e6db74">&#39;SIGINT&#39;</span><span style="color: #f8f8f2">,</span> <span style="color: #a6e22e">() -&gt;</span>
+  <span style="color: #a6e22e">console</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">log</span> <span style="color: #e6db74">&quot;Logging offsets&quot;</span>
+  <span style="color: #a6e22e">console</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">log</span> <span style="color: #a6e22e">root</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">offsets</span>
+  <span style="color: #a6e22e">process</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">exit</span> <span style="color: #ae81ff">0</span>
+</pre></div>
+</p>
+
+<h2 id="encrypt-ssh-traffic">Encrypt ssh traffic</h2>
+
+<p>We have two computers called HostA and HostB, let&rsquo;s say that the ssh server is
+on HostB. Let&rsquo;s say that out of the 100Mb key, we want to use the last 50Mb for
+the server and the first 50Mb for the client.</p>
+
+<p>On HostB we start the encryption server:
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>coffee receiver.coffee --localPort<span style="color: #f92672">=</span><span style="color: #ae81ff">8000</span> --servicePort<span style="color: #f92672">=</span><span style="color: #ae81ff">22</span> --serverOffset<span style="color: #f92672">=</span><span style="color: #ae81ff">52428800</span> --clientOffset<span style="color: #f92672">=</span><span style="color: #ae81ff">0</span>
+</pre></div>
+
+localPort,serverPort,clientOffset,serverOffset,host</p>
+
+<p>On HostA we start the encryption client:</p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>coffee sender.coffee --localPort<span style="color: #f92672">=</span><span style="color: #ae81ff">9000</span> --serverPort<span style="color: #f92672">=</span><span style="color: #ae81ff">8000</span> --host<span style="color: #f92672">=</span>HostB --serverOffset<span style="color: #f92672">=</span><span style="color: #ae81ff">52428800</span> --clientOffset<span style="color: #f92672">=</span><span style="color: #ae81ff">0</span>
+</pre></div>
+
+<p>Then we can connect to HostB through the encryption tunnel with this command on HostA:</p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>ssh localhost -p <span style="color: #ae81ff">9000</span>
+</pre></div>
+
+<p>I also tried it with SCP and even an HTTP proxy and it worked fine!
+Let me know what you think of it!</p>
+
+  </div>
+  
+</div>
+</div>
+
+  </body>
+</html>

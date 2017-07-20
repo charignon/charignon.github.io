@@ -1,0 +1,320 @@
+	<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="generator" content="Hugo 0.25.1" />
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  
+  <title>Changeset Evolution &middot; Blog</title>
+  
+
+  
+  <link rel="stylesheet" href="https://blog.laurentcharignon.com/css/poole.css">
+  <link rel="stylesheet" href="https://blog.laurentcharignon.com/css/syntax.css">
+  <link rel="stylesheet" href="https://blog.laurentcharignon.com/css/hyde.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.png">
+
+  
+  <link href="" rel="alternate" type="application/rss+xml" title="Blog" />
+  <link rel="stylesheet" href="https://blog.laurentcharignon.com/css/override.css">
+  <script>
+   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	                          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+   })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+   ga('create', 'UA-57650622-5', 'auto');
+   ga('send', 'pageview');
+  </script>
+</head>
+
+	<body class="theme-base-01 ">
+		<div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <a href="https://blog.laurentcharignon.com/"><h1>Blog</h1></a>
+      <p class="lead">
+       Laurent Charignon 
+      </p>
+    </div>
+
+    <ul class="sidebar-nav">
+      <li><a href="/">Home</a> </li>
+      
+        <li><a href="/post/2016-01-20-reliable-automation-example/"> A Test Automation Story </a></li>
+      
+        <li><a href="/post/2015-08-10-add-colors-to-your-python-logs-with-colorlog/"> Add Colors To Your Python Logs With Colorlog </a></li>
+      
+        <li><a href="/post/2016-02-02-changeset-evolution/"> Changeset Evolution </a></li>
+      
+        <li><a href="/post/2016-01-09-web-browsing-automation/"> Introduction to Mechanize with Python </a></li>
+      
+        <li><a href="/post/manage-reminders-with-emacs-and-facebook-bot/"> Managing my todos, notes, and reminders </a></li>
+      
+        <li><a href="/post/2014-12-10-one-time-pad-node-js/"> Practical one time padding with Node JS </a></li>
+      
+    </ul>
+
+    <p>&copy; 2017. All rights reserved. </p>
+  </div>
+</div>
+
+
+		<div class="content container">
+			<div class="post">
+			 	<h1>Changeset Evolution</h1>
+			  <span class="post-date">Tue, Feb 2, 2016</span>
+			      
+
+<h2 id="changeset-what">Changeset What?</h2>
+
+<p><a href="https://mercurial-scm.com">Mercurial</a> is a distributed version control system, similar to <a href="https://git-scm.com/">git</a>.
+If you have not tried it yet, you really should!</p>
+
+<p>I work on Mercurial, and as you know already, I love to automate everything.
+If you use git and mercurial today, you know that source control is not trivial,
+ workflows could be easier and require less manual intervention and dark magic.</p>
+
+<p><strong><a href="https://www.mercurial-scm.org/wiki/ChangesetEvolution">Changeset evolution</a> is a proposal to make
+source-control less error-prone, more forgiving and flexible.</strong>
+I will use <strong>changeset evolution</strong> and <strong>evolve</strong> interchangeably.
+Pierre-Yves David created Changeset Evolution and you can see <a href="https://air.mozilla.org/changesets-evolution-with-mercurial/">his talk
+at FOSDEM 2013</a></p>
+
+<h2 id="the-history-of-commits-does-not-exist">The history of commits does not exist</h2>
+
+<p>Let&rsquo;s start with an example. Assume that a user committed <strong>b</strong> on top of <strong>a</strong>:</p>
+
+<figure style="text-align:center">
+<img style="display: block; margin: 0 auto" alt="Before running the amend command" src ="/assets/evolve/amend1.svg" />
+<figcaption>Starting point</figcaption>
+</figure>
+
+<p>After making some changes, the user runs <code>hg commit --amend</code> (like <code>git commit --amend</code>) and decides to call the new commit <strong>b&rsquo;</strong>:</p>
+
+<figure style="text-align:center">
+<img style="display: block; margin: 0 auto" alt="After running the amend command" src ="/assets/evolve/amend2.svg" />
+<figcaption>After amend</figcaption>
+</figure>
+
+<p>Under the cover, the amend command creates a new commit but the old revision is still there but hidden:</p>
+
+<figure style="text-align:center">
+<img style="display: block; margin: 0 auto" alt="Under the cover" src ="/assets/evolve/amend3.svg" />
+<figcaption>b didn't disappear yet, it is hidden</figcaption>
+</figure>
+
+<p>For the user, <strong>b&rsquo; is a newer version of b</strong>.
+Even though, the intent of amending is clear, <strong>no information about this intent is recorded in the source control system!</strong></p>
+
+<p>If the user wants to access, let&rsquo;s say a week from now, what <strong>b</strong> was before the amend, he or she will have to dig through the <strong>reflog</strong> to find the hash of <strong>b</strong>.</p>
+
+<p>What if we could record that b&rsquo; is the successor of b?</p>
+
+<h2 id="defining-the-commit-history-with-obsolescence-markers">Defining the commit history with obsolescence markers</h2>
+
+<p><strong>Changeset evolution</strong> introduces the concept of <strong>obsolescence markers</strong> to represent that a revision is the <strong>successor</strong> of another revision.
+I will represent the <strong>obsolescence markers</strong> with dotted lines in the following graphs.
+In the example above after running <code>hg commit --amend</code> we would have:</p>
+
+<figure style="text-align:center">
+<img style="display: block; margin: 0 auto" alt="Before running the amend command" src ="/assets/evolve/amend4.svg" />
+<figcaption>Recording that b' is the <b>successor</b> of b with an obsolescence marker. b is the <b>precursor</b> of b'</figcaption>
+</figure>
+
+<p>And after running <code>hg commit --amend</code> again:</p>
+
+<figure style="text-align:center">
+<img style="display: block; margin: 0 auto" alt="Before running the amend command" src ="/assets/evolve/amend5.svg" />
+<figcaption>Two amends: b" is the <b>successor</b> of b' and b' is the <b>successor</b> of b</figcaption>
+</figure>
+
+<p>All this is happening <strong>under the hood</strong>, and the user does not see any difference in the UI.
+It is just some extra information that is recorded that can be used by commands as we will see in the next section.</p>
+
+<h2 id="simplify-rebases-go-back-in-time-and-don-t-make-mistakes">Simplify rebases, go back in time and don&rsquo;t make mistakes</h2>
+
+<p>Let&rsquo;s see how we can <strong>seamlessly use the obsolescence markers</strong> to simplify the life of the user through three examples.</p>
+
+<h3 id="1-easily-accessing-a-precursor">1. Easily accessing a precursor:</h3>
+
+<p>Consider the situation discussed above:
+<figure style="text-align:center">
+<img style="display: block; margin: 0 auto" alt="Before running the amend command" src ="/assets/evolve/amend4.svg" />
+<figcaption>After <b>hg commit &ndash;amend</b></figcaption>
+</figure></p>
+
+<p>We can give the user some <strong>commands to access precursors of revisions to compare them or manipulate them</strong>.
+After running the amend, you can easily:</p>
+
+<ul>
+<li>Go back to the previous version (without using the reflog)</li>
+<li>Figure out what changes the amend introduced.</li>
+</ul>
+
+<blockquote>
+<p><strong>The reflog (<a href="https://www.git-scm.com/docs/git-reflog">git</a> or <a href="https://bitbucket.org/facebook/hg-experimental">mercurial</a>)</strong> is a command to list
+the successive location of the head of the repository and all its branches or
+bookmarks. It is a list of lines with the format: &ldquo;hashes command&rdquo; and shows
+the working copy parent (i.e. current commit) after each command. <strong>It is used
+to recover from mistakes and go back to a previous state</strong>.</p>
+</blockquote>
+
+<h3 id="2-rebasing-with-fewer-conflicts">2. Rebasing with fewer conflicts:</h3>
+
+<p>It is common to have a testing/continuous integration system run all the tests on a revision before pushing it
+to a repository. Let&rsquo;s assume that you are working on a feature and committed <strong>b</strong> and <strong>c</strong> locally.</p>
+
+<figure style="text-align:center">
+<img style="display: block; margin: 0 auto" alt="Before running the amend command" src ="/assets/evolve/push1.svg" />
+<figcaption>Before pushing b to the server on top of d</figcaption>
+</figure>
+
+<p>Satisfied with <strong>b</strong>, you send it to the CI system that pushes it onto <code>remote/master</code> on the server, when you pull, you will have:</p>
+
+<figure style="text-align:center">
+<img style="display: block; margin: 0 auto" alt="Before running the amend command" src ="/assets/evolve/push2.svg" />
+<figcaption>Pushing a commit can also add a marker</figcaption>
+</figure>
+
+<p>If you pull one hour later (assuming other people are very productive :D) you will have a situation like that:</p>
+
+<figure style="text-align:center">
+<img style="display: block; margin: 0 auto" alt="Before running the amend command" src ="/assets/evolve/push3.svg" />
+<figcaption>Your colleagues have been productive and pushed many new changes since you last pulled</figcaption>
+</figure>
+
+<p>And if you try to rebase your stack (b and c) on top of master, you will potentially have conflicts applying b because of the work of another developer.
+This could happen if this other developer changed the same files you changed in <strong>b</strong>.
+But in that case, you know that the person resolved the conflicts once already when applying their work on top of <strong>newb</strong>.
+<strong>The user should not have to do a merge and resolve conflicts in that case and obsolescence markers can help resolving this.</strong>
+What if on pull the server could tell you that <strong>newb</strong> is the new version of <strong>b</strong>:</p>
+
+<figure style="text-align:center">
+<img style="display: block; margin: 0 auto" alt="Before running the amend command" src ="/assets/evolve/push4.svg" />
+<figcaption>When rebasing the stack, the first commit can be omitted</figcaption>
+</figure>
+
+<p>This way when you rebase the stack, only <strong>c</strong> gets rebased, <strong>b is skipped, and you cannot get conflicts from the content in b</strong>.</p>
+
+<h3 id="3-working-with-other-people">3. Working with other people</h3>
+
+<p>Let&rsquo;s assume that you start from this simple state:
+<figure style="text-align:center">
+<img style="display: block; margin: 0 auto" alt="Before running the amend command" src ="/assets/evolve/amend1.svg" />
+<figcaption>Starting point</figcaption>
+</figure></p>
+
+<p>You and your friend make changes to the revision <strong>b</strong>.
+You create a new version of <strong>b</strong> called <strong>b&rsquo;</strong> and your friend creates a new version of <strong>b</strong> called <strong>b&rdquo;</strong>.</p>
+
+<figure style="text-align:center">
+<img style="display: block; margin: 0 auto" alt="Before running the amend command" src ="/assets/evolve/amend4.svg" />
+<figcaption>The first developer rewrote b</figcaption>
+</figure>
+
+<figure style="text-align:center">
+<img style="display: block; margin: 0 auto" alt="Before running the amend command" src ="/assets/evolve/amend6.svg" />
+<figcaption>The second developer rewrote b as well</figcaption>
+</figure>
+
+<p>Then you decide to put your work together. For example, you can do that by pulling from eachother&rsquo;s repository.
+The obsolescence markers and revisions are exchanged and you end up with the following state:</p>
+
+<figure style="text-align:center">
+<img style="display: block; margin: 0 auto" alt="Before running the amend command" src ="/assets/evolve/amend7.svg" />
+<figcaption>b has two successors, <b>b'</b> and <b>b''</b> are called divergent</figcaption>
+</figure>
+
+<p>In <strong>git</strong> or <strong>vanilla (no extension) mercurial</strong>, you would have to figure out that <strong>b&rsquo;</strong> and <strong>b&rdquo;</strong> are two new versions of <strong>b</strong> and merge them.
+<strong>Changeset evolution</strong> detects that situation, marks <strong>b&rsquo;</strong> and <strong>b&rdquo;</strong> as being divergent.
+It then suggests <strong>automatic resolution with a merge and preserves history.</strong></p>
+
+<figure style="text-align:center">
+<img style="display: block; margin: 0 auto" alt="Before running the amend command" src ="/assets/evolve/amend8.svg" />
+<figcaption>Everything gets resolved intelligently</figcaption>
+</figure>
+
+<p>The graph might seem overcomplicated, but once again, most things are happening <strong>under the hood</strong> and the UI impact is minimal.
+These examples <strong>show</strong> one of the benefit of working with Changeset Evolution: it provides an <strong>automatic resolution of typical source control issues</strong>.</p>
+
+<p>As we will see in the next section, <strong>Changeset Evolution</strong> does much more than that and gives developers more flexibility when working with stacks of commits.</p>
+
+<h2 id="a-more-flexible-workflow-with-stacks">A more flexible workflow with stacks</h2>
+
+<p><strong>Changeset evolution</strong> defines the concept of an <strong>unstable</strong> revision, a revision based on an obsolete revision.
+From the previous section:</p>
+
+<figure style="text-align:center">
+<img style="display: block; margin: 0 auto" alt="Before running the amend command" src ="/assets/evolve/push4.svg" />
+<figcaption>c is unstable because it is based on b and b has as a new version</figcaption>
+</figure>
+
+<p>Evolve resolves instability intelligently by rebasing unstable commits on a stable destination, in the case above <strong>newb</strong>.
+But it <strong>does not force the user to resolve the instability right away</strong> and allows, therefore, to be more flexible when working with stacks.
+Consider the following stack of commits:</p>
+
+<figure style="text-align:center">
+<img style="display: block; margin: 0 auto" alt="Before running the amend command" src ="/assets/evolve/stack1.svg" />
+</figure>
+
+<p>A user can amend <strong>b</strong> or <strong>c</strong> without having to rebase <strong>d</strong>.</p>
+
+<figure style="text-align:center">
+<img style="display: block; margin: 0 auto" alt="Before running the amend command" src ="/assets/evolve/stack2.svg" />
+<figcaption>We rewrote b and c, so c' and d are now unstable</figcaption>
+</figure>
+
+<p>And when everything looks good <strong>changeset evolution</strong> can figure out the right commands to run to end up with the desired stack:</p>
+
+<figure style="text-align:center">
+<img style="display: block; margin: 0 auto" alt="Before running the amend command" src ="/assets/evolve/stack3.svg" />
+</figure>
+
+<p>If the user was not using changeset evolution, he or she would have to rebase every time anything changes in the stack.
+Also, the user would have to figure out what rebase command to run and could potentially make mistakes!</p>
+
+<h2 id="what-i-didn-t-cover">What I didn&rsquo;t cover</h2>
+
+<ul>
+<li>Working collaboratively with stacks</li>
+<li>Markers defining multiple precursors (fold) and multiple successors (split)</li>
+<li>And a lot of other things</li>
+</ul>
+
+<h2 id="how-to-install-evolve-and-start-playing-with-it">How to install evolve and start playing with it</h2>
+
+<ol>
+<li>Install mercurial</li>
+<li>Clone evolve&rsquo;s repository with <code>hg clone http://hg.netv6.net/evolve-main/</code></li>
+
+<li><p>Add the following configuration to you <code>~/.hgrc</code> with the correct path from
+the repo you just cloned:
+{% highlight ini %}
+[extensions]
+evolve = path to/evolve.py
+{% endhighlight ini %}</p>
+
+<h2 id="more-resources">More resources</h2></li>
+</ol>
+
+<ul>
+<li><a href="http://www.gerg.ca/evolve/user-guide.html">Greg Ward&rsquo;s post about evolve</a>: you should start there if you like the concepts discussed in this article and want to start using evolve.</li>
+<li><a href="https://www.mercurial-scm.org/wiki/ChangesetEvolution">Evolve&rsquo;s wiki</a></li>
+<li><a href="https://www.mercurial-scm.org/wiki/ChangesetEvolutionDevel">Evolve&rsquo;s contributors wiki</a></li>
+</ul>
+
+			</div>
+
+			
+		</div>
+
+  </body>
+</html>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Blog</title>
+    <link>https://blog.laurentcharignon.com/</link>
+    <description>Recent content on Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 18 Jul 2017 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://blog.laurentcharignon.com/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Managing my todos, notes, and reminders</title>
+      <link>https://blog.laurentcharignon.com/post/manage-reminders-with-emacs-and-facebook-bot/</link>
+      <pubDate>Tue, 18 Jul 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.laurentcharignon.com/post/manage-reminders-with-emacs-and-facebook-bot/</guid>
+      <description>This post is about the chatbot I used to managed my reminders and notes.
+Moving from many apps to one bot Before, when I wanted to be reminded of something, I would use the reminders app on my iPhone, to take notes, I would use the notes app and for todos, wunderlist.
+Recently I have tried to simplify my apps in order to focus more and avoid context switching. I have decided to rely on org mode, a mode that ships with emacs (I actually use spacemacs (http://spacemacs.</description>
+    </item>
+    
+    <item>
+      <title>Changeset Evolution</title>
+      <link>https://blog.laurentcharignon.com/post/2016-02-02-changeset-evolution/</link>
+      <pubDate>Tue, 02 Feb 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.laurentcharignon.com/post/2016-02-02-changeset-evolution/</guid>
+      <description>Changeset What? Mercurial is a distributed version control system, similar to git. If you have not tried it yet, you really should!
+I work on Mercurial, and as you know already, I love to automate everything. If you use git and mercurial today, you know that source control is not trivial, workflows could be easier and require less manual intervention and dark magic.
+Changeset evolution is a proposal to make source-control less error-prone, more forgiving and flexible.</description>
+    </item>
+    
+    <item>
+      <title>A Test Automation Story</title>
+      <link>https://blog.laurentcharignon.com/post/2016-01-20-reliable-automation-example/</link>
+      <pubDate>Wed, 20 Jan 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.laurentcharignon.com/post/2016-01-20-reliable-automation-example/</guid>
+      <description>I find that doing repetitive computer-related tasks is time consuming, error-prone and frustrating. I am a strong believer of automating everything and I have this mantra:
+ Automate anything that you did twice as you will certainly have to do it a third time
+ This article describes my approach to automate a time consuming task in my daily workflow.
+I am working on Mercurial. Whenever I work on a new series of patches, I want to ensure that the whole test suite passes on every patch of the series.</description>
+    </item>
+    
+    <item>
+      <title>Introduction to Mechanize with Python</title>
+      <link>https://blog.laurentcharignon.com/post/2016-01-09-web-browsing-automation/</link>
+      <pubDate>Sat, 09 Jan 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.laurentcharignon.com/post/2016-01-09-web-browsing-automation/</guid>
+      <description>Disclaimer: make sure to check the terms of use of the website you plan to interact with, a lot of websites forbids interaction from automation. Don&amp;rsquo;t do anything that could get you in trouble.
+ mechanize is a library to interact with websites. It fits in between high-level browser automation tools like Selenium and HTTP libraries like requests. It doesn&amp;rsquo;t handle Javascript, if that&amp;rsquo;s an issue for you, you should consider CasperJS.</description>
+    </item>
+    
+    <item>
+      <title>Add Colors To Your Python Logs With Colorlog</title>
+      <link>https://blog.laurentcharignon.com/post/2015-08-10-add-colors-to-your-python-logs-with-colorlog/</link>
+      <pubDate>Mon, 10 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.laurentcharignon.com/post/2015-08-10-add-colors-to-your-python-logs-with-colorlog/</guid>
+      <description>colorlog is a drop-in replacement for the Python logging module that allows you to add color to your logs.
+Start by installing the colorlog module with pip (or easy_install):
+pip install colorlog  Then you can use colorlog the way you would use logging:
+import colorlog import logging colorlog.basicConfig(level=logging.DEBUG) colorlog.debug(&amp;quot;debug&amp;quot;) colorlog.info(&amp;quot;info&amp;quot;) colorlog.warning(&amp;quot;warning&amp;quot;) colorlog.error(&amp;quot;error&amp;quot;) colorlog.critical(&amp;quot;critical&amp;quot;)  And your log become much easier to read:</description>
+    </item>
+    
+    <item>
+      <title>Practical one time padding with Node JS</title>
+      <link>https://blog.laurentcharignon.com/post/2014-12-10-one-time-pad-node-js/</link>
+      <pubDate>Wed, 10 Dec 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.laurentcharignon.com/post/2014-12-10-one-time-pad-node-js/</guid>
+      <description>Source code: https://github.com/charignon/otpCSnode
+Too long don&#39;t read: How I used Node JS &amp; CoffeeScript to implement one time padding of TCP traffic. Example use with: SSH, SCP and HTTP Proxying.  One time padding  In cryptography, a one-time pad (OTP) is an encryption technique that cannot be cracked if used correctly. In this technique, a plaintext is paired with random, secret key (or pad). Then, each bit or character of the plaintext is encrypted by combining it with the corresponding bit or character from the pad using modular addition.</description>
+    </item>
+    
+  </channel>
+</rss>
